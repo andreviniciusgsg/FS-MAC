@@ -24,7 +24,7 @@ echo "====== INSTALLING gr-foo ======"
 echo
 
 cd ~/
-git clone https://github.com/bastibl/gr-foo
+git clone -b master https://github.com/bastibl/gr-foo
 cd gr-foo
 mkdir build
 cd build
@@ -66,7 +66,7 @@ echo "====== INSTALLING gr-ieee802-15-4 ======"
 echo
 
 cd ~/
-git clone https://github.com/bastibl/gr-ieee802-15-4
+git clone -b master https://github.com/bastibl/gr-ieee802-15-4
 cd gr-ieee802-15-4
 mkdir build
 cd build
