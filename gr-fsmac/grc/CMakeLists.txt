@@ -22,5 +22,6 @@ install(FILES
     fsmac_sens_num_senders.xml
     fsmac_decision.xml
     fsmac_exchanger.xml
-    fsmac_latency_sensor.xml DESTINATION share/gnuradio/grc/blocks
+    fsmac_latency_sensor.xml
+    fsmac_ml_decision.xml DESTINATION share/gnuradio/grc/blocks
 )

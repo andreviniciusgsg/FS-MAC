@@ -32,6 +32,7 @@ except ImportError:
 
 # import any pure python here
 from decision import decision
+from ml_decision import ml_decision
 
 
 #

@@ -32,7 +32,7 @@ GR_PYTHON_INSTALL(
     FILES
     __init__.py
     decision.py
-    DESTINATION ${GR_PYTHON_DIR}/fsmac
+    ml_decision.py DESTINATION ${GR_PYTHON_DIR}/fsmac
 )
 
 ########################################################################
