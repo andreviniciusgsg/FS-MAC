@@ -112,7 +112,7 @@
     <key>variable_chooser</key>
     <param>
       <key>choices</key>
-      <value>[1000000 * (2400 + 5 * (i - 10)) for i in range(11, 27)]</value>
+      <value>[1000000 * (2400 + 5 * (i - 10)) for i in range(11, 37)]</value>
     </param>
     <param>
       <key>comment</key>
@@ -148,7 +148,7 @@
     </param>
     <param>
       <key>labels</key>
-      <value>[i for i in range(11, 27)]</value>
+      <value>[i for i in range(11, 37)]</value>
     </param>
     <param>
       <key>notebook</key>
@@ -658,7 +658,7 @@
     </param>
     <param>
       <key>is_coord</key>
-      <value>True</value>
+      <value>False</value>
     </param>
   </block>
   <block>
@@ -701,7 +701,7 @@
     </param>
     <param>
       <key>is_coord</key>
-      <value>True</value>
+      <value>False</value>
     </param>
   </block>
   <block>
@@ -744,7 +744,7 @@
     </param>
     <param>
       <key>is_coord</key>
-      <value>True</value>
+      <value>False</value>
     </param>
   </block>
   <block>
@@ -838,7 +838,7 @@
     </param>
     <param>
       <key>is_coord</key>
-      <value>True</value>
+      <value>False</value>
     </param>
   </block>
   <block>
