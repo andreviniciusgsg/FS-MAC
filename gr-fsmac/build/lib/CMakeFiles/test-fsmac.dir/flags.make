@@ -6,5 +6,5 @@ CXX_FLAGS = -O3 -DNDEBUG   -fvisibility=hidden
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/gnuradio/FS-MAC/gr-fsmac/lib -I/home/gnuradio/FS-MAC/gr-fsmac/include -I/home/gnuradio/FS-MAC/gr-fsmac/build/lib -I/home/gnuradio/FS-MAC/gr-fsmac/build/include 
+CXX_INCLUDES = -I/home/gnuradio/FS-MACplus/gr-fsmac/lib -I/home/gnuradio/FS-MACplus/gr-fsmac/include -I/home/gnuradio/FS-MACplus/gr-fsmac/build/lib -I/home/gnuradio/FS-MACplus/gr-fsmac/build/include 
 

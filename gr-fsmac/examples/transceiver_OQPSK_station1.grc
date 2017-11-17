@@ -1,15 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.8'?>
+<?grc format='1' created='3.7.9'?>
 <flow_graph>
   <timestamp>Mon Dec 15 13:46:31 2014</timestamp>
   <block>
     <key>options</key>
     <param>
       <key>author</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
       <value></value>
     </param>
     <param>
@@ -34,7 +30,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(64, 11)</value>
+      <value>(0, 3)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -45,6 +41,10 @@
       <value>wx_gui</value>
     </param>
     <param>
+      <key>hier_block_src_path</key>
+      <value>.:</value>
+    </param>
+    <param>
       <key>id</key>
       <value>transceiver_OQPSK</value>
     </param>
@@ -53,8 +53,16 @@
       <value>0</value>
     </param>
     <param>
+      <key>qt_qss_theme</key>
+      <value></value>
+    </param>
+    <param>
       <key>realtime_scheduling</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>run_command</key>
+      <value>{python} -u {filename}</value>
     </param>
     <param>
       <key>run_options</key>
@@ -85,7 +93,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(800, 155)</value>
+      <value>(672, 11)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -120,7 +128,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(800, 11)</value>
+      <value>(880, 11)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -167,7 +175,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(712, 155)</value>
+      <value>(600, 11)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -202,7 +210,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(664, 11)</value>
+      <value>(760, 11)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -261,7 +269,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(72, 169)</value>
+      <value>(72, 149)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -308,7 +316,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(936, 179)</value>
+      <value>(928, 211)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -351,7 +359,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(358, 116)</value>
+      <value>(360, 51)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -414,7 +422,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(368, 795)</value>
+      <value>(368, 884)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -457,7 +465,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(360, 707)</value>
+      <value>(360, 763)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -495,6 +503,10 @@
       <key>samplehistory</key>
       <value>64</value>
     </param>
+    <param>
+      <key>cb</key>
+      <value>drop</value>
+    </param>
   </block>
   <block>
     <key>es_trigger_sample_timer</key>
@@ -524,7 +536,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 737)</value>
+      <value>(40, 793)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -575,7 +587,7 @@
     </param>
     <param>
       <key>dest_node</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -595,58 +607,15 @@
     </param>
     <param>
       <key>mac_addr</key>
-      <value>6</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>fsmac_decision</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
       <value>1</value>
     </param>
     <param>
-      <key>_coordinate</key>
-      <value>(344, 401)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>fsmac_decision_0</value>
-    </param>
-    <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
       <key>minoutbuf</key>
       <value>0</value>
-    </param>
-    <param>
-      <key>is_coord</key>
-      <value>False</value>
     </param>
   </block>
   <block>
@@ -669,7 +638,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(505, 400)</value>
+      <value>(505, 368)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -689,7 +658,7 @@
     </param>
     <param>
       <key>is_coord</key>
-      <value>False</value>
+      <value>True</value>
     </param>
   </block>
   <block>
@@ -732,7 +701,50 @@
     </param>
     <param>
       <key>is_coord</key>
-      <value>False</value>
+      <value>True</value>
+    </param>
+  </block>
+  <block>
+    <key>fsmac_ml_decision</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(288, 393)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>fsmac_ml_decision_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>is_coord</key>
+      <value>True</value>
     </param>
   </block>
   <block>
@@ -794,7 +806,7 @@
     </param>
     <param>
       <key>dest_node</key>
-      <value>1</value>
+      <value>2</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -814,7 +826,7 @@
     </param>
     <param>
       <key>mac_addr</key>
-      <value>6</value>
+      <value>1</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -826,7 +838,7 @@
     </param>
     <param>
       <key>is_coord</key>
-      <value>False</value>
+      <value>True</value>
     </param>
   </block>
   <block>
@@ -849,7 +861,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(336, 585)</value>
+      <value>(344, 617)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -892,7 +904,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(352, 224)</value>
+      <value>(352, 161)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -939,7 +951,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(334, 63)</value>
+      <value>(336, 3)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1626,7 +1638,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(624, 611)</value>
+      <value>(624, 667)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1639,10 +1651,6 @@
     <param>
       <key>type</key>
       <value>fc32</value>
-    </param>
-    <param>
-      <key>len_tag_name</key>
-      <value></value>
     </param>
     <param>
       <key>clock_source0</key>
@@ -1753,6 +1761,10 @@
       <value>4000000</value>
     </param>
     <param>
+      <key>hide_cmd_port</key>
+      <value>False</value>
+    </param>
+    <param>
       <key>stream_args</key>
       <value></value>
     </param>
@@ -1762,6 +1774,10 @@
     </param>
     <param>
       <key>sync</key>
+      <value></value>
+    </param>
+    <param>
+      <key>len_tag_name</key>
       <value></value>
     </param>
     <param>
@@ -1788,6 +1804,14 @@
       <value>freq</value>
     </param>
     <param>
+      <key>dc_offs_enb0</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb0</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain0</key>
       <value>False</value>
     </param>
@@ -1806,6 +1830,14 @@
     <param>
       <key>center_freq10</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb10</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb10</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain10</key>
@@ -1828,6 +1860,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb11</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb11</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain11</key>
       <value>False</value>
     </param>
@@ -1846,6 +1886,14 @@
     <param>
       <key>center_freq12</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb12</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb12</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain12</key>
@@ -1868,6 +1916,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb13</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb13</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain13</key>
       <value>False</value>
     </param>
@@ -1886,6 +1942,14 @@
     <param>
       <key>center_freq14</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb14</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb14</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain14</key>
@@ -1908,6 +1972,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb15</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb15</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain15</key>
       <value>False</value>
     </param>
@@ -1926,6 +1998,14 @@
     <param>
       <key>center_freq16</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb16</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb16</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain16</key>
@@ -1948,6 +2028,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb17</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb17</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain17</key>
       <value>False</value>
     </param>
@@ -1966,6 +2054,14 @@
     <param>
       <key>center_freq18</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb18</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb18</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain18</key>
@@ -1988,6 +2084,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb19</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb19</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain19</key>
       <value>False</value>
     </param>
@@ -2006,6 +2110,14 @@
     <param>
       <key>center_freq1</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb1</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb1</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain1</key>
@@ -2028,6 +2140,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb20</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb20</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain20</key>
       <value>False</value>
     </param>
@@ -2046,6 +2166,14 @@
     <param>
       <key>center_freq21</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb21</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb21</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain21</key>
@@ -2068,6 +2196,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb22</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb22</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain22</key>
       <value>False</value>
     </param>
@@ -2086,6 +2222,14 @@
     <param>
       <key>center_freq23</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb23</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb23</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain23</key>
@@ -2108,6 +2252,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb24</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb24</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain24</key>
       <value>False</value>
     </param>
@@ -2126,6 +2278,14 @@
     <param>
       <key>center_freq25</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb25</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb25</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain25</key>
@@ -2148,6 +2308,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb26</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb26</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain26</key>
       <value>False</value>
     </param>
@@ -2166,6 +2334,14 @@
     <param>
       <key>center_freq27</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb27</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb27</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain27</key>
@@ -2188,6 +2364,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb28</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb28</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain28</key>
       <value>False</value>
     </param>
@@ -2206,6 +2390,14 @@
     <param>
       <key>center_freq29</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb29</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb29</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain29</key>
@@ -2228,6 +2420,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb2</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb2</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain2</key>
       <value>False</value>
     </param>
@@ -2246,6 +2446,14 @@
     <param>
       <key>center_freq30</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb30</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb30</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain30</key>
@@ -2268,6 +2476,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb31</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb31</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain31</key>
       <value>False</value>
     </param>
@@ -2286,6 +2502,14 @@
     <param>
       <key>center_freq3</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb3</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb3</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain3</key>
@@ -2308,6 +2532,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb4</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb4</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain4</key>
       <value>False</value>
     </param>
@@ -2326,6 +2558,14 @@
     <param>
       <key>center_freq5</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb5</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb5</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain5</key>
@@ -2348,6 +2588,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb6</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb6</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain6</key>
       <value>False</value>
     </param>
@@ -2366,6 +2614,14 @@
     <param>
       <key>center_freq7</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb7</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb7</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain7</key>
@@ -2388,6 +2644,14 @@
       <value>0</value>
     </param>
     <param>
+      <key>dc_offs_enb8</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb8</key>
+      <value>""</value>
+    </param>
+    <param>
       <key>norm_gain8</key>
       <value>False</value>
     </param>
@@ -2406,6 +2670,14 @@
     <param>
       <key>center_freq9</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>dc_offs_enb9</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>iq_imbal_enb9</key>
+      <value>""</value>
     </param>
     <param>
       <key>norm_gain9</key>
@@ -2441,7 +2713,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(16, 619)</value>
+      <value>(16, 675)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2572,6 +2844,10 @@
       <value>4000000</value>
     </param>
     <param>
+      <key>hide_cmd_port</key>
+      <value>False</value>
+    </param>
+    <param>
       <key>stream_args</key>
       <value></value>
     </param>
@@ -2608,7 +2884,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(648, 779)</value>
+      <value>(648, 835)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2692,12 +2968,6 @@
     <sink_key>p1_mac in</sink_key>
   </connection>
   <connection>
-    <source_block_id>fsmac_decision_0</source_block_id>
-    <sink_block_id>fsmac_exchanger_0</sink_block_id>
-    <source_key>troca out</source_key>
-    <sink_key>dec in</sink_key>
-  </connection>
-  <connection>
     <source_block_id>fsmac_exchanger_0</source_block_id>
     <sink_block_id>ieee802_15_4_rime_stack_0</sink_block_id>
     <source_key>app out</source_key>
@@ -2705,9 +2975,9 @@
   </connection>
   <connection>
     <source_block_id>fsmac_exchanger_0</source_block_id>
-    <sink_block_id>fsmac_decision_0</sink_block_id>
+    <sink_block_id>fsmac_ml_decision_0</sink_block_id>
     <source_key>dec out</source_key>
-    <sink_key>troca in</sink_key>
+    <sink_key>act protocol in</sink_key>
   </connection>
   <connection>
     <source_block_id>fsmac_exchanger_0</source_block_id>
@@ -2753,15 +3023,21 @@
   </connection>
   <connection>
     <source_block_id>fsmac_latency_sensor_0</source_block_id>
-    <sink_block_id>fsmac_decision_0</sink_block_id>
+    <sink_block_id>fsmac_ml_decision_0</sink_block_id>
     <source_key>dec out</source_key>
-    <sink_key>sens2 in</sink_key>
+    <sink_key>sensor 2 in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fsmac_ml_decision_0</source_block_id>
+    <sink_block_id>fsmac_exchanger_0</sink_block_id>
+    <source_key>out</source_key>
+    <sink_key>dec in</sink_key>
   </connection>
   <connection>
     <source_block_id>fsmac_sens_num_senders_0</source_block_id>
-    <sink_block_id>fsmac_decision_0</sink_block_id>
+    <sink_block_id>fsmac_ml_decision_0</sink_block_id>
     <source_key>dec out</source_key>
-    <sink_key>sens1 in</sink_key>
+    <sink_key>sensor 1 in</sink_key>
   </connection>
   <connection>
     <source_block_id>fsmac_tdma_0</source_block_id>

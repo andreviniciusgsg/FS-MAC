@@ -1,4 +1,4 @@
-# Install script for directory: /home/gnuradio/FS-MAC/gr-fsmac/include/fsmac
+# Install script for directory: /home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,12 +34,12 @@ endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/fsmac" TYPE FILE FILES
-    "/home/gnuradio/FS-MAC/gr-fsmac/include/fsmac/api.h"
-    "/home/gnuradio/FS-MAC/gr-fsmac/include/fsmac/csma.h"
-    "/home/gnuradio/FS-MAC/gr-fsmac/include/fsmac/tdma.h"
-    "/home/gnuradio/FS-MAC/gr-fsmac/include/fsmac/sens_num_senders.h"
-    "/home/gnuradio/FS-MAC/gr-fsmac/include/fsmac/exchanger.h"
-    "/home/gnuradio/FS-MAC/gr-fsmac/include/fsmac/latency_sensor.h"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac/api.h"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac/csma.h"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac/tdma.h"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac/sens_num_senders.h"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac/exchanger.h"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac/latency_sensor.h"
     )
 endif()
 

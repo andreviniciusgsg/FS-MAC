@@ -40,7 +40,7 @@ fsmac/api.h
 gnuradio/block.h
 -
 
-/home/gnuradio/FS-MAC/gr-fsmac/build/swig/fsmac_swigPYTHON_wrap.cxx
+/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac_swigPYTHON_wrap.cxx
 Python.h
 -
 Python.h
@@ -52,7 +52,7 @@ stdexcept
 string
 -
 gnuradio_swig_bug_workaround.h
-/home/gnuradio/FS-MAC/gr-fsmac/build/swig/gnuradio_swig_bug_workaround.h
+/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/gnuradio_swig_bug_workaround.h
 cstddef
 -
 stdexcept
@@ -86,15 +86,15 @@ gnuradio/high_res_timer.h
 limits.h
 -
 fsmac/csma.h
-/home/gnuradio/FS-MAC/gr-fsmac/build/swig/fsmac/csma.h
+/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/csma.h
 fsmac/tdma.h
-/home/gnuradio/FS-MAC/gr-fsmac/build/swig/fsmac/tdma.h
+/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/tdma.h
 fsmac/sens_num_senders.h
-/home/gnuradio/FS-MAC/gr-fsmac/build/swig/fsmac/sens_num_senders.h
+/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/sens_num_senders.h
 fsmac/exchanger.h
-/home/gnuradio/FS-MAC/gr-fsmac/build/swig/fsmac/exchanger.h
+/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/exchanger.h
 fsmac/latency_sensor.h
-/home/gnuradio/FS-MAC/gr-fsmac/build/swig/fsmac/latency_sensor.h
+/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/latency_sensor.h
 float.h
 -
 math.h

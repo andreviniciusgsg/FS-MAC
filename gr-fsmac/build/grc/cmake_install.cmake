@@ -1,4 +1,4 @@
-# Install script for directory: /home/gnuradio/FS-MAC/gr-fsmac/grc
+# Install script for directory: /home/gnuradio/FS-MACplus/gr-fsmac/grc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,13 +34,13 @@ endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gnuradio/grc/blocks" TYPE FILE FILES
-    "/home/gnuradio/FS-MAC/gr-fsmac/grc/fsmac_csma.xml"
-    "/home/gnuradio/FS-MAC/gr-fsmac/grc/fsmac_tdma.xml"
-    "/home/gnuradio/FS-MAC/gr-fsmac/grc/fsmac_sens_num_senders.xml"
-    "/home/gnuradio/FS-MAC/gr-fsmac/grc/fsmac_decision.xml"
-    "/home/gnuradio/FS-MAC/gr-fsmac/grc/fsmac_exchanger.xml"
-    "/home/gnuradio/FS-MAC/gr-fsmac/grc/fsmac_latency_sensor.xml"
-    "/home/gnuradio/FS-MAC/gr-fsmac/grc/fsmac_ml_decision.xml"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_csma.xml"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_tdma.xml"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_sens_num_senders.xml"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_decision.xml"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_exchanger.xml"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_latency_sensor.xml"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_ml_decision.xml"
     )
 endif()
 

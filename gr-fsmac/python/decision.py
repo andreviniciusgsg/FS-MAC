@@ -91,7 +91,7 @@ class decision(gr.sync_block):
 		print "ACTIVE PROTOCOL: TDMA"
 					
             # print "CSMA adaptability " + str(csma_adapt) + "%"
-            # print "TDMA adaptability " + str(tdma_adapt) + "%"            
+            # print "TDMA adaptability " + str(tdma_adapt) + "%"          
             # print "LM: "+str(self.sens2_value)
 
             pmt_dict_prot_adapt = pmt.make_dict()

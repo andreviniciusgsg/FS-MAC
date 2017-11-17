@@ -1,4 +1,4 @@
-# Install script for directory: /home/gnuradio/FS-MAC/gr-fsmac
+# Install script for directory: /home/gnuradio/FS-MACplus/gr-fsmac
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -33,18 +33,18 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/fsmac" TYPE FILE FILES "/home/gnuradio/FS-MAC/gr-fsmac/cmake/Modules/fsmacConfig.cmake")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/fsmac" TYPE FILE FILES "/home/gnuradio/FS-MACplus/gr-fsmac/cmake/Modules/fsmacConfig.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/gnuradio/FS-MAC/gr-fsmac/build/include/fsmac/cmake_install.cmake")
-  include("/home/gnuradio/FS-MAC/gr-fsmac/build/lib/cmake_install.cmake")
-  include("/home/gnuradio/FS-MAC/gr-fsmac/build/swig/cmake_install.cmake")
-  include("/home/gnuradio/FS-MAC/gr-fsmac/build/python/cmake_install.cmake")
-  include("/home/gnuradio/FS-MAC/gr-fsmac/build/grc/cmake_install.cmake")
-  include("/home/gnuradio/FS-MAC/gr-fsmac/build/apps/cmake_install.cmake")
-  include("/home/gnuradio/FS-MAC/gr-fsmac/build/docs/cmake_install.cmake")
+  include("/home/gnuradio/FS-MACplus/gr-fsmac/build/include/fsmac/cmake_install.cmake")
+  include("/home/gnuradio/FS-MACplus/gr-fsmac/build/lib/cmake_install.cmake")
+  include("/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/cmake_install.cmake")
+  include("/home/gnuradio/FS-MACplus/gr-fsmac/build/python/cmake_install.cmake")
+  include("/home/gnuradio/FS-MACplus/gr-fsmac/build/grc/cmake_install.cmake")
+  include("/home/gnuradio/FS-MACplus/gr-fsmac/build/apps/cmake_install.cmake")
+  include("/home/gnuradio/FS-MACplus/gr-fsmac/build/docs/cmake_install.cmake")
 
 endif()
 
@@ -56,5 +56,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/gnuradio/FS-MAC/gr-fsmac/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/gnuradio/FS-MACplus/gr-fsmac/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

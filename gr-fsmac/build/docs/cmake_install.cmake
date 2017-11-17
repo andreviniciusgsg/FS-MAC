@@ -1,4 +1,4 @@
-# Install script for directory: /home/gnuradio/FS-MAC/gr-fsmac/docs
+# Install script for directory: /home/gnuradio/FS-MACplus/gr-fsmac/docs
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

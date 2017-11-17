@@ -30,6 +30,7 @@
        * type
        * vlen
        * optional (set to 1 for optional inputs) -->
+
   <sink>
     <name>sensor 1 in</name>
     <type>message</type>
@@ -62,6 +63,12 @@
 
   <sink>
     <name>max in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <sink>
+    <name>act protocol in</name>
     <type>message</type>
     <optional>1</optional>
   </sink>

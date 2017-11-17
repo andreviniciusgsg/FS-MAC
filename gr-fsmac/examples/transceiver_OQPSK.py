@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Fri Nov 17 10:00:01 2017
+# Generated: Fri Nov 17 15:25:29 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -111,12 +111,12 @@ class transceiver_OQPSK(grc_wxgui.top_block_gui):
         self.uhd_usrp_sink_0.set_gain(gain, 0)
         self.ieee802_15_4_rime_stack_0 = ieee802_15_4.rime_stack(([129]), ([131]), ([132]), ([23,42]))
         self.ieee802_15_4_oqpsk_phy_0 = ieee802_15_4_oqpsk_phy()
-        self.fsmac_tdma_0 = fsmac.tdma(6, 1, True, False)
+        self.fsmac_tdma_0 = fsmac.tdma(2, 1, True, True)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
-        self.fsmac_ml_decision_0 = fsmac.ml_decision(False)
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(False)
         self.fsmac_exchanger_0 = fsmac.exchanger(False)
-        self.fsmac_csma_0 = fsmac.csma(6, 1, True)
+        self.fsmac_decision_0 = fsmac.decision(False)
+        self.fsmac_csma_0 = fsmac.csma(2, 1, True)
         self.es_trigger_sample_timer_0 = es.trigger_sample_timer(gr.sizeof_gr_complex, int(1000), 2, int(4000000), 512 )
         self.es_sink_0 = es.sink(1*[gr.sizeof_gr_complex],8,64,0,2,0)
         self.es_handler_pdu_0 = es.es_make_handler_pdu(es.es_handler_print.TYPE_C32)
@@ -136,17 +136,18 @@ class transceiver_OQPSK(grc_wxgui.top_block_gui):
         self.msg_connect((self.fsmac_csma_0, 'app out'), (self.fsmac_exchanger_0, 'p1_app in'))    
         self.msg_connect((self.fsmac_csma_0, 'ctrl out'), (self.fsmac_exchanger_0, 'p1_ctrl in'))    
         self.msg_connect((self.fsmac_csma_0, 'pdu out'), (self.fsmac_exchanger_0, 'p1_mac in'))    
+        self.msg_connect((self.fsmac_decision_0, 'troca out'), (self.fsmac_exchanger_0, 'dec in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_app out'), (self.fsmac_csma_0, 'app in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_ctrl out'), (self.fsmac_csma_0, 'ctrl in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_mac out'), (self.fsmac_csma_0, 'pdu in'))    
+        self.msg_connect((self.fsmac_exchanger_0, 'dec out'), (self.fsmac_decision_0, 'troca in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p2_app out'), (self.fsmac_tdma_0, 'app in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p2_ctrl out'), (self.fsmac_tdma_0, 'ctrl in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p2_mac out'), (self.fsmac_tdma_0, 'pdu in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'mac out'), (self.ieee802_15_4_oqpsk_phy_0, 'txin'))    
         self.msg_connect((self.fsmac_exchanger_0, 'app out'), (self.ieee802_15_4_rime_stack_0, 'fromMAC'))    
-        self.msg_connect((self.fsmac_latency_sensor_0, 'dec out'), (self.fsmac_ml_decision_0, 'sensor 2 in'))    
-        self.msg_connect((self.fsmac_ml_decision_0, 'out'), (self.fsmac_exchanger_0, 'dec in'))    
-        self.msg_connect((self.fsmac_sens_num_senders_0, 'dec out'), (self.fsmac_ml_decision_0, 'sensor 1 in'))    
+        self.msg_connect((self.fsmac_latency_sensor_0, 'dec out'), (self.fsmac_decision_0, 'sens2 in'))    
+        self.msg_connect((self.fsmac_sens_num_senders_0, 'dec out'), (self.fsmac_decision_0, 'sens1 in'))    
         self.msg_connect((self.fsmac_tdma_0, 'app out'), (self.fsmac_exchanger_0, 'p2_app in'))    
         self.msg_connect((self.fsmac_tdma_0, 'ctrl out'), (self.fsmac_exchanger_0, 'p2_ctrl in'))    
         self.msg_connect((self.fsmac_tdma_0, 'pdu out'), (self.fsmac_exchanger_0, 'p2_mac in'))    

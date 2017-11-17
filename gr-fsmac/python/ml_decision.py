@@ -31,18 +31,19 @@ class ml_decision(gr.basic_block):
 	docstring for block ml_decision
 	"""
 
-	alpha = 0.01;
-
 	def __init__(self, is_coord):
 		gr.basic_block.__init__(self, name="ml_decision", in_sig=None, out_sig=None)
 
 		# Variables
 		self.is_coord = is_coord;
-		self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
+		self.max = self.act_protocol = self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
 
 		# Input ports
 		self.message_port_register_in(pmt.intern("max in"));
 		self.set_msg_handler(pmt.intern("max in"), self.handle_max);
+
+		self.message_port_register_in(pmt.intern("act protocol in"));
+		self.set_msg_handler(pmt.intern("act protocol in"), self.handle_act_protocol);
 
 		self.message_port_register_in(pmt.intern("sensor 1 in"));
 		self.set_msg_handler(pmt.intern("sensor 1 in"), self.handle_sensor_1);
@@ -61,32 +62,46 @@ class ml_decision(gr.basic_block):
 
 		# Output ports
 		self.message_port_register_out(pmt.intern("out"));
-		self.main();
+		
+		self.start_decision_block();
+
+	def start_decision_block(self):
+		if self.is_coord:
+			try:
+				print "Coordinator mode."
+				thread.start_new_thread(self.coord_loop, ("thread 1", 5));
+			except:
+				print "Error while initializing thread on coordinator.";
+		else:
+			print "Normal mode."
 
 	# This is related to the parameter we want to maximize
 	def handle_max(self, msg):
 		self.max = pmt.to_float(msg);
 
+	def handle_act_protocol(self, msg):
+		self.act_protocol = pmt.to_uint64(msg);
+
 	# This sensor is responsible for number of nodes.
 	def handle_sensor_1(self, msg): 
-		self.sensor_1 = pmt.to_uint64(msg);
+		non = pmt.to_uint64(msg);
+		if not np.isnan(non):
+			self.sensor_1 = non;
+			print "Number of nodes = " + str(self.sensor_1);
 
 	# This sensor is responsible for latency.
 	def handle_sensor_2(self, msg):
 		if self.is_coord:
-			self.sensor_2 = pmt.to_float(msg);
+			latency = pmt.to_float(msg);
+			if not np.isnan(latency):
+				self.sensor_2 = latency;
+				print "Latency = " + str(self.sensor_2);
 		else:
 			self.message_port_pub(pmt.intern("out"), msg);
 
 	# This sensor is responsible for SNR.
 	def handle_sensor_3(self, msg):
-		snr = pmt.to_float(msg);
-
-		if not np.isnan(snr):
-			if snr < 0: # snr < 0 does not make sense.
-				snr = 0;
-			self.sensor_3 = snr;
-			print self.sensor_3;
+		print "Nothing on this sensor";
 
 	def handle_sensor_4(self, msg):
 		print "Nothing on this sensor";
@@ -94,28 +109,22 @@ class ml_decision(gr.basic_block):
 	def handle_sensor_5(self, msg):
 		print "Nothing on this sensor";
 
-	def main(self):
-		if self.is_coord:
-			print "Coordinator mode";
-			sleep_time = 5; # Seconds
-			while True:
-				time.sleep(sleep_time);
+	def coord_loop(self, thread_name, sleep_time):
+		while True:
+			time.sleep(sleep_time); # In seconds.
 
-				# Make decison...
-				csma = 100.0;
-				tdma = 0.0;
+			print "Number of nodes = " + str(self.sensor_1) + "\nLatency 2 = " + str(self.sensor_2);
 
-				pmt_dict = pmt.make_dict();
+			csma = 0.0;
+			tdma = 100.0;
 
-				if csma > tdma:
-					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
-					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
-				else:
-					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
-					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
-				
-				self.message_port_pub(pmt.intern('out'), pmt_dict);
+			pmt_dict = pmt.make_dict();
 
-		else:
-			print "Slave mode";
-
+			if csma > tdma:
+				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
+				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
+			else:
+				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
+				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
+			
+			self.message_port_pub(pmt.intern('out'), pmt_dict);
