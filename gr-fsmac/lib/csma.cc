@@ -130,6 +130,7 @@ public:
 #define EXCHANGE_COMMAND_STOP 2
 #define EXCHANGE_COMMAND_DONE 3
 #define LATENCY_SENSOR_COMMAND_SEND 4
+#define RNC_COMMAND 5
 
     //#define dout d_debug && std::cout
 
@@ -162,6 +163,9 @@ public:
         message_port_register_out(pmt::mp("app out"));
         message_port_register_out(pmt::mp("pdu out"));
         message_port_register_out(pmt::mp("ctrl out"));
+
+        d_rnp_rtx = 0;
+        d_rnp_nr_pkts = 0;
     }
 
     ~csma_impl(void) {
@@ -234,7 +238,7 @@ public:
 
                 message_port_pub(pmt::mp("ctrl out"), pack_list);
                 //                exec->interrupt();
-            } else if (command == LATENCY_SENSOR_COMMAND_SEND) {
+            } else if (command == RNC_COMMAND) {
                 calculateLatencyAv();
 
                 if (latency_counter > 0) {
@@ -293,6 +297,49 @@ public:
                     data_ready = true;
                     cond.notify_all();
                 }
+            } else if(command == LATENCY_SENSOR_COMMAND_SEND) {
+
+                std::cout << "Send RNP" << std::endl;
+
+                float rnp;
+                if(d_rnp_nr_pkts > 0) {
+                   rnp = d_rnp_rtx/d_rnp_nr_pkts;
+                } else {
+                    rnp = 0;
+                }
+
+                d_rnp_rtx = 0; d_rnp_nr_pkts = 0;
+                
+                std::ostringstream ss;
+                ss << rnp;
+                std::string rnp_str(ss.str());
+
+                char commandFsmac[2];
+                commandFsmac[1] = 0x01;
+
+                char pack_request[256];
+                char addr_d[2];
+                addr_d[0] = addr_bc_1;
+                addr_d[1] = addr_bc_2;
+
+                char comm = 'R';
+
+                int size = (int) (ssize_t) rnp_str.length();
+
+                char buff_char[1024];
+                strncpy(buff_char, rnp_str.c_str(), sizeof(buff_char));
+                buff_char[sizeof(buff_char) - 1] = 0;
+
+                generateControlFsmacPack(buff_char, size, comm, pack_request, EXCHANGE_COMMAND_SEND_INFO, addr_d);
+
+                pmt::pmt_t pack = pmt::cons(pmt::get_PMT_NIL(), pmt::make_blob(pack_request, control_pack_len));
+
+                SendPackage* pkg = new SendPackage(pack, commandFsmac[1], false);
+
+                comm_ready = true;
+                commandList.push_back(pkg);
+                data_ready = true;
+                cond.notify_all();
             }
         } else if (pmt::is_dict(msg)) {
 //            printf("CSMA: Recebeu fila para trocar protocolo.\n");
@@ -754,13 +801,13 @@ public:
         if (!comm_ready) {
             if (pack->getResends() == 0) {
                 if (canCompute) {
-                    numPackEnviados++;
+                    numPackEnviados++; d_rnp_nr_pkts++;
                 }
                 iniciaContagemLatencia();
                 iniciaContagemLatenciaParaSensor();
             } else {
                 if(canCompute){
-                    numRetransmissoes++;                    
+                    numRetransmissoes++; d_rnp_rtx++;                   
                 }
             }
         } else if (comm_ready) {
@@ -1146,6 +1193,9 @@ private:
 
     int d_num_packet_errors;
     int d_num_packets_received;
+
+    uint16_t d_rnp_rtx;
+    uint16_t d_rnp_nr_pkts;
 };
 
 csma::sptr

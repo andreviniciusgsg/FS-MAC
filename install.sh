@@ -83,7 +83,7 @@ echo
 
 cd ~/
 #git clone https://github.com/jeffRayneres/FS-MAC
-cd FS-MAC
+cd FS-MACplus
 cd gr-fsmac
 mkdir build
 cd build
