@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Sun Nov 19 13:04:01 2017
+# Generated: Sun Nov 19 14:37:31 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -111,19 +111,19 @@ class transceiver_OQPSK(grc_wxgui.top_block_gui):
         self.uhd_usrp_sink_0.set_gain(gain, 0)
         self.ieee802_15_4_rime_stack_0 = ieee802_15_4.rime_stack(([129]), ([131]), ([132]), ([23,42]))
         self.ieee802_15_4_oqpsk_phy_0 = ieee802_15_4_oqpsk_phy()
-        self.fsmac_tdma_0 = fsmac.tdma(1, 2, True, False)
+        self.fsmac_tdma_0 = fsmac.tdma(2, 1, True, False)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
         self.fsmac_ml_decision_0 = fsmac.ml_decision(False)
         self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, False)
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(False)
         self.fsmac_exchanger_0 = fsmac.exchanger(False)
-        self.fsmac_csma_0 = fsmac.csma(1, 2, True)
+        self.fsmac_csma_0 = fsmac.csma(2, 1, True)
         self.es_trigger_sample_timer_0 = es.trigger_sample_timer(gr.sizeof_gr_complex, int(1000), 2, int(4000000), 512 )
         self.es_sink_0 = es.sink(1*[gr.sizeof_gr_complex],8,64,0,2,0)
         self.es_handler_pdu_0 = es.es_make_handler_pdu(es.es_handler_print.TYPE_C32)
         self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_SERVER", "", "52001", 10000, False)
         self.blocks_pdu_remove_0 = blocks.pdu_remove(pmt.intern("es::event_buffer"))
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 20)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 3e3)
 
         ##################################################
         # Connections

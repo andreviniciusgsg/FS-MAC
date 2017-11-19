@@ -48,6 +48,9 @@ class metrics_sensor_impl : public metrics_sensor {
 		// Threads
 		boost::shared_ptr<gr::thread::thread> thread;
 
+		// Variables
+		float pr_rnp_sum;
+
 	public:
 
 		metrics_sensor_impl(uint8_t periodicity, bool is_coord)
@@ -68,16 +71,21 @@ class metrics_sensor_impl : public metrics_sensor {
 			message_port_register_out(msg_port_rnp_out);
 			message_port_register_out(msg_port_throughput_out);
 			message_port_register_out(msg_port_request_metrics);
+
+			pr_rnp_sum = 0;
 		}
 
 		~metrics_sensor_impl(void) {}
 
 		bool start() {
 			thread = boost::shared_ptr<gr::thread::thread> (new gr::thread::thread(boost::bind(&metrics_sensor_impl::request_metrics, this)));
+		
+			return block::start();
 		}
 
 		void rx_in(pmt::pmt_t frame) {
 			if(pr_is_coord) {
+
 				pmt::pmt_t cdr;
 
 				if(pmt::is_pair(frame)) {
@@ -93,13 +101,29 @@ class metrics_sensor_impl : public metrics_sensor {
 				char* pkg = (char*) pmt::blob_data(cdr);
 				pkg[len - 1] = '\0';
 				len = len - 1;
+				pkg = (char*) pmt::blob_data(cdr);
 				uint16_t crc = crc16(pkg, len);
 
 				/* RNP */
 				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'R') {
-					std::cout << "RNP frame arrived!" << std::endl;
-					std::cout << pkg << std::endl;
+					int payload_len = len - 10;
+					char payload[payload_len + 1];
+
+					for(int i = 0; i < payload_len; i++) {
+						payload[i] = pkg[10 + i];
+					}
+					payload[payload_len] = '\0';
+
+					std::string str(payload);
+
+					double rnp;
+					std::istringstream s(str);
+					s >> rnp;
+
+					pr_rnp_sum += rnp;
 				}
+
+				/* Throughput */
 			}
 		}
 
@@ -114,6 +138,13 @@ class metrics_sensor_impl : public metrics_sensor {
 				// Throughput
 
 				// Other metric
+
+				// Send result to Decision block
+				usleep(pr_periodicity*1000000*.2); // To make sure data arrives before sending to Decision block.
+				message_port_pub(msg_port_rnp_out, pmt::from_float(pr_rnp_sum));
+
+				// Reset counters.
+				pr_rnp_sum = 0;
 			}
 		}
 

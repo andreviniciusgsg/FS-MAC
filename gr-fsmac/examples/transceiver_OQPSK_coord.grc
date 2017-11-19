@@ -3186,6 +3186,12 @@
   </connection>
   <connection>
     <source_block_id>fsmac_metrics_sensor_0</source_block_id>
+    <sink_block_id>fsmac_ml_decision_0</sink_block_id>
+    <source_key>rnp out</source_key>
+    <sink_key>sensor 3 in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fsmac_metrics_sensor_0</source_block_id>
     <sink_block_id>fsmac_csma_0</sink_block_id>
     <source_key>send request</source_key>
     <sink_key>ctrl in</sink_key>

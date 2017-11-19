@@ -130,7 +130,7 @@ public:
 #define EXCHANGE_COMMAND_STOP 2
 #define EXCHANGE_COMMAND_DONE 3
 #define LATENCY_SENSOR_COMMAND_SEND 4
-#define RNP_COMMAND 5
+#define RNC_COMMAND 5
 
     //#define dout d_debug && std::cout
 
@@ -297,7 +297,7 @@ public:
                     data_ready = true;
                     cond.notify_all();
                 }
-            } else if(command == RNP_COMMAND) {
+            } else if(command == RNC_COMMAND) {
 
                 std::cout << "Send RNP" << std::endl;
 

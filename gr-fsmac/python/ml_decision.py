@@ -69,7 +69,7 @@ class ml_decision(gr.basic_block):
 		if self.is_coord:
 			try:
 				print "Coordinator mode."
-				thread.start_new_thread(self.coord_loop, ("thread 1", 5));
+				thread.start_new_thread(self.coord_loop, ("thread 1", 10));
 			except:
 				print "Error while initializing thread on coordinator.";
 		else:
@@ -99,9 +99,13 @@ class ml_decision(gr.basic_block):
 		else:
 			self.message_port_pub(pmt.intern("out"), msg);
 
-	# This sensor is responsible for SNR.
+	# This sensor is responsible for RNP.
 	def handle_sensor_3(self, msg):
-		print "Nothing on this sensor";
+		print msg;
+		if self.is_coord:
+			rnp = pmt.to_float(msg);
+			if not np.isnan(rnp):
+				self.sensor_3 = rnp;
 
 	def handle_sensor_4(self, msg):
 		print "Nothing on this sensor";
@@ -113,7 +117,7 @@ class ml_decision(gr.basic_block):
 		while True:
 			time.sleep(sleep_time); # In seconds.
 
-			print "Number of nodes = " + str(self.sensor_1) + "\nLatency 2 = " + str(self.sensor_2);
+			print "Number of nodes = " + str(self.sensor_1) + "\nLatency = " + str(self.sensor_2) + "\nRNP = " + str(self.sensor_3);
 
 			csma = 100.0;
 			tdma = 0.0;
