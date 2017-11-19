@@ -115,8 +115,8 @@ class ml_decision(gr.basic_block):
 
 			print "Number of nodes = " + str(self.sensor_1) + "\nLatency 2 = " + str(self.sensor_2);
 
-			csma = 0.0;
-			tdma = 100.0;
+			csma = 100.0;
+			tdma = 0.0;
 
 			pmt_dict = pmt.make_dict();
 

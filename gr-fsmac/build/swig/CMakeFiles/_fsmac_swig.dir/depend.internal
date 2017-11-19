@@ -6,6 +6,7 @@ swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o
  ../include/fsmac/csma.h
  ../include/fsmac/exchanger.h
  ../include/fsmac/latency_sensor.h
+ ../include/fsmac/metrics_sensor.h
  ../include/fsmac/sens_num_senders.h
  ../include/fsmac/tdma.h
  /home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac_swigPYTHON_wrap.cxx

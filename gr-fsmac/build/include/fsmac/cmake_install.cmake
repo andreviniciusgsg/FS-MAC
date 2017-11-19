@@ -40,6 +40,7 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
     "/home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac/sens_num_senders.h"
     "/home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac/exchanger.h"
     "/home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac/latency_sensor.h"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/include/fsmac/metrics_sensor.h"
     )
 endif()
 

@@ -26,5 +26,6 @@ install(FILES
     tdma.h
     sens_num_senders.h
     exchanger.h
-    latency_sensor.h DESTINATION include/fsmac
+    latency_sensor.h
+    metrics_sensor.h DESTINATION include/fsmac
 )

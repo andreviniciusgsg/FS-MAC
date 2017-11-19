@@ -5,6 +5,7 @@ swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o: ../include/fsmac/ap
 swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o: ../include/fsmac/csma.h
 swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o: ../include/fsmac/exchanger.h
 swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o: ../include/fsmac/latency_sensor.h
+swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o: ../include/fsmac/metrics_sensor.h
 swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o: ../include/fsmac/sens_num_senders.h
 swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o: ../include/fsmac/tdma.h
 swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o: swig/fsmac_swigPYTHON_wrap.cxx

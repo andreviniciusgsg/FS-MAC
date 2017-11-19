@@ -41,6 +41,7 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
     "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_exchanger.xml"
     "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_latency_sensor.xml"
     "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_ml_decision.xml"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/grc/fsmac_metrics_sensor.xml"
     )
 endif()
 

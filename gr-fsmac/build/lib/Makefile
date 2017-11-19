@@ -357,6 +357,33 @@ latency_sensor.cc.s:
 	cd /home/gnuradio/FS-MACplus/gr-fsmac/build && $(MAKE) -f lib/CMakeFiles/gnuradio-fsmac.dir/build.make lib/CMakeFiles/gnuradio-fsmac.dir/latency_sensor.cc.s
 .PHONY : latency_sensor.cc.s
 
+metrics_sensor.o: metrics_sensor.cc.o
+
+.PHONY : metrics_sensor.o
+
+# target to build an object file
+metrics_sensor.cc.o:
+	cd /home/gnuradio/FS-MACplus/gr-fsmac/build && $(MAKE) -f lib/CMakeFiles/gnuradio-fsmac.dir/build.make lib/CMakeFiles/gnuradio-fsmac.dir/metrics_sensor.cc.o
+.PHONY : metrics_sensor.cc.o
+
+metrics_sensor.i: metrics_sensor.cc.i
+
+.PHONY : metrics_sensor.i
+
+# target to preprocess a source file
+metrics_sensor.cc.i:
+	cd /home/gnuradio/FS-MACplus/gr-fsmac/build && $(MAKE) -f lib/CMakeFiles/gnuradio-fsmac.dir/build.make lib/CMakeFiles/gnuradio-fsmac.dir/metrics_sensor.cc.i
+.PHONY : metrics_sensor.cc.i
+
+metrics_sensor.s: metrics_sensor.cc.s
+
+.PHONY : metrics_sensor.s
+
+# target to generate assembly for a file
+metrics_sensor.cc.s:
+	cd /home/gnuradio/FS-MACplus/gr-fsmac/build && $(MAKE) -f lib/CMakeFiles/gnuradio-fsmac.dir/build.make lib/CMakeFiles/gnuradio-fsmac.dir/metrics_sensor.cc.s
+.PHONY : metrics_sensor.cc.s
+
 qa_fsmac.o: qa_fsmac.cc.o
 
 .PHONY : qa_fsmac.o
@@ -498,6 +525,9 @@ help:
 	@echo "... latency_sensor.o"
 	@echo "... latency_sensor.i"
 	@echo "... latency_sensor.s"
+	@echo "... metrics_sensor.o"
+	@echo "... metrics_sensor.i"
+	@echo "... metrics_sensor.s"
 	@echo "... qa_fsmac.o"
 	@echo "... qa_fsmac.i"
 	@echo "... qa_fsmac.s"

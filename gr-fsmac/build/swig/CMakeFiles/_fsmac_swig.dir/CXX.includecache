@@ -28,6 +28,12 @@ fsmac/api.h
 gnuradio/block.h
 -
 
+../include/fsmac/metrics_sensor.h
+fsmac/api.h
+-
+gnuradio/block.h
+-
+
 ../include/fsmac/sens_num_senders.h
 fsmac/api.h
 -
@@ -95,6 +101,8 @@ fsmac/exchanger.h
 /home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/exchanger.h
 fsmac/latency_sensor.h
 /home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/latency_sensor.h
+fsmac/metrics_sensor.h
+/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/metrics_sensor.h
 float.h
 -
 math.h

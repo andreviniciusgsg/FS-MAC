@@ -5,6 +5,7 @@
 /usr/local/include/fsmac/sens_num_senders.h
 /usr/local/include/fsmac/exchanger.h
 /usr/local/include/fsmac/latency_sensor.h
+/usr/local/include/fsmac/metrics_sensor.h
 /usr/local/lib/libgnuradio-fsmac.so
 /usr/local/lib/python2.7/dist-packages/fsmac/_fsmac_swig.so
 /usr/local/lib/python2.7/dist-packages/fsmac/fsmac_swig.py
@@ -28,3 +29,4 @@
 /usr/local/share/gnuradio/grc/blocks/fsmac_exchanger.xml
 /usr/local/share/gnuradio/grc/blocks/fsmac_latency_sensor.xml
 /usr/local/share/gnuradio/grc/blocks/fsmac_ml_decision.xml
+/usr/local/share/gnuradio/grc/blocks/fsmac_metrics_sensor.xml

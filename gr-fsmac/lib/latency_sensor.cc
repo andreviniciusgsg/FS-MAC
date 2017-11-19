@@ -104,6 +104,7 @@ public:
                 
                 pmt::pmt_t final_latency_av_pmt = pmt::from_float(latencyAv);
                 message_port_pub(pmt::mp("dec out"), final_latency_av_pmt);
+
             }
             
             boost::posix_time::millisec timeToSendoNewInformation(timeToWait);
@@ -220,8 +221,6 @@ public:
                 latency_counter = latency_counter + local_latency_counter;
                 latencyListSum.push_back(latency_sum);
 
-            } else if (crc == 0 && recPackage[0] == 0x41 && recPackage[9] == 'R') {
-                std::cout << "Done! I received a RNP packet." << std::endl;
             }
         }
     }

@@ -13,6 +13,7 @@
 #include "fsmac/sens_num_senders.h"
 #include "fsmac/exchanger.h"
 #include "fsmac/latency_sensor.h"
+#include "fsmac/metrics_sensor.h"
 %}
 
 
@@ -26,3 +27,5 @@ GR_SWIG_BLOCK_MAGIC2(fsmac, sens_num_senders);
 GR_SWIG_BLOCK_MAGIC2(fsmac, exchanger);
 %include "fsmac/latency_sensor.h"
 GR_SWIG_BLOCK_MAGIC2(fsmac, latency_sensor);
+%include "fsmac/metrics_sensor.h"
+GR_SWIG_BLOCK_MAGIC2(fsmac, metrics_sensor);

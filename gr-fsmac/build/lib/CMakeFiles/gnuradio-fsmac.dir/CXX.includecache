@@ -28,6 +28,12 @@ fsmac/api.h
 gnuradio/block.h
 -
 
+../include/fsmac/metrics_sensor.h
+fsmac/api.h
+-
+gnuradio/block.h
+-
+
 ../include/fsmac/sens_num_senders.h
 fsmac/api.h
 -
@@ -128,6 +134,20 @@ gnuradio/io_signature.h
 fsmac/latency_sensor.h
 -
 stdio.h
+-
+
+/home/gnuradio/FS-MACplus/gr-fsmac/lib/metrics_sensor.cc
+config.h
+/home/gnuradio/FS-MACplus/gr-fsmac/lib/config.h
+gnuradio/io_signature.h
+-
+fsmac/metrics_sensor.h
+-
+pmt/pmt.h
+-
+boost/thread.hpp
+-
+time.h
 -
 
 /home/gnuradio/FS-MACplus/gr-fsmac/lib/sens_num_senders.cc

@@ -26,6 +26,10 @@ lib/CMakeFiles/gnuradio-fsmac.dir/latency_sensor.cc.o
  ../include/fsmac/api.h
  ../include/fsmac/latency_sensor.h
  /home/gnuradio/FS-MACplus/gr-fsmac/lib/latency_sensor.cc
+lib/CMakeFiles/gnuradio-fsmac.dir/metrics_sensor.cc.o
+ ../include/fsmac/api.h
+ ../include/fsmac/metrics_sensor.h
+ /home/gnuradio/FS-MACplus/gr-fsmac/lib/metrics_sensor.cc
 lib/CMakeFiles/gnuradio-fsmac.dir/sens_num_senders.cc.o
  ../include/fsmac/api.h
  ../include/fsmac/sens_num_senders.h

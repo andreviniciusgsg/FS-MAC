@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<block>
+  <name>metrics_sensor</name>
+  <key>fsmac_metrics_sensor</key>
+  <category>[FS-MAC+]</category>
+  <import>import fsmac</import>
+  <make>fsmac.metrics_sensor($periodicity, $is_coord)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>Periodicity (sec)</name>
+    <key>periodicity</key>
+    <type>int</type>
+  </param>
+
+  <param>
+    <name>Mode</name>
+    <key>is_coord</key>
+    <type>bool</type>
+    <option>
+      <name>Coordinator</name>
+      <key>True</key>
+    </option>
+    <option>
+      <name>Normal</name>
+      <key>False</key>
+    </option>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>frame in</name>
+    <type>message</type>
+    <optional>1</optional>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>rnp out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+
+  <source>
+    <name>thr out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+
+  <source>
+    <name>send request</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+</block>
