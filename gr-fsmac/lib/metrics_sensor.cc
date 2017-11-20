@@ -29,6 +29,7 @@
 #include <time.h>
 
 #define RNP_REQUEST 5
+#define THROUGHPUT_REQUEST 6
 
 using namespace gr::fsmac;
 
@@ -49,7 +50,7 @@ class metrics_sensor_impl : public metrics_sensor {
 		boost::shared_ptr<gr::thread::thread> thread;
 
 		// Variables
-		float pr_rnp_sum;
+		float pr_rnp_sum, pr_thr_sum;
 
 	public:
 
@@ -73,6 +74,7 @@ class metrics_sensor_impl : public metrics_sensor {
 			message_port_register_out(msg_port_request_metrics);
 
 			pr_rnp_sum = 0;
+			pr_thr_sum = 0;
 		}
 
 		~metrics_sensor_impl(void) {}
@@ -124,6 +126,23 @@ class metrics_sensor_impl : public metrics_sensor {
 				}
 
 				/* Throughput */
+				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'T') {
+					int payload_len = len - 10;
+					char payload[payload_len + 1];
+
+					for(int i = 0; i < payload_len; i++) {
+						payload[i] = pkg[10 + i];
+					}
+					payload[payload_len] = '\0';
+
+					std::string str(payload);
+
+					double thr;
+					std::istringstream s(str);
+					s >> thr;
+
+					pr_thr_sum += thr;
+				}
 			}
 		}
 
@@ -135,16 +154,22 @@ class metrics_sensor_impl : public metrics_sensor {
 				command = pmt::from_uint64(RNP_REQUEST);
 				message_port_pub(msg_port_request_metrics, command);
 				usleep(pr_periodicity); // Short interval between requests.
+
 				// Throughput
+				command = pmt::from_uint64(THROUGHPUT_REQUEST);
+				message_port_pub(msg_port_request_metrics, command);
+				usleep(pr_periodicity); // Short interval between requests.
 
 				// Other metric
 
 				// Send result to Decision block
 				usleep(pr_periodicity*1000000*.2); // To make sure data arrives before sending to Decision block.
 				message_port_pub(msg_port_rnp_out, pmt::from_float(pr_rnp_sum));
+				message_port_pub(msg_port_throughput_out, pmt::from_float(pr_thr_sum)); // KFps (Kilo frames per second)
 
 				// Reset counters.
 				pr_rnp_sum = 0;
+				pr_thr_sum = 0;
 			}
 		}
 

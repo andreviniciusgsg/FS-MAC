@@ -36,6 +36,7 @@
 #include <stddef.h>
 #include <sys/time.h>
 #include <time.h>
+#include <chrono>
 
 #include "SendPackage.h"
 #include "MyList.h"
@@ -123,7 +124,6 @@ class csma_impl : public csma {
     int latency_counter = 0;
     long int num_fsmac_packs = 0;
 
-
 public:
 #define EXCHANGE_COMMAND_SEND_INFO 0
 #define EXCHANGE_COMMAND_INFO_SENT 1
@@ -131,6 +131,7 @@ public:
 #define EXCHANGE_COMMAND_DONE 3
 #define LATENCY_SENSOR_COMMAND_SEND 4
 #define RNC_COMMAND 5
+#define THROUGHPUT_COMMAND 6
 
     //#define dout d_debug && std::cout
 
@@ -166,6 +167,8 @@ public:
 
         d_rnp_rtx = 0;
         d_rnp_nr_pkts = 0;
+        d_confirmed_pkts = 0;
+        d_start_time = std::chrono::high_resolution_clock::now();
     }
 
     ~csma_impl(void) {
@@ -328,6 +331,49 @@ public:
 
                 char buff_char[1024];
                 strncpy(buff_char, rnp_str.c_str(), sizeof(buff_char));
+                buff_char[sizeof(buff_char) - 1] = 0;
+
+                generateControlFsmacPack(buff_char, size, comm, pack_request, EXCHANGE_COMMAND_SEND_INFO, addr_d);
+
+                pmt::pmt_t pack = pmt::cons(pmt::get_PMT_NIL(), pmt::make_blob(pack_request, control_pack_len));
+
+                SendPackage* pkg = new SendPackage(pack, commandFsmac[1], false);
+
+                comm_ready = true;
+                commandList.push_back(pkg);
+                data_ready = true;
+                cond.notify_all();
+            } else if(command == THROUGHPUT_COMMAND) {
+                std::cout << "Send throughput" << std::endl;
+
+                d_end_time = std::chrono::high_resolution_clock::now();
+                float duration_ms = (float) std::chrono::duration_cast<std::chrono::milliseconds>(d_end_time - d_start_time).count();
+                float thr;
+
+                if(duration_ms > 0) {
+                    thr = d_confirmed_pkts/duration_ms; // KFps (kilo frames per second).
+                } else {
+                    thr = 0; // No time window to take measurement.
+                }
+
+                d_start_time = std::chrono::high_resolution_clock::now();
+
+                std::ostringstream ss;
+                ss << thr;
+                std::string thr_str(ss.str());
+
+                char commandFsmac[2];
+                commandFsmac[1] = 0x01;
+
+                char pack_request[256];
+                char addr_d[2] = {addr_bc_1, addr_bc_2};
+
+                char comm = 'T';
+
+                int size = (int) (ssize_t) thr_str.length();
+
+                char buff_char[1024];
+                strncpy(buff_char, thr_str.c_str(), sizeof(buff_char));
                 buff_char[sizeof(buff_char) - 1] = 0;
 
                 generateControlFsmacPack(buff_char, size, comm, pack_request, EXCHANGE_COMMAND_SEND_INFO, addr_d);
@@ -521,7 +567,7 @@ public:
                 finalizaContagemLatencia();
 
                 if (canCompute) {
-                    numPackConfirmados++;
+                    numPackConfirmados++; d_confirmed_pkts++;
                 }
 
                 cond2.notify_all();
@@ -1196,6 +1242,9 @@ private:
 
     uint16_t d_rnp_rtx;
     uint16_t d_rnp_nr_pkts;
+    uint16_t d_confirmed_pkts;
+    decltype(std::chrono::high_resolution_clock::now()) d_start_time;
+    decltype(std::chrono::high_resolution_clock::now()) d_end_time;
 };
 
 csma::sptr

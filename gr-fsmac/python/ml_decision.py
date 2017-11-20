@@ -77,7 +77,10 @@ class ml_decision(gr.basic_block):
 
 	# This is related to the parameter we want to maximize
 	def handle_max(self, msg):
-		self.max = pmt.to_float(msg);
+		if self.is_coord:
+			thr = pmt.to_float(msg);
+			if not np.isnan(thr):
+				self.max = thr;
 
 	def handle_act_protocol(self, msg):
 		self.act_protocol = pmt.to_uint64(msg);
@@ -117,7 +120,7 @@ class ml_decision(gr.basic_block):
 		while True:
 			time.sleep(sleep_time); # In seconds.
 
-			print "Number of nodes = " + str(self.sensor_1) + "\nLatency = " + str(self.sensor_2) + "\nRNP = " + str(self.sensor_3);
+			print "Number of nodes = " + str(self.sensor_1) + "\nLatency = " + str(self.sensor_2) + "\nRNP = " + str(self.sensor_3) + "\nThroughput = " + str(self.max);
 
 			csma = 100.0;
 			tdma = 0.0;
