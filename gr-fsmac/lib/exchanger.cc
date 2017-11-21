@@ -45,6 +45,9 @@ public:
 #define EXCHANGE_COMMAND_STOP 2
 #define EXCHANGE_COMMAND_DONE 3
 #define LATENCY_SENSOR_COMMAND_SEND 4
+#define RNC_COMMAND 5
+#define THROUGHPUT_COMMAND 6
+#define SNR_COMMAND 7
 
 #define NORMAL_STATE 0
 #define EXCHANGE_STATE 1
@@ -168,7 +171,7 @@ public:
 //            printf("EXCH: Entrou no IF do envio de latências\n");
             int command = pmt::to_uint64(msg);
 //            printf("EXCH: Enviou comando periodico de latencia\n");
-            if(command == LATENCY_SENSOR_COMMAND_SEND) {
+            if(command == LATENCY_SENSOR_COMMAND_SEND or command == RNC_COMMAND or command == THROUGHPUT_COMMAND or command == SNR_COMMAND) {
                 if (active_protocol == 1) {
                     message_port_pub(pmt::mp("p1_ctrl out"), msg);
                 } else if (active_protocol == 2) {
