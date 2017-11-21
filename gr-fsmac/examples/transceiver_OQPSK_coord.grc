@@ -732,7 +732,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(80, 444)</value>
+      <value>(80, 356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -775,7 +775,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(64, 505)</value>
+      <value>(48, 441)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -865,7 +865,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(80, 393)</value>
+      <value>(48, 313)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3288,6 +3288,12 @@
   <connection>
     <source_block_id>fsmac_snr_0</source_block_id>
     <sink_block_id>fsmac_csma_0</sink_block_id>
+    <source_key>snr out</source_key>
+    <sink_key>snr in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fsmac_snr_0</source_block_id>
+    <sink_block_id>fsmac_tdma_0</sink_block_id>
     <source_key>snr out</source_key>
     <sink_key>snr in</sink_key>
   </connection>

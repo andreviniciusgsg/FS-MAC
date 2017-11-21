@@ -37,6 +37,7 @@
 #include <sys/time.h>
 #include <string.h>
 #include <time.h>
+#include <chrono>
 
 #include "SendPackage.h"
 #include "MyList.h"
@@ -144,6 +145,9 @@ public:
 #define EXCHANGE_COMMAND_STOP 2
 #define EXCHANGE_COMMAND_DONE 3
 #define LATENCY_SENSOR_COMMAND_SEND 4
+#define RNC_COMMAND 5
+#define THROUGHPUT_COMMAND 6
+#define SNR_COMMAND 7
 
 #define dout d_debug && std::cout
 
@@ -169,13 +173,27 @@ public:
         set_msg_handler(pmt::mp("pdu in"), boost::bind(&tdma_impl::mac_in, this, _1));
         message_port_register_in(pmt::mp("ctrl in"));
         set_msg_handler(pmt::mp("ctrl in"), boost::bind(&tdma_impl::ctrl_in, this, _1));
+        message_port_register_in(pmt::mp("snr in"));
+        set_msg_handler(pmt::mp("snr in"), boost::bind(&tdma_impl::snr_in, this, _1));
 
         message_port_register_out(pmt::mp("app out"));
         message_port_register_out(pmt::mp("pdu out"));
         message_port_register_out(pmt::mp("ctrl out"));
+
+        d_rnp_rtx = 0;
+        d_rnp_nr_pkts = 0;
+        d_confirmed_pkts = 0;
+        d_snr = 0;
+        d_start_time = std::chrono::high_resolution_clock::now();
     }
 
     ~tdma_impl(void) {
+    }
+
+    void snr_in(pmt::pmt_t msg) {
+        float snr = pmt::to_float(msg);
+        if(snr < 0) snr = 0;
+        d_snr = snr;
     }
 
     void calculateLatencyAv() {
@@ -331,7 +349,120 @@ public:
 
                     //                    printf("TDMA: Saiu do LOOP de envios\n");
                     //                    lock3.unlock();
+                } 
+            } else if(command == RNC_COMMAND) {
+
+                std::cout << "Send RNP" << std::endl;
+
+                float rnp;
+                if(d_rnp_nr_pkts > 0) {
+                   rnp = d_rnp_rtx/d_rnp_nr_pkts;
+                } else {
+                    rnp = 0;
                 }
+
+                d_rnp_rtx = 0; d_rnp_nr_pkts = 0;
+                
+                std::ostringstream ss;
+                ss << rnp;
+                std::string rnp_str(ss.str());
+
+                char commandFsmac[2];
+                commandFsmac[1] = 0x01;
+
+                char pack_request[256];
+                char addr_d[2];
+                addr_d[0] = addr_bc_1;
+                addr_d[1] = addr_bc_2;
+
+                char comm = 'R';
+
+                int size = (int) (ssize_t) rnp_str.length();
+
+                char buff_char[1024];
+                strncpy(buff_char, rnp_str.c_str(), sizeof(buff_char));
+                buff_char[sizeof(buff_char) - 1] = 0;
+
+                generateControlFsmacPack(buff_char, size, comm, pack_request, EXCHANGE_COMMAND_SEND_INFO, addr_d);
+
+                pmt::pmt_t pack = pmt::cons(pmt::get_PMT_NIL(), pmt::make_blob(pack_request, control_pack_len));
+
+                SendPackage* pkg = new SendPackage(pack, commandFsmac[1], false);
+
+                comm_ready = true;
+                commandList.push_back(pkg);
+            } else if(command == THROUGHPUT_COMMAND) {
+                std::cout << "Send throughput" << std::endl;
+
+                d_end_time = std::chrono::high_resolution_clock::now();
+                float duration_ms = (float) std::chrono::duration_cast<std::chrono::milliseconds>(d_end_time - d_start_time).count();
+                float thr;
+
+                if(duration_ms > 0) {
+                    thr = d_confirmed_pkts/duration_ms; // KFps (kilo frames per second).
+                } else {
+                    thr = 0; // No time window to take measurement.
+                }
+
+                d_start_time = std::chrono::high_resolution_clock::now();
+
+                std::ostringstream ss;
+                ss << thr;
+                std::string thr_str(ss.str());
+
+                char commandFsmac[2];
+                commandFsmac[1] = 0x01;
+
+                char pack_request[256];
+                char addr_d[2] = {addr_bc_1, addr_bc_2};
+
+                char comm = 'T';
+
+                int size = (int) (ssize_t) thr_str.length();
+
+                char buff_char[1024];
+                strncpy(buff_char, thr_str.c_str(), sizeof(buff_char));
+                buff_char[sizeof(buff_char) - 1] = 0;
+
+                generateControlFsmacPack(buff_char, size, comm, pack_request, EXCHANGE_COMMAND_SEND_INFO, addr_d);
+
+                pmt::pmt_t pack = pmt::cons(pmt::get_PMT_NIL(), pmt::make_blob(pack_request, control_pack_len));
+
+                SendPackage* pkg = new SendPackage(pack, commandFsmac[1], false);
+
+                comm_ready = true;
+                commandList.push_back(pkg);
+            } else if(command = SNR_COMMAND) {
+                std::cout << "Send SNR" << std::endl;
+
+                float snr = d_snr;
+
+                std::ostringstream ss;
+                ss << snr;
+                std::string snr_str(ss.str());
+
+                char commandFsmac[2];
+                commandFsmac[1] = 0x01;
+
+                char pack_request[256];
+                char addr_d[2] = {addr_bc_1, addr_bc_2};
+
+                char comm = 'S';
+
+                int size = (int) (ssize_t) snr_str.length();
+
+                char buff_char[1024];
+                strncpy(buff_char, snr_str.c_str(), sizeof(buff_char));
+                buff_char[sizeof(buff_char) - 1] = 0;
+
+                generateControlFsmacPack(buff_char, size, comm, pack_request, EXCHANGE_COMMAND_SEND_INFO, addr_d);
+
+                pmt::pmt_t pack = pmt::cons(pmt::get_PMT_NIL(), pmt::make_blob(pack_request, control_pack_len));
+
+                SendPackage* pkg = new SendPackage(pack, commandFsmac[1], false);
+
+                comm_ready = true;
+                commandList.push_back(pkg);
             }
         } else if (pmt::is_dict(msg)) {
 //            printf("TDMA: Recebeu fila para trocar protocolo CSMA.\n");
@@ -1266,6 +1397,13 @@ private:
 
     int d_num_packet_errors;
     int d_num_packets_received;
+
+    uint16_t d_rnp_rtx;
+    uint16_t d_rnp_nr_pkts;
+    uint16_t d_confirmed_pkts;
+    float d_snr; 
+    decltype(std::chrono::high_resolution_clock::now()) d_start_time;
+    decltype(std::chrono::high_resolution_clock::now()) d_end_time;
 };
 
 tdma::sptr

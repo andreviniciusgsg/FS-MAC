@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Tue Nov 21 17:17:49 2017
+# Generated: Tue Nov 21 18:30:49 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -32,7 +32,6 @@ from grc_gnuradio import wxgui as grc_wxgui
 from ieee802_15_4_oqpsk_phy import ieee802_15_4_oqpsk_phy  # grc-generated hier_block
 from optparse import OptionParser
 import es
-import foo
 import fsmac
 import ieee802_15_4
 import pmt
@@ -129,7 +128,6 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(True)
         self.fsmac_exchanger_0 = fsmac.exchanger(True)
         self.fsmac_csma_0 = fsmac.csma(1, 2, True)
-        self.foo_wireshark_connector_0 = foo.wireshark_connector(127, False)
         self.es_trigger_sample_timer_0 = es.trigger_sample_timer(gr.sizeof_gr_complex, int(1000), 2, int(4000000), 512 )
         self.es_sink_0 = es.sink(1*[gr.sizeof_gr_complex],8,64,0,2,0)
         self.es_handler_pdu_0 = es.es_make_handler_pdu(es.es_handler_print.TYPE_C32)
@@ -137,8 +135,6 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_SERVER", "", "52001", 10000, False)
         self.blocks_pdu_remove_0 = blocks.pdu_remove(pmt.intern("es::event_buffer"))
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 5e3)
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_char*1, "/home/gnuradio/temp/output_802.15", False)
-        self.blocks_file_sink_0.set_unbuffered(False)
 
         ##################################################
         # Connections
@@ -152,7 +148,6 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.msg_connect((self.fsmac_csma_0, 'app out'), (self.fsmac_exchanger_0, 'p1_app in'))    
         self.msg_connect((self.fsmac_csma_0, 'ctrl out'), (self.fsmac_exchanger_0, 'p1_ctrl in'))    
         self.msg_connect((self.fsmac_csma_0, 'pdu out'), (self.fsmac_exchanger_0, 'p1_mac in'))    
-        self.msg_connect((self.fsmac_exchanger_0, 'mac out'), (self.foo_wireshark_connector_0, 'in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_app out'), (self.fsmac_csma_0, 'app in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_ctrl out'), (self.fsmac_csma_0, 'ctrl in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_mac out'), (self.fsmac_csma_0, 'pdu in'))    
@@ -170,6 +165,7 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.msg_connect((self.fsmac_ml_decision_0, 'out'), (self.fsmac_exchanger_0, 'dec in'))    
         self.msg_connect((self.fsmac_sens_num_senders_0, 'dec out'), (self.fsmac_ml_decision_0, 'sensor 1 in'))    
         self.msg_connect((self.fsmac_snr_0, 'snr out'), (self.fsmac_csma_0, 'snr in'))    
+        self.msg_connect((self.fsmac_snr_0, 'snr out'), (self.fsmac_tdma_0, 'snr in'))    
         self.msg_connect((self.fsmac_tdma_0, 'app out'), (self.fsmac_exchanger_0, 'p2_app in'))    
         self.msg_connect((self.fsmac_tdma_0, 'ctrl out'), (self.fsmac_exchanger_0, 'p2_ctrl in'))    
         self.msg_connect((self.fsmac_tdma_0, 'pdu out'), (self.fsmac_exchanger_0, 'p2_mac in'))    
@@ -182,7 +178,6 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.msg_connect((self.uhdgps_cpdu_average_power_0, 'cpdus'), (self.blocks_pdu_remove_0, 'pdus'))    
         self.connect((self.blocks_vector_to_stream_0, 0), (self.fsmac_snr_0, 0))    
         self.connect((self.es_trigger_sample_timer_0, 0), (self.es_sink_0, 0))    
-        self.connect((self.foo_wireshark_connector_0, 0), (self.blocks_file_sink_0, 0))    
         self.connect((self.ieee802_15_4_oqpsk_phy_0, 0), (self.uhd_usrp_sink_0, 0))    
         self.connect((self.logpwrfft_x_0, 0), (self.blocks_vector_to_stream_0, 0))    
         self.connect((self.uhd_usrp_source_0, 0), (self.es_trigger_sample_timer_0, 0))    

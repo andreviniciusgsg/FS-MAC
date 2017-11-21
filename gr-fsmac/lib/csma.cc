@@ -181,7 +181,6 @@ public:
     void snr_in(pmt::pmt_t msg) {
         float snr = pmt::to_float(msg);
         if(snr < 0) snr = 0;
-        std::cout << "SNR = " << snr << std::endl;
         d_snr = snr;
     }
 
