@@ -40,6 +40,12 @@ fsmac/api.h
 gnuradio/block.h
 -
 
+../include/fsmac/snr.h
+fsmac/api.h
+-
+gnuradio/block.h
+-
+
 ../include/fsmac/tdma.h
 fsmac/api.h
 -
@@ -103,6 +109,8 @@ fsmac/latency_sensor.h
 /home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/latency_sensor.h
 fsmac/metrics_sensor.h
 /home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/metrics_sensor.h
+fsmac/snr.h
+/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac/snr.h
 float.h
 -
 math.h

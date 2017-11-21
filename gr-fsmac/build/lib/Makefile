@@ -438,6 +438,33 @@ sens_num_senders.cc.s:
 	cd /home/gnuradio/FS-MACplus/gr-fsmac/build && $(MAKE) -f lib/CMakeFiles/gnuradio-fsmac.dir/build.make lib/CMakeFiles/gnuradio-fsmac.dir/sens_num_senders.cc.s
 .PHONY : sens_num_senders.cc.s
 
+snr_impl.o: snr_impl.cc.o
+
+.PHONY : snr_impl.o
+
+# target to build an object file
+snr_impl.cc.o:
+	cd /home/gnuradio/FS-MACplus/gr-fsmac/build && $(MAKE) -f lib/CMakeFiles/gnuradio-fsmac.dir/build.make lib/CMakeFiles/gnuradio-fsmac.dir/snr_impl.cc.o
+.PHONY : snr_impl.cc.o
+
+snr_impl.i: snr_impl.cc.i
+
+.PHONY : snr_impl.i
+
+# target to preprocess a source file
+snr_impl.cc.i:
+	cd /home/gnuradio/FS-MACplus/gr-fsmac/build && $(MAKE) -f lib/CMakeFiles/gnuradio-fsmac.dir/build.make lib/CMakeFiles/gnuradio-fsmac.dir/snr_impl.cc.i
+.PHONY : snr_impl.cc.i
+
+snr_impl.s: snr_impl.cc.s
+
+.PHONY : snr_impl.s
+
+# target to generate assembly for a file
+snr_impl.cc.s:
+	cd /home/gnuradio/FS-MACplus/gr-fsmac/build && $(MAKE) -f lib/CMakeFiles/gnuradio-fsmac.dir/build.make lib/CMakeFiles/gnuradio-fsmac.dir/snr_impl.cc.s
+.PHONY : snr_impl.cc.s
+
 tdma.o: tdma.cc.o
 
 .PHONY : tdma.o
@@ -534,6 +561,9 @@ help:
 	@echo "... sens_num_senders.o"
 	@echo "... sens_num_senders.i"
 	@echo "... sens_num_senders.s"
+	@echo "... snr_impl.o"
+	@echo "... snr_impl.i"
+	@echo "... snr_impl.s"
 	@echo "... tdma.o"
 	@echo "... tdma.i"
 	@echo "... tdma.s"

@@ -35,6 +35,7 @@ list(APPEND fsmac_sources
     exchanger.cc
     latency_sensor.cc
     metrics_sensor.cc
+    snr_impl.cc
 )
 
 set(fsmac_sources "${fsmac_sources}" PARENT_SCOPE)

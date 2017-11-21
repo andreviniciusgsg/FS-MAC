@@ -132,6 +132,7 @@ public:
 #define LATENCY_SENSOR_COMMAND_SEND 4
 #define RNC_COMMAND 5
 #define THROUGHPUT_COMMAND 6
+#define SNR_COMMAND 7
 
     //#define dout d_debug && std::cout
 
@@ -160,6 +161,8 @@ public:
         set_msg_handler(pmt::mp("pdu in"), boost::bind(&csma_impl::mac_in, this, _1));
         message_port_register_in(pmt::mp("ctrl in"));
         set_msg_handler(pmt::mp("ctrl in"), boost::bind(&csma_impl::ctrl_in, this, _1));
+        message_port_register_in(pmt::mp("snr in"));
+        set_msg_handler(pmt::mp("snr in"), boost::bind(&csma_impl::snr_in, this, _1));
 
         message_port_register_out(pmt::mp("app out"));
         message_port_register_out(pmt::mp("pdu out"));
@@ -168,10 +171,18 @@ public:
         d_rnp_rtx = 0;
         d_rnp_nr_pkts = 0;
         d_confirmed_pkts = 0;
+        d_snr = 0;
         d_start_time = std::chrono::high_resolution_clock::now();
     }
 
     ~csma_impl(void) {
+    }
+
+    void snr_in(pmt::pmt_t msg) {
+        float snr = pmt::to_float(msg);
+        if(snr < 0) snr = 0;
+        std::cout << "SNR = " << snr << std::endl;
+        d_snr = snr;
     }
 
     void ctrl_in(pmt::pmt_t msg) {
@@ -374,6 +385,39 @@ public:
 
                 char buff_char[1024];
                 strncpy(buff_char, thr_str.c_str(), sizeof(buff_char));
+                buff_char[sizeof(buff_char) - 1] = 0;
+
+                generateControlFsmacPack(buff_char, size, comm, pack_request, EXCHANGE_COMMAND_SEND_INFO, addr_d);
+
+                pmt::pmt_t pack = pmt::cons(pmt::get_PMT_NIL(), pmt::make_blob(pack_request, control_pack_len));
+
+                SendPackage* pkg = new SendPackage(pack, commandFsmac[1], false);
+
+                comm_ready = true;
+                commandList.push_back(pkg);
+                data_ready = true;
+                cond.notify_all();
+            } else if(command = SNR_COMMAND) {
+                std::cout << "Send SNR" << std::endl;
+
+                float snr = d_snr;
+
+                std::ostringstream ss;
+                ss << snr;
+                std::string snr_str(ss.str());
+
+                char commandFsmac[2];
+                commandFsmac[1] = 0x01;
+
+                char pack_request[256];
+                char addr_d[2] = {addr_bc_1, addr_bc_2};
+
+                char comm = 'S';
+
+                int size = (int) (ssize_t) snr_str.length();
+
+                char buff_char[1024];
+                strncpy(buff_char, snr_str.c_str(), sizeof(buff_char));
                 buff_char[sizeof(buff_char) - 1] = 0;
 
                 generateControlFsmacPack(buff_char, size, comm, pack_request, EXCHANGE_COMMAND_SEND_INFO, addr_d);
@@ -1243,6 +1287,7 @@ private:
     uint16_t d_rnp_rtx;
     uint16_t d_rnp_nr_pkts;
     uint16_t d_confirmed_pkts;
+    float d_snr; 
     decltype(std::chrono::high_resolution_clock::now()) d_start_time;
     decltype(std::chrono::high_resolution_clock::now()) d_end_time;
 };

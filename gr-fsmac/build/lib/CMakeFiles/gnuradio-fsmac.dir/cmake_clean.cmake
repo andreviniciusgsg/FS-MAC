@@ -8,6 +8,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/gnuradio-fsmac.dir/exchanger.cc.o"
   "CMakeFiles/gnuradio-fsmac.dir/latency_sensor.cc.o"
   "CMakeFiles/gnuradio-fsmac.dir/metrics_sensor.cc.o"
+  "CMakeFiles/gnuradio-fsmac.dir/snr_impl.cc.o"
   "libgnuradio-fsmac.pdb"
   "libgnuradio-fsmac.so"
 )

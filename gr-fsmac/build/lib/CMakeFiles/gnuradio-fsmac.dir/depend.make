@@ -34,6 +34,11 @@ lib/CMakeFiles/gnuradio-fsmac.dir/sens_num_senders.cc.o: ../include/fsmac/api.h
 lib/CMakeFiles/gnuradio-fsmac.dir/sens_num_senders.cc.o: ../include/fsmac/sens_num_senders.h
 lib/CMakeFiles/gnuradio-fsmac.dir/sens_num_senders.cc.o: ../lib/sens_num_senders.cc
 
+lib/CMakeFiles/gnuradio-fsmac.dir/snr_impl.cc.o: ../include/fsmac/api.h
+lib/CMakeFiles/gnuradio-fsmac.dir/snr_impl.cc.o: ../include/fsmac/snr.h
+lib/CMakeFiles/gnuradio-fsmac.dir/snr_impl.cc.o: ../lib/snr_impl.cc
+lib/CMakeFiles/gnuradio-fsmac.dir/snr_impl.cc.o: ../lib/snr_impl.h
+
 lib/CMakeFiles/gnuradio-fsmac.dir/tdma.cc.o: ../include/fsmac/api.h
 lib/CMakeFiles/gnuradio-fsmac.dir/tdma.cc.o: ../include/fsmac/tdma.h
 lib/CMakeFiles/gnuradio-fsmac.dir/tdma.cc.o: ../lib/MyList.h

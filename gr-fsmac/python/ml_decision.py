@@ -104,14 +104,17 @@ class ml_decision(gr.basic_block):
 
 	# This sensor is responsible for RNP.
 	def handle_sensor_3(self, msg):
-		print msg;
 		if self.is_coord:
 			rnp = pmt.to_float(msg);
 			if not np.isnan(rnp):
 				self.sensor_3 = rnp;
 
+	# This sensor is responsible for SNR.
 	def handle_sensor_4(self, msg):
-		print "Nothing on this sensor";
+		if self.is_coord:
+			snr = pmt.to_float(msg);
+			if not np.isnan(snr):
+				self.sensor_4 = snr;
 
 	def handle_sensor_5(self, msg):
 		print "Nothing on this sensor";
@@ -120,7 +123,13 @@ class ml_decision(gr.basic_block):
 		while True:
 			time.sleep(sleep_time); # In seconds.
 
-			print "Number of nodes = " + str(self.sensor_1) + "\nLatency = " + str(self.sensor_2) + "\nRNP = " + str(self.sensor_3) + "\nThroughput = " + str(self.max);
+			if self.sensor_1 != None and self.sensor_2 != None and self.sensor_3 != None and self.sensor_4 != None and self.max != None:
+				print "Number of nodes = " + str(self.sensor_1) + "\nLatency = " + str(self.sensor_2) + "\nRNP = " + str(self.sensor_3) + "\nSNR = " + str(self.sensor_4) + "\nThroughput (Frames/sec)= " + str(self.max);
+			else:
+				print "Counters are incomplete!"
+
+			# Reseting counters
+			self.max = self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
 
 			csma = 100.0;
 			tdma = 0.0;

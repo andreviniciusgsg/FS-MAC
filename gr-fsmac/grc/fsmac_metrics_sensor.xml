@@ -53,6 +53,12 @@
   </source>
 
   <source>
+    <name>snr out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
+
+  <source>
     <name>thr out</name>
     <type>message</type>
     <optional>1</optional>

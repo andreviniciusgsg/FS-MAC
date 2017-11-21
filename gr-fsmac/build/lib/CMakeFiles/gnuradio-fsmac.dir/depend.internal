@@ -34,6 +34,11 @@ lib/CMakeFiles/gnuradio-fsmac.dir/sens_num_senders.cc.o
  ../include/fsmac/api.h
  ../include/fsmac/sens_num_senders.h
  /home/gnuradio/FS-MACplus/gr-fsmac/lib/sens_num_senders.cc
+lib/CMakeFiles/gnuradio-fsmac.dir/snr_impl.cc.o
+ ../include/fsmac/api.h
+ ../include/fsmac/snr.h
+ /home/gnuradio/FS-MACplus/gr-fsmac/lib/snr_impl.cc
+ /home/gnuradio/FS-MACplus/gr-fsmac/lib/snr_impl.h
 lib/CMakeFiles/gnuradio-fsmac.dir/tdma.cc.o
  ../include/fsmac/api.h
  ../include/fsmac/tdma.h
