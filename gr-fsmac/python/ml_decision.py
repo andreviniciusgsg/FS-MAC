@@ -136,8 +136,16 @@ class ml_decision(gr.basic_block):
 			# Reseting counters
 			self.max = self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
 
-			csma = 0.0;
-			tdma = 100.0;
+			if i < 5:
+				csma = 0.0;
+				tdma = 100.0;
+			elif i < 10:
+				csma = 100.0;
+				tdma = 0.0;
+			else:
+				csma = 0.0;
+				tdma = 100.0;
+			i = i + 1;
 
 			pmt_dict = pmt.make_dict();
 

@@ -94,86 +94,84 @@ class metrics_sensor_impl : public metrics_sensor {
 		}
 
 		void rx_in(pmt::pmt_t frame) {
-			if(pr_is_coord) {
 
-				pmt::pmt_t cdr;
+			pmt::pmt_t cdr;
 
-				if(pmt::is_pair(frame)) {
-					cdr = pmt::cdr(frame);
-				} else {
-					assert(false);
+			if(pmt::is_pair(frame)) {
+				cdr = pmt::cdr(frame);
+			} else {
+				assert(false);
+			}
+
+			size_t len = pmt::blob_length(cdr);
+
+			if(len < 1 && len != 6) return; // Frame is too short!
+
+			char* pkg = (char*) pmt::blob_data(cdr);
+			pkg[len - 1] = '\0';
+			len = len - 1;
+			pkg = (char*) pmt::blob_data(cdr);
+			uint16_t crc = crc16(pkg, len);
+
+			/* RNP */
+			if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'G') {
+				int payload_len = len - 10;
+				char payload[payload_len + 1];
+
+				for(int i = 0; i < payload_len; i++) {
+					payload[i] = pkg[10 + i];
 				}
+				payload[payload_len] = '\0';
 
-				size_t len = pmt::blob_length(cdr);
+				std::string str(payload);
 
-				if(len < 1 && len != 6) return; // Frame is too short!
+				double rnp;
+				std::istringstream s(str);
+				s >> rnp;
 
-				char* pkg = (char*) pmt::blob_data(cdr);
-				pkg[len - 1] = '\0';
-				len = len - 1;
-				pkg = (char*) pmt::blob_data(cdr);
-				uint16_t crc = crc16(pkg, len);
+				pr_rnp_sum += rnp;
+			}
 
-				/* RNP */
-				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'G') {
-					int payload_len = len - 10;
-					char payload[payload_len + 1];
+			else if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'I') {
+				int payload_len = len - 10;
+				char payload[payload_len + 1];
 
-					for(int i = 0; i < payload_len; i++) {
-						payload[i] = pkg[10 + i];
-					}
-					payload[payload_len] = '\0';
-
-					std::string str(payload);
-
-					double rnp;
-					std::istringstream s(str);
-					s >> rnp;
-
-					pr_rnp_sum += rnp;
+				for(int i = 0; i < payload_len; i++) {
+					payload[i] = pkg[10 + i];
 				}
+				payload[payload_len] = '\0';
 
-				else if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'I') {
-					int payload_len = len - 10;
-					char payload[payload_len + 1];
+				std::string str(payload);
 
-					for(int i = 0; i < payload_len; i++) {
-						payload[i] = pkg[10 + i];
-					}
-					payload[payload_len] = '\0';
+				double snr;
+				std::istringstream s(str);
+				s >> snr;
 
-					std::string str(payload);
+				pr_snr_sum += snr;
+			}
 
-					double snr;
-					std::istringstream s(str);
-					s >> snr;
+			/* Throughput */
+			else if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'H') {
+				int payload_len = len - 10;
+				char payload[payload_len + 1];
 
-					pr_snr_sum += snr;
+				for(int i = 0; i < payload_len; i++) {
+					payload[i] = pkg[10 + i];
 				}
+				payload[payload_len] = '\0';
 
-				/* Throughput */
-				else if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'H') {
-					int payload_len = len - 10;
-					char payload[payload_len + 1];
+				std::string str(payload);
 
-					for(int i = 0; i < payload_len; i++) {
-						payload[i] = pkg[10 + i];
-					}
-					payload[payload_len] = '\0';
+				double thr;
+				std::istringstream s(str);
+				s >> thr;
 
-					std::string str(payload);
+				pr_thr_sum += thr;
+			}
 
-					double thr;
-					std::istringstream s(str);
-					s >> thr;
-
-					pr_thr_sum += thr;
-				}
-
-				/* Data frame */
-				else {
-					message_port_pub(msg_port_data_frame_out, frame);
-				}
+			/* Data frame */
+			else {
+				message_port_pub(msg_port_data_frame_out, frame);
 			}
 		}
 

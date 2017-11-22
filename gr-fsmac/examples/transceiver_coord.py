@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Wed Nov 22 16:29:35 2017
+# Generated: Wed Nov 22 19:36:06 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -159,6 +159,7 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.msg_connect((self.fsmac_exchanger_0, 'app out'), (self.ieee802_15_4_rime_stack_0, 'fromMAC'))    
         self.msg_connect((self.fsmac_latency_sensor_0, 'dec out'), (self.fsmac_ml_decision_0, 'sensor 2 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'send request'), (self.fsmac_csma_0, 'ctrl in'))    
+        self.msg_connect((self.fsmac_metrics_sensor_0, 'data frame out'), (self.fsmac_exchanger_0, 'mac in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'rnp out'), (self.fsmac_ml_decision_0, 'sensor 3 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'snr out'), (self.fsmac_ml_decision_0, 'sensor 4 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'thr out'), (self.fsmac_ml_decision_0, 'max in'))    
@@ -170,7 +171,6 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.msg_connect((self.fsmac_tdma_0, 'app out'), (self.fsmac_exchanger_0, 'p2_app in'))    
         self.msg_connect((self.fsmac_tdma_0, 'ctrl out'), (self.fsmac_exchanger_0, 'p2_ctrl in'))    
         self.msg_connect((self.fsmac_tdma_0, 'pdu out'), (self.fsmac_exchanger_0, 'p2_mac in'))    
-        self.msg_connect((self.ieee802_15_4_oqpsk_phy_0, 'rxout'), (self.fsmac_exchanger_0, 'mac in'))    
         self.msg_connect((self.ieee802_15_4_oqpsk_phy_0, 'rxout'), (self.fsmac_latency_sensor_0, 'pdu in'))    
         self.msg_connect((self.ieee802_15_4_oqpsk_phy_0, 'rxout'), (self.fsmac_metrics_sensor_0, 'frame in'))    
         self.msg_connect((self.ieee802_15_4_oqpsk_phy_0, 'rxout'), (self.fsmac_sens_num_senders_0, 'pdu in'))    
