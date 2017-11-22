@@ -69,4 +69,10 @@
     <type>message</type>
     <optional>1</optional>
   </source>
+
+  <source>
+    <name>data frame out</name>
+    <type>message</type>
+    <optional>1</optional>
+  </source>
 </block>

@@ -43,6 +43,7 @@ class metrics_sensor_impl : public metrics_sensor {
 		pmt::pmt_t msg_port_snr_out;
 		pmt::pmt_t msg_port_throughput_out;
 		pmt::pmt_t msg_port_request_metrics;
+		pmt::pmt_t msg_port_data_frame_out;
 
 		// Parameters
 		uint8_t pr_periodicity;
@@ -66,6 +67,7 @@ class metrics_sensor_impl : public metrics_sensor {
 			msg_port_rnp_out = pmt::mp("rnp out");
 			msg_port_snr_out = pmt::mp("snr out");
 			msg_port_throughput_out = pmt::mp("thr out");
+			msg_port_data_frame_out = pmt::mp("data frame out");
 			msg_port_request_metrics = pmt::mp("send request");
 			msg_port_rx_in = pmt::mp("frame in");
 
@@ -75,6 +77,7 @@ class metrics_sensor_impl : public metrics_sensor {
 			message_port_register_out(msg_port_rnp_out);
 			message_port_register_out(msg_port_snr_out);
 			message_port_register_out(msg_port_throughput_out);
+			message_port_register_out(msg_port_data_frame_out);
 			message_port_register_out(msg_port_request_metrics);
 
 			pr_rnp_sum = 0;
@@ -130,7 +133,7 @@ class metrics_sensor_impl : public metrics_sensor {
 					pr_rnp_sum += rnp;
 				}
 
-				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'I') {
+				else if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'I') {
 					int payload_len = len - 10;
 					char payload[payload_len + 1];
 
@@ -149,7 +152,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				}
 
 				/* Throughput */
-				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'H') {
+				else if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'H') {
 					int payload_len = len - 10;
 					char payload[payload_len + 1];
 
@@ -165,6 +168,11 @@ class metrics_sensor_impl : public metrics_sensor {
 					s >> thr;
 
 					pr_thr_sum += thr;
+				}
+
+				/* Data frame */
+				else {
+					message_port_pub(msg_port_data_frame_out, frame);
 				}
 			}
 		}
