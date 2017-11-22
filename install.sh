@@ -85,6 +85,9 @@ cd ~/
 #git clone https://github.com/jeffRayneres/FS-MAC
 cd FS-MACplus
 cd gr-fsmac
+if [[ -e build ]]; then
+	sudo rm -rf build;
+fi
 mkdir build
 cd build
 cmake ../

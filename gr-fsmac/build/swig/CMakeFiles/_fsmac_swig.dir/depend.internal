@@ -10,7 +10,7 @@ swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o
  ../include/fsmac/sens_num_senders.h
  ../include/fsmac/snr.h
  ../include/fsmac/tdma.h
- /home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac_swigPYTHON_wrap.cxx
+ /home/andregomes/FS-MACplus/gr-fsmac/build/swig/fsmac_swigPYTHON_wrap.cxx
  /usr/include/gnuradio/swig/gnuradio_swig_bug_workaround.h
  /usr/include/python2.7/Python.h
  /usr/include/python2.7/abstract.h

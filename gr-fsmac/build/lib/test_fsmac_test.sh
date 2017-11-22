@@ -1,9 +1,9 @@
 #!/bin/sh
 export VOLK_GENERIC=1
 export GR_DONT_LOAD_PREFS=1
-export srcdir=/home/gnuradio/FS-MACplus/gr-fsmac/lib
+export srcdir=/home/andregomes/FS-MACplus/gr-fsmac/lib
 export GR_CONF_CONTROLPORT_ON=False
-export PATH=/home/gnuradio/FS-MACplus/gr-fsmac/build/lib:$PATH
-export LD_LIBRARY_PATH=/home/gnuradio/FS-MACplus/gr-fsmac/build/lib:$LD_LIBRARY_PATH
+export PATH=/home/andregomes/FS-MACplus/gr-fsmac/build/lib:$PATH
+export LD_LIBRARY_PATH=/home/andregomes/FS-MACplus/gr-fsmac/build/lib:$LD_LIBRARY_PATH
 export PYTHONPATH=$PYTHONPATH
 test-fsmac 
