@@ -32,7 +32,7 @@ using namespace gr::fsmac;
 
 class exchanger_impl : public exchanger {
     int active_protocol = 1;
-    int next_protocol = 1;
+    int next_protocol = 2;
     int state = 0;
     bool sending = false;
     boost::shared_ptr<gr::thread::thread> activeProtSender;

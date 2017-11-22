@@ -357,16 +357,17 @@ public:
                 std::cout << "Send throughput" << std::endl;
 
                 d_end_time = std::chrono::high_resolution_clock::now();
-                float duration_ms = (float) std::chrono::duration_cast<std::chrono::milliseconds>(d_end_time - d_start_time).count();
+                float duration = (float) std::chrono::duration_cast<std::chrono::seconds>(d_end_time - d_start_time).count();
                 float thr;
 
-                if(duration_ms > 0) {
-                    thr = d_confirmed_pkts/duration_ms; // KFps (kilo frames per second).
+                if(duration > 0) {
+                    thr = d_confirmed_pkts/duration; // KFps (kilo frames per second).
                 } else {
                     thr = 0; // No time window to take measurement.
                 }
 
                 d_start_time = std::chrono::high_resolution_clock::now();
+                d_confirmed_pkts = 0;
 
                 std::ostringstream ss;
                 ss << thr;

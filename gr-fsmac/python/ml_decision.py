@@ -131,13 +131,13 @@ class ml_decision(gr.basic_block):
 			if self.sensor_1 != None and self.sensor_2 != None and self.sensor_3 != None and self.sensor_4 != None and self.max != None:
 				print "Number of nodes = " + str(self.sensor_1) + "\nLatency = " + str(self.sensor_2) + "\nRNP = " + str(self.sensor_3) + "\nSNR = " + str(self.sensor_4) + "\nThroughput (Frames/sec)= " + str(self.max);
 			else:
-				print "Counters are incomplete!"
+				print "Counters are incomplete!";
 
 			# Reseting counters
 			self.max = self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
 
-			csma = 100.0;
-			tdma = 0.0;
+			csma = 0.0;
+			tdma = 100.0;
 
 			pmt_dict = pmt.make_dict();
 

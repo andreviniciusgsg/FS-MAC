@@ -395,16 +395,17 @@ public:
                 std::cout << "Send throughput" << std::endl;
 
                 d_end_time = std::chrono::high_resolution_clock::now();
-                float duration_ms = (float) std::chrono::duration_cast<std::chrono::milliseconds>(d_end_time - d_start_time).count();
+                float duration = (float) std::chrono::duration_cast<std::chrono::seconds>(d_end_time - d_start_time).count();
                 float thr;
 
-                if(duration_ms > 0) {
-                    thr = d_confirmed_pkts/duration_ms; // KFps (kilo frames per second).
+                if(duration > 0) {
+                    thr = d_confirmed_pkts/duration; // KFps (kilo frames per second).
                 } else {
                     thr = 0; // No time window to take measurement.
                 }
 
                 d_start_time = std::chrono::high_resolution_clock::now();
+                d_confirmed_pkts = 0;
 
                 std::ostringstream ss;
                 ss << thr;
@@ -804,7 +805,7 @@ public:
                 finalizaContagemLatencia();
                 
                 if (canCompute) {
-                    numPackConfirmados++;
+                    numPackConfirmados++; d_confirmed_pkts++;
                 }
 
                 if (d_debug) {
@@ -1076,7 +1077,7 @@ public:
     void runSending() {
         //        printf("TDMA: Entrou na runSending()\n");
 
-        while ((!sendList.empty() || !commandList.empty()) && !exchanging) {
+        if ((!sendList.empty() || !commandList.empty()) && !exchanging) {
             //printf("TDMA: Entrou no IF de envios FS-MAC\n");
             if (!commandList.empty()) {
                 SendPackage* packToSend = commandList.front();
@@ -1131,13 +1132,13 @@ public:
         if (!comm_ready) {
             if (pack->getResends() == 0) {
                 if (canCompute) {
-                    numPackEnviados++;
+                    numPackEnviados++; d_rnp_nr_pkts++;
                 }
                 iniciaContagemLatencia();
                 iniciaContagemLatenciaParaSensor();
             } else {
                 if(canCompute){
-                    numRetransmissoes++;                    
+                    numRetransmissoes++; d_rnp_rtx++;                
                 }
             }
         } else if (comm_ready) {
