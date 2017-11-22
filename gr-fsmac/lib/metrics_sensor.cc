@@ -112,7 +112,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				uint16_t crc = crc16(pkg, len);
 
 				/* RNP */
-				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'R') {
+				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'r') {
 					int payload_len = len - 10;
 					char payload[payload_len + 1];
 
@@ -130,7 +130,7 @@ class metrics_sensor_impl : public metrics_sensor {
 					pr_rnp_sum += rnp;
 				}
 
-				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'S') {
+				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 's') {
 					int payload_len = len - 10;
 					char payload[payload_len + 1];
 
@@ -149,7 +149,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				}
 
 				/* Throughput */
-				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'T') {
+				if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 't') {
 					int payload_len = len - 10;
 					char payload[payload_len + 1];
 

@@ -303,7 +303,7 @@ public:
         uint16_t crc = crc16(recPackage, data_len);
         
         if(crc == 0){
-            if(recPackage[0] == 0x41 && !is_coordinator && recPackage[9] != 'L'){
+            if(recPackage[0] == 0x41 and !is_coordinator and recPackage[9] != 'L' and recPackage[9] != 'R' and recPackage[9] != 'S' and recPackage[9] != 'T'){
 //                pmt::print(msg);
                 int prot1_number;
                 if(recPackage[9] == '1'){

@@ -84,6 +84,10 @@ class ml_decision(gr.basic_block):
 
 	def handle_act_protocol(self, msg):
 		self.act_protocol = pmt.to_uint64(msg);
+		if self.act_protocol == 1:
+			print "Active protocol: CSMA";
+		elif self.act_protocol == 2:
+			print "Active protocol: TDMA";
 
 	# This sensor is responsible for number of nodes.
 	def handle_sensor_1(self, msg): 
@@ -132,8 +136,8 @@ class ml_decision(gr.basic_block):
 			# Reseting counters
 			self.max = self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
 
-			csma = 0.0;
-			tdma = 100.0;
+			csma = 100.0;
+			tdma = 0.0;
 
 			pmt_dict = pmt.make_dict();
 

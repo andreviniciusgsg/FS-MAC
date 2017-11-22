@@ -775,7 +775,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(48, 441)</value>
+      <value>(48, 497)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -3284,12 +3284,6 @@
     <sink_block_id>fsmac_ml_decision_0</sink_block_id>
     <source_key>dec out</source_key>
     <sink_key>sensor 1 in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>fsmac_snr_0</source_block_id>
-    <sink_block_id>fsmac_csma_0</sink_block_id>
-    <source_key>snr out</source_key>
-    <sink_key>snr in</sink_key>
   </connection>
   <connection>
     <source_block_id>fsmac_snr_0</source_block_id>

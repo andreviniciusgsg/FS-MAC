@@ -375,7 +375,7 @@ public:
                 addr_d[0] = addr_bc_1;
                 addr_d[1] = addr_bc_2;
 
-                char comm = 'R';
+                char comm = 'r';
 
                 int size = (int) (ssize_t) rnp_str.length();
 
@@ -416,7 +416,7 @@ public:
                 char pack_request[256];
                 char addr_d[2] = {addr_bc_1, addr_bc_2};
 
-                char comm = 'T';
+                char comm = 't';
 
                 int size = (int) (ssize_t) thr_str.length();
 
@@ -447,7 +447,7 @@ public:
                 char pack_request[256];
                 char addr_d[2] = {addr_bc_1, addr_bc_2};
 
-                char comm = 'S';
+                char comm = 's';
 
                 int size = (int) (ssize_t) snr_str.length();
 
@@ -1076,7 +1076,7 @@ public:
     void runSending() {
         //        printf("TDMA: Entrou na runSending()\n");
 
-        if ((!sendList.empty() || !commandList.empty()) && !exchanging) {
+        while ((!sendList.empty() || !commandList.empty()) && !exchanging) {
             //printf("TDMA: Entrou no IF de envios FS-MAC\n");
             if (!commandList.empty()) {
                 SendPackage* packToSend = commandList.front();
