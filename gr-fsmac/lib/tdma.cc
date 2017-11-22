@@ -519,25 +519,31 @@ public:
 
             switch (getPackType(recPackage)) {
                 case TYPE_ACK:
+                    std::cout << "ACK frame" << std::endl << std::flush;
                     handleAck(recPackage);
                     break;
 
                 case TYPE_DATA:
+                    std::cout << "Data frame" << std::endl << std::flush;
                     handleDataPack(recPackage, data_len);
                     break;
 
                 case TYPE_BEACON_SYNC:
+                    std::cout << "Sync frame" << std::endl << std::flush;
                     handleSyncBeacon(recPackage, data_len);
                     break;
 
                 case TYPE_BEACON_ALOC:
+                    std::cout << "Aloc frame" << std::endl << std::flush;
                     handleAlocBeacon(recPackage, data_len);
                     break;
 
                 case TYPE_REQUEST_COM:
+                    std::cout << "Request com frame" << std::endl << std::flush;
                     handleRequestCom(recPackage);
                     break;
                 default:
+                    std::cout << "Unknown frame" << std::endl << std::flush;
 //                    printf("Unknown type pack");
                     printf(" ");
             }
