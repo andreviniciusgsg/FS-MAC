@@ -3257,9 +3257,15 @@
   </connection>
   <connection>
     <source_block_id>fsmac_metrics_sensor_0</source_block_id>
-    <sink_block_id>fsmac_exchanger_0</sink_block_id>
+    <sink_block_id>fsmac_csma_0</sink_block_id>
     <source_key>send request</source_key>
-    <sink_key>dec in</sink_key>
+    <sink_key>ctrl in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fsmac_metrics_sensor_0</source_block_id>
+    <sink_block_id>fsmac_tdma_0</sink_block_id>
+    <source_key>send request</source_key>
+    <sink_key>ctrl in</sink_key>
   </connection>
   <connection>
     <source_block_id>fsmac_metrics_sensor_0</source_block_id>
@@ -3284,6 +3290,12 @@
     <sink_block_id>fsmac_ml_decision_0</sink_block_id>
     <source_key>dec out</source_key>
     <sink_key>sensor 1 in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fsmac_snr_0</source_block_id>
+    <sink_block_id>fsmac_csma_0</sink_block_id>
+    <source_key>snr out</source_key>
+    <sink_key>snr in</sink_key>
   </connection>
   <connection>
     <source_block_id>fsmac_snr_0</source_block_id>

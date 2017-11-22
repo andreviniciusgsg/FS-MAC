@@ -31,7 +31,7 @@
 using namespace gr::fsmac;
 
 class exchanger_impl : public exchanger {
-    int active_protocol = 1;
+    int active_protocol = 2;
     int next_protocol = 2;
     int state = 0;
     bool sending = false;
@@ -171,7 +171,7 @@ public:
 //            printf("EXCH: Entrou no IF do envio de latências\n");
             int command = pmt::to_uint64(msg);
 //            printf("EXCH: Enviou comando periodico de latencia\n");
-            if(command == LATENCY_SENSOR_COMMAND_SEND or command == RNC_COMMAND or command == THROUGHPUT_COMMAND or command == SNR_COMMAND) {
+            if(command == LATENCY_SENSOR_COMMAND_SEND) {
                 if (active_protocol == 1) {
                     message_port_pub(pmt::mp("p1_ctrl out"), msg);
                 } else if (active_protocol == 2) {
@@ -303,7 +303,7 @@ public:
         uint16_t crc = crc16(recPackage, data_len);
         
         if(crc == 0){
-            if(recPackage[0] == 0x41 and !is_coordinator and recPackage[9] != 'L' and recPackage[9] != 'R' and recPackage[9] != 'S' and recPackage[9] != 'T'){
+            if(recPackage[0] == 0x41 and !is_coordinator and recPackage[9] != 'L'){
 //                pmt::print(msg);
                 int prot1_number;
                 if(recPackage[9] == '1'){
@@ -323,7 +323,7 @@ public:
                         message_port_pub(pmt::mp("p1_ctrl out"), exch_command);
                     } else if (active_protocol == 2) {
                         message_port_pub(pmt::mp("p2_ctrl out"), exch_command);
-                    }                    
+                    }
                 }
                 
             }else if (state == NORMAL_STATE) {
