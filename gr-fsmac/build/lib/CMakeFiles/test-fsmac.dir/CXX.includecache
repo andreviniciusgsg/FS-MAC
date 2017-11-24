@@ -6,19 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/home/andregomes/FS-MACplus/gr-fsmac/lib/qa_fsmac.cc
+/home/gnuradio/FS-MACplus/gr-fsmac/lib/qa_fsmac.cc
 qa_fsmac.h
-/home/andregomes/FS-MACplus/gr-fsmac/lib/qa_fsmac.h
+/home/gnuradio/FS-MACplus/gr-fsmac/lib/qa_fsmac.h
 
-/home/andregomes/FS-MACplus/gr-fsmac/lib/qa_fsmac.h
+/home/gnuradio/FS-MACplus/gr-fsmac/lib/qa_fsmac.h
 gnuradio/attributes.h
 -
 cppunit/TestSuite.h
 -
 
-/home/andregomes/FS-MACplus/gr-fsmac/lib/test_fsmac.cc
+/home/gnuradio/FS-MACplus/gr-fsmac/lib/test_fsmac.cc
 config.h
-/home/andregomes/FS-MACplus/gr-fsmac/lib/config.h
+/home/gnuradio/FS-MACplus/gr-fsmac/lib/config.h
 cppunit/TextTestRunner.h
 -
 cppunit/XmlOutputter.h
@@ -26,7 +26,7 @@ cppunit/XmlOutputter.h
 gnuradio/unittests.h
 -
 qa_fsmac.h
-/home/andregomes/FS-MACplus/gr-fsmac/lib/qa_fsmac.h
+/home/gnuradio/FS-MACplus/gr-fsmac/lib/qa_fsmac.h
 iostream
 -
 fstream

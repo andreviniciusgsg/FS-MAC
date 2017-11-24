@@ -1,4 +1,4 @@
-# Install script for directory: /home/andregomes/FS-MACplus/gr-fsmac/python
+# Install script for directory: /home/gnuradio/FS-MACplus/gr-fsmac/python
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,20 +34,20 @@ endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac" TYPE FILE FILES
-    "/home/andregomes/FS-MACplus/gr-fsmac/python/__init__.py"
-    "/home/andregomes/FS-MACplus/gr-fsmac/python/decision.py"
-    "/home/andregomes/FS-MACplus/gr-fsmac/python/ml_decision.py"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/python/__init__.py"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/python/decision.py"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/python/ml_decision.py"
     )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac" TYPE FILE FILES
-    "/home/andregomes/FS-MACplus/gr-fsmac/build/python/__init__.pyc"
-    "/home/andregomes/FS-MACplus/gr-fsmac/build/python/decision.pyc"
-    "/home/andregomes/FS-MACplus/gr-fsmac/build/python/ml_decision.pyc"
-    "/home/andregomes/FS-MACplus/gr-fsmac/build/python/__init__.pyo"
-    "/home/andregomes/FS-MACplus/gr-fsmac/build/python/decision.pyo"
-    "/home/andregomes/FS-MACplus/gr-fsmac/build/python/ml_decision.pyo"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/build/python/__init__.pyc"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/build/python/decision.pyc"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/build/python/ml_decision.pyc"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/build/python/__init__.pyo"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/build/python/decision.pyo"
+    "/home/gnuradio/FS-MACplus/gr-fsmac/build/python/ml_decision.pyo"
     )
 endif()
 

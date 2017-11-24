@@ -143,7 +143,7 @@ class ml_decision(gr.basic_block):
 				print "Counters are incomplete!"
 
 			# What if nodes stop reporting data?? All metrics go to zero. What should be a safe behaviour? Should we take only valid measurements while taking decision? It means >= 4 metrics as inputs.
-			f.write(str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n");
+			f.write(str(self.act_protocol) + "\t" + str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n");
 
 			# Call octave to compute best protocol
 			# ... use oct2py 
