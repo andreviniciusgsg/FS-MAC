@@ -31,13 +31,14 @@ class ml_decision(gr.basic_block):
 	docstring for block ml_decision
 	"""
 
-	def __init__(self, is_coord, alpha):
+	def __init__(self, is_coord, alpha, filename):
 		gr.basic_block.__init__(self, name="ml_decision", in_sig=None, out_sig=None)
 
 		# Variables
 		self.count = 0;
 		self.is_coord = is_coord;
 		self.alpha = alpha;
+		self._filename = filename;
 		self.max = self.act_protocol = self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
 
 		# Input ports
@@ -140,14 +141,13 @@ class ml_decision(gr.basic_block):
 
 	def coord_loop(self, thread_name, sleep_time):
 		i = 0;
+		f = open(self._filename, 'w', 0);
 
 		while True:
 			time.sleep(sleep_time); # In seconds.
 			
-			f = open("my_file.txt", 'w');
 			s = str(self.act_protocol) + "\t" + str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n";
 			f.write(s);
-			f.close();
 
 			# Call octave to compute best protocol
 			# ... use oct2py 
@@ -175,3 +175,5 @@ class ml_decision(gr.basic_block):
 				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
 
 			self.message_port_pub(pmt.intern('out'), pmt_dict);
+
+		f.close();

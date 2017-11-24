@@ -4,7 +4,7 @@
   <key>fsmac_ml_decision</key>
   <category>[FS-MAC 2.0]</category>
   <import>import fsmac</import>
-  <make>fsmac.ml_decision($is_coord, $alpha)</make>
+  <make>fsmac.ml_decision($is_coord, $alpha, $filename)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -30,6 +30,12 @@
     <key>alpha</key>
     <value>0.01</value>
     <type>float</type>
+  </param>
+
+  <param>
+    <name>File</name>
+    <key>filename</key>
+    <type>file_save</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:

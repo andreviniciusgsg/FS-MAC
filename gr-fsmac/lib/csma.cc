@@ -311,9 +311,6 @@ public:
                     cond.notify_all();
                 }
             } else if(command == RNC_COMMAND) {
-
-                std::cout << "Send RNP" << std::endl;
-
                 float rnp;
                 if(d_rnp_nr_pkts > 0) {
                    rnp = d_rnp_rtx/d_rnp_nr_pkts;
@@ -354,8 +351,6 @@ public:
                 data_ready = true;
                 cond.notify_all();
             } else if(command == THROUGHPUT_COMMAND) {
-                std::cout << "Send throughput" << std::endl;
-
                 d_end_time = std::chrono::high_resolution_clock::now();
                 float duration = (float) std::chrono::duration_cast<std::chrono::seconds>(d_end_time - d_start_time).count();
                 float thr;
@@ -398,8 +393,6 @@ public:
                 data_ready = true;
                 cond.notify_all();
             } else if(command = SNR_COMMAND) {
-                std::cout << "Send SNR" << std::endl;
-
                 float snr = d_snr;
 
                 std::ostringstream ss;
@@ -432,10 +425,6 @@ public:
                 cond.notify_all();
             }
         } else if (pmt::is_dict(msg)) {
-//            printf("CSMA: Recebeu fila para trocar protocolo.\n");
-
-            //TODO receber a fila
-
             pmt::pmt_t exch_command = pmt::from_uint64(EXCHANGE_COMMAND_DONE);
             message_port_pub(pmt::mp("ctrl out"), exch_command);
             exchanging = false;

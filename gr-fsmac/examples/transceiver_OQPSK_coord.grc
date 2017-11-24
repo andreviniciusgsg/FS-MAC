@@ -825,6 +825,10 @@
       <value>True</value>
     </param>
     <param>
+      <key>filename</key>
+      <value>/home/gnuradio/out_file.txt</value>
+    </param>
+    <param>
       <key>_coordinate</key>
       <value>(288, 345)</value>
     </param>
