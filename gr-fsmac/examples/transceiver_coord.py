@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Wed Nov 22 19:36:06 2017
+# Generated: Fri Nov 24 14:45:32 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -50,7 +50,7 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         ##################################################
         # Variables
         ##################################################
-        self.gain = gain = 60
+        self.gain = gain = 600e-3
         self.freq = freq = 2480000000
 
         ##################################################
@@ -63,7 +63,7 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         	value=self.gain,
         	callback=self.set_gain,
         	label='gain',
-        	converter=forms.int_converter(),
+        	converter=forms.float_converter(),
         	proportion=0,
         )
         self._gain_slider = forms.slider(
@@ -71,11 +71,11 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         	sizer=_gain_sizer,
         	value=self.gain,
         	callback=self.set_gain,
-        	minimum=1,
-        	maximum=100,
-        	num_steps=100,
+        	minimum=0,
+        	maximum=1,
+        	num_steps=20,
         	style=wx.SL_HORIZONTAL,
-        	cast=int,
+        	cast=float,
         	proportion=1,
         )
         self.Add(_gain_sizer)
@@ -99,7 +99,7 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         )
         self.uhd_usrp_source_0.set_samp_rate(4000000)
         self.uhd_usrp_source_0.set_center_freq(freq, 0)
-        self.uhd_usrp_source_0.set_gain(gain, 0)
+        self.uhd_usrp_source_0.set_normalized_gain(gain, 0)
         self.uhd_usrp_sink_0 = uhd.usrp_sink(
         	",".join(("", "")),
         	uhd.stream_args(
@@ -109,7 +109,7 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         )
         self.uhd_usrp_sink_0.set_samp_rate(4000000)
         self.uhd_usrp_sink_0.set_center_freq(freq, 0)
-        self.uhd_usrp_sink_0.set_gain(gain, 0)
+        self.uhd_usrp_sink_0.set_normalized_gain(gain, 0)
         self.logpwrfft_x_0 = logpwrfft.logpwrfft_c(
         	sample_rate=4e6,
         	fft_size=1024,
@@ -123,7 +123,7 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.fsmac_tdma_0 = fsmac.tdma(1, 2, True, True)
         self.fsmac_snr_0 = fsmac.snr(1024, -70, 2)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
-        self.fsmac_ml_decision_0 = fsmac.ml_decision(True)
+        self.fsmac_ml_decision_0 = fsmac.ml_decision(True, 0.01)
         self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, True)
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(True)
         self.fsmac_exchanger_0 = fsmac.exchanger(True)
@@ -192,9 +192,9 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.gain = gain
         self._gain_slider.set_value(self.gain)
         self._gain_text_box.set_value(self.gain)
-        self.uhd_usrp_sink_0.set_gain(self.gain, 0)
+        self.uhd_usrp_sink_0.set_normalized_gain(self.gain, 0)
         	
-        self.uhd_usrp_source_0.set_gain(self.gain, 0)
+        self.uhd_usrp_source_0.set_normalized_gain(self.gain, 0)
         	
 
     def get_freq(self):
