@@ -1,26 +1,15 @@
 
-##FS-MAC
-FS-MAC é uma arquitetura que promove a flexibilização da subcamada MAC de redes sem fio. Esta arquitetura foi desenvolvida para permitir o uso de mais de um protocolo no controle de acesso ao meio, utilizando cada um na situação em que é mais eficiente.
+# Introduction
+This project is an extension of FS-MAC. You can find more information [here](/home/gnuradio/FS-MACplus/gr-fsmac/examples/transceiver_coord.py). FS-MACplus provides a flexible and smart MAC sublayer. It implements machine learning techniques in order to select the best MAC protocol over time.
 
-##Protótipo
-O protótipo nesse projeto é uma implementação da arquitetura FS-MAC. Ele contém 6 blocos GNU Radio que permitem o completo funcionamento da plataforma.
+# MAC protocols
+FS-MACplus currently has 2 MAC protocols available, CSMA/CA and TDMA.
 
-##Dependências
-Esse protótipo figura como a subcamada MAC da pilha ZigBee e por isso usou a implementação dessa pilha como base para a implementação. Essa e mais algumas dependências estão listadas abaixo:
-- https://github.com/bastibl/gr-ieee802-15-4 (Pilha ZigBee utilizada como base)
-- https://github.com/bastibl/gr-foo
-- https://github.com/osh/gr-eventstream
-- https://github.com/osh/gr-uhdgps
+# Installation
+In order to make life easier, an installation script is provided. It is called `install.sh`. All dependencies are installed by this script. It also installs FS-MACplus. By default, source code and dependencies are downloaded in the `home` directory. If nothing is changed, you should find the FS-MACplus code on `~/FS-MACplus/gr-fsmac`.
 
-##Instalação
-Após instalar as dependências, no diretório raiz **gr-fsmac** execute os seguintes comandos:
-```
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
-sudo ldconfig
-```
-##Exemplos
-No diretório **gr-fsmac/examples** existem três flow graphs já montados para teste. Um deles utiliza o CSMA como camada MAC, outro utiliza o TDMA e outro utiliza a composição da arquitetura FS-MAC substituindo a subcamada MAC da pilha ZigBee.
+# Examples
+You can find some examples on folder gr-fsmac/examples. There are ready-to-go transceivers available. So, feel free to run some examples before to explore the project.
+
+# Contact
+You are free to reach me if you wish to. My email is andre.gomes@dcc.ufmg.br. You can also find more information on [https://homepages.dcc.ufmg.br/~andre.gomes](https://homepages.dcc.ufmg.br/~andre.gomes).
