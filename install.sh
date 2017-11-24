@@ -82,7 +82,7 @@ echo "====== INSTALLING FS-MAC ======"
 echo
 
 cd ~/
-#git clone https://github.com/jeffRayneres/FS-MAC
+git clone https://github.com/andreviniciusgsg/FS-MACplus.git
 cd FS-MACplus
 cd gr-fsmac
 if [[ -e build ]]; then
