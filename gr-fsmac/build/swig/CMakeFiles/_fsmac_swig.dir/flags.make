@@ -6,7 +6,7 @@ CXX_FLAGS = -O3 -DNDEBUG -fPIC   -fvisibility=hidden -std=gnu++11
 
 CXX_DEFINES = -D_fsmac_swig_EXPORTS
 
-CXX_INCLUDES = -I/home/gnuradio/FS-MACplus/gr-fsmac/lib -I/home/gnuradio/FS-MACplus/gr-fsmac/include -I/home/gnuradio/FS-MACplus/gr-fsmac/build/lib -I/home/gnuradio/FS-MACplus/gr-fsmac/build/include -I/home/gnuradio/FS-MACplus/gr-fsmac/build/swig -I/home/gnuradio/FS-MACplus/gr-fsmac/swig -I/usr/include/gnuradio/swig -I/usr/include/python2.7 
+CXX_INCLUDES = -I/home/andregomes/FS-MACplus/gr-fsmac/lib -I/home/andregomes/FS-MACplus/gr-fsmac/include -I/home/andregomes/FS-MACplus/gr-fsmac/build/lib -I/home/andregomes/FS-MACplus/gr-fsmac/build/include -I/home/andregomes/FS-MACplus/gr-fsmac/build/swig -I/home/andregomes/FS-MACplus/gr-fsmac/swig -I/usr/include/gnuradio/swig -I/usr/include/python2.7 
 
 # Custom flags: swig/CMakeFiles/_fsmac_swig.dir/fsmac_swigPYTHON_wrap.cxx.o_FLAGS = -Wno-unused-but-set-variable
 

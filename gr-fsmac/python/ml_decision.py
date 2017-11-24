@@ -31,11 +31,14 @@ class ml_decision(gr.basic_block):
 	docstring for block ml_decision
 	"""
 
-	def __init__(self, is_coord):
+	def __init__(self, is_coord, alpha):
 		gr.basic_block.__init__(self, name="ml_decision", in_sig=None, out_sig=None)
 
 		# Variables
+		self.logfile = "log_file_results_to_analysis.txt";
+		self.count = 0;
 		self.is_coord = is_coord;
+		self.alpha = alpha;
 		self.max = self.act_protocol = self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
 
 		# Input ports
@@ -80,7 +83,8 @@ class ml_decision(gr.basic_block):
 		if self.is_coord:
 			thr = pmt.to_float(msg);
 			if not np.isnan(thr):
-				self.max = thr;
+				self.max = thr*self.alpha + (1 - self.alpha)*self.max;
+				self.count = self.count + 1;
 
 	def handle_act_protocol(self, msg):
 		self.act_protocol = pmt.to_uint64(msg);
@@ -93,15 +97,17 @@ class ml_decision(gr.basic_block):
 	def handle_sensor_1(self, msg): 
 		non = pmt.to_uint64(msg);
 		if not np.isnan(non):
-			self.sensor_1 = non;
+			self.sensor_1 = non*self.alpha + (1 - self.alpha)*self.sensor_1;
 			print "Number of nodes = " + str(self.sensor_1);
+			self.count = self.count + 1;
 
 	# This sensor is responsible for latency.
 	def handle_sensor_2(self, msg):
 		if self.is_coord:
 			latency = pmt.to_float(msg);
 			if not np.isnan(latency):
-				self.sensor_2 = latency;
+				self.sensor_2 = latency*self.alpha + (1 - self.alpha)*self.sensor_2;
+				self.count = self.count + 1;
 				print "Latency = " + str(self.sensor_2);
 		else:
 			self.message_port_pub(pmt.intern("out"), msg);
@@ -111,30 +117,38 @@ class ml_decision(gr.basic_block):
 		if self.is_coord:
 			rnp = pmt.to_float(msg);
 			if not np.isnan(rnp):
-				self.sensor_3 = rnp;
+				self.sensor_3 = rnp*self.alpha + (1 - self.alpha)*self.sensor_3;
+				self.count = self.count + 1;
 
 	# This sensor is responsible for SNR.
 	def handle_sensor_4(self, msg):
 		if self.is_coord:
 			snr = pmt.to_float(msg);
 			if not np.isnan(snr):
-				self.sensor_4 = snr;
+				self.sensor_4 = snr*self.alpha + (1 - self.alpha)*self.sensor_4;
+				self.count = self.count + 1;
 
 	def handle_sensor_5(self, msg):
 		print "Nothing on this sensor";
 
 	def coord_loop(self, thread_name, sleep_time):
 		i = 0;
+		f = open(self.logfile, 'w');
 		while True:
 			time.sleep(sleep_time); # In seconds.
 
-			if self.sensor_1 != None and self.sensor_2 != None and self.sensor_3 != None and self.sensor_4 != None and self.max != None:
+			if self.count >= 4:
 				print "Number of nodes = " + str(self.sensor_1) + "\nLatency = " + str(self.sensor_2) + "\nRNP = " + str(self.sensor_3) + "\nSNR = " + str(self.sensor_4) + "\nThroughput (Frames/sec)= " + str(self.max);
 			else:
 				print "Counters are incomplete!"
 
-			# Reseting counters
-			self.max = self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
+			# What if nodes stop reporting data?? All metrics go to zero. What should be a safe behaviour? Should we take only valid measurements while taking decision? It means >= 4 metrics as inputs.
+			f.write(str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n");
+
+			# Call octave to compute best protocol
+			# ... use oct2py 
+
+			self.count = 0;
 
 			if i < 5:
 				csma = 0.0;

@@ -1,4 +1,4 @@
-# Install script for directory: /home/gnuradio/FS-MACplus/gr-fsmac/swig
+# Install script for directory: /home/andregomes/FS-MACplus/gr-fsmac/swig
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,12 +39,12 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac/_fsmac_swig.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac" TYPE MODULE FILES "/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/_fsmac_swig.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac" TYPE MODULE FILES "/home/andregomes/FS-MACplus/gr-fsmac/build/swig/_fsmac_swig.so")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac/_fsmac_swig.so" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac/_fsmac_swig.so")
     file(RPATH_CHANGE
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac/_fsmac_swig.so"
-         OLD_RPATH "/home/gnuradio/FS-MACplus/gr-fsmac/build/lib:"
+         OLD_RPATH "/home/andregomes/FS-MACplus/gr-fsmac/build/lib:"
          NEW_RPATH "")
     if(CMAKE_INSTALL_DO_STRIP)
       execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac/_fsmac_swig.so")
@@ -53,20 +53,20 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac" TYPE FILE FILES "/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac_swig.py")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac" TYPE FILE FILES "/home/andregomes/FS-MACplus/gr-fsmac/build/swig/fsmac_swig.py")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages/fsmac" TYPE FILE FILES
-    "/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac_swig.pyc"
-    "/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac_swig.pyo"
+    "/home/andregomes/FS-MACplus/gr-fsmac/build/swig/fsmac_swig.pyc"
+    "/home/andregomes/FS-MACplus/gr-fsmac/build/swig/fsmac_swig.pyo"
     )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/fsmac/fsmac/swig" TYPE FILE FILES
-    "/home/gnuradio/FS-MACplus/gr-fsmac/swig/fsmac_swig.i"
-    "/home/gnuradio/FS-MACplus/gr-fsmac/build/swig/fsmac_swig_doc.i"
+    "/home/andregomes/FS-MACplus/gr-fsmac/swig/fsmac_swig.i"
+    "/home/andregomes/FS-MACplus/gr-fsmac/build/swig/fsmac_swig_doc.i"
     )
 endif()
 
