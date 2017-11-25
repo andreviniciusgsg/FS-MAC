@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Fri Nov 24 15:45:33 2017
+# Generated: Sat Nov 25 10:51:34 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -120,14 +120,14 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         )
         self.ieee802_15_4_rime_stack_0 = ieee802_15_4.rime_stack(([129]), ([131]), ([132]), ([23,42]))
         self.ieee802_15_4_oqpsk_phy_0 = ieee802_15_4_oqpsk_phy()
-        self.fsmac_tdma_0 = fsmac.tdma(1, 2, True, True)
+        self.fsmac_tdma_0 = fsmac.tdma(7, 2, True, False)
         self.fsmac_snr_0 = fsmac.snr(1024, -70, 2)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
-        self.fsmac_ml_decision_0 = fsmac.ml_decision(True, 0.01, "/home/gnuradio/out_file.txt")
-        self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, True)
-        self.fsmac_latency_sensor_0 = fsmac.latency_sensor(True)
-        self.fsmac_exchanger_0 = fsmac.exchanger(True)
-        self.fsmac_csma_0 = fsmac.csma(1, 2, True)
+        self.fsmac_ml_decision_0 = fsmac.ml_decision(False, 0.01, "")
+        self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, False)
+        self.fsmac_latency_sensor_0 = fsmac.latency_sensor(False)
+        self.fsmac_exchanger_0 = fsmac.exchanger(False)
+        self.fsmac_csma_0 = fsmac.csma(7, 2, True)
         self.es_trigger_sample_timer_0 = es.trigger_sample_timer(gr.sizeof_gr_complex, int(1000), 2, int(4000000), 512 )
         self.es_sink_0 = es.sink(1*[gr.sizeof_gr_complex],8,64,0,2,0)
         self.es_handler_pdu_0 = es.es_make_handler_pdu(es.es_handler_print.TYPE_C32)

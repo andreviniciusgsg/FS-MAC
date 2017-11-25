@@ -145,7 +145,7 @@ class ml_decision(gr.basic_block):
 
 		while True:
 			time.sleep(sleep_time); # In seconds.
-			
+
 			s = str(self.act_protocol) + "\t" + str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n";
 			f.write(s);
 
