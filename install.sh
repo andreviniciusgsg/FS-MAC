@@ -86,7 +86,7 @@ echo
 echo "====== Oct2Py ======"
 echo
 sudo apt install python-pip
-pip install oct2py
+sudo pip install oct2py
 
 echo
 echo "====== INSTALLING FS-MAC ======"
