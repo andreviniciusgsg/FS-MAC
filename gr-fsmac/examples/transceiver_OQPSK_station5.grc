@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>transceiver_coord</value>
+      <value>transceiver_s5</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -293,7 +293,7 @@
     </param>
     <param>
       <key>period</key>
-      <value>5e3</value>
+      <value>200</value>
     </param>
   </block>
   <block>
@@ -638,7 +638,7 @@
     </param>
     <param>
       <key>dest_node</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -658,7 +658,7 @@
     </param>
     <param>
       <key>mac_addr</key>
-      <value>6</value>
+      <value>5</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -963,7 +963,7 @@
     </param>
     <param>
       <key>dest_node</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -983,7 +983,7 @@
     </param>
     <param>
       <key>mac_addr</key>
-      <value>6</value>
+      <value>5</value>
     </param>
     <param>
       <key>maxoutbuf</key>

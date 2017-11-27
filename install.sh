@@ -78,6 +78,17 @@ cd ../examples
 grcc ieee802_15_4_OQPSK_PHY.grc
 
 echo
+echo "====== Octave ======"
+echo
+sudo apt install octave
+
+echo
+echo "====== Oct2Py ======"
+echo
+sudo apt install python-pip
+pip install oct2py
+
+echo
 echo "====== INSTALLING FS-MAC ======"
 echo
 
