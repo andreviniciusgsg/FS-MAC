@@ -849,6 +849,10 @@
       <value>0</value>
     </param>
     <param>
+      <key>oct_path</key>
+      <value>/home/gnuradio/FS-MACplus/gr-fsmac/octave</value>
+    </param>
+    <param>
       <key>is_coord</key>
       <value>True</value>
     </param>

@@ -25,20 +25,21 @@ import pmt
 import numpy as np 
 import time
 import thread
+from oct2py import octave as oc
 
 class ml_decision(gr.basic_block):
 	"""
 	docstring for block ml_decision
 	"""
 
-	def __init__(self, is_coord, alpha, filename):
+	def __init__(self, is_coord, alpha, filename, oct_path):
 		gr.basic_block.__init__(self, name="ml_decision", in_sig=None, out_sig=None)
 
 		# Variables
-		self.count = 0;
 		self.is_coord = is_coord;
 		self.alpha = alpha;
 		self._filename = filename;
+		self._oct_path = oct_path;
 		self.max = self.act_protocol = self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
 
 		# Input ports
@@ -140,40 +141,37 @@ class ml_decision(gr.basic_block):
 		print "Nothing on this sensor";
 
 	def coord_loop(self, thread_name, sleep_time):
-		i = 0;
-		f = open(self._filename, 'w', 0);
+		f = open(self._filename, 'a', 0);
+		oct_path = self._oct_path;
+
+		print self._oct_path;
+		oc.addpath(self._oct_path);
 
 		while True:
 			time.sleep(sleep_time); # In seconds.
 
-			s = str(self.act_protocol) + "\t" + str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n";
-			f.write(s);
+			if self.act_protocol != None and self.max != None and self.sensor_1 != None and self.sensor_2 != None and self.sensor_3 != None and self.sensor_4 != None:
+				s = str(self.act_protocol) + "\t" + str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n";
+				f.write(s);
 
-			# Call octave to compute best protocol
-			# ... use oct2py 
+				result = oc.select_protocol(self._filename, self.act_protocol, self.max);
 
-			self.count = 0;
+				if result == 1:
+					csma = 100.0;
+					tdma = 0.0;
+				elif result == 2:
+					csma = 0.0;
+					tdma = 100.0;
 
-			if i < 5:
-				csma = 0.0;
-				tdma = 100.0;
-			elif i < 10:
-				csma = 100.0;
-				tdma = 0.0;
-			else:
-				csma = 0.0;
-				tdma = 100.0;
-			i = i + 1;
+				pmt_dict = pmt.make_dict();
 
-			pmt_dict = pmt.make_dict();
+				if csma > tdma:
+					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
+					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
+				else:
+					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
+					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
 
-			if csma > tdma:
-				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
-				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
-			else:
-				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
-				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
-
-			self.message_port_pub(pmt.intern('out'), pmt_dict);
+				self.message_port_pub(pmt.intern('out'), pmt_dict);
 
 		f.close();

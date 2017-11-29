@@ -4,7 +4,7 @@
   <key>fsmac_ml_decision</key>
   <category>[FS-MAC 2.0]</category>
   <import>import fsmac</import>
-  <make>fsmac.ml_decision($is_coord, $alpha, $filename)</make>
+  <make>fsmac.ml_decision($is_coord, $alpha, $filename, $oct_path)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -36,6 +36,12 @@
     <name>File</name>
     <key>filename</key>
     <type>file_save</type>
+  </param>
+
+  <param>
+    <name>Octave path</name>
+    <key>oct_path</key>
+    <type>string</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -99,5 +105,7 @@
 
   <doc>
     Alpha is a parameter for the moving average of inputs. This aims a smooth pick up of best MAC protocol.
+
+    Octave path: It should be ~/FS-MACplus/gr-fsmac/octave. If you installed FS-MACplus in a different directory, make sure to point it out to the right one.
   </doc>
 </block>
