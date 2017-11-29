@@ -17,6 +17,8 @@ FS-MAC+ depends on dependencies from both FS-MAC and IEEE 802.15.4 ZigBee Transc
 # Installation
 In order to make life easier, an installation script is provided. It is called `install.sh`. All dependencies are installed by this script. It also installs FS-MAC+. By default, source code and dependencies are downloaded in the `home` directory. If nothing is changed, you should find the FS-MAC+ code on `~/FS-MACplus/gr-fsmac`.
 
+Attention! `install.sh`assumes you already have Gnu Radio installed on you computer. If it is not the case, install Gnu Radio before executing `install.sh`. You can find more information about Gnu Radio installation on this [link](https://wiki.gnuradio.org/index.php/InstallingGR). `install.sh` also assumes Ubuntu as the host O.S. I have tested it on Ubuntu 16.04 but I am quite confident you would have no problem using any 16.04+. Please, report any errors.
+
 # Examples
 You can find some examples on folder gr-fsmac/examples. There are ready-to-go transceivers available. So, feel free to run some examples before to explore the project.
 
