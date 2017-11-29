@@ -142,9 +142,6 @@ class ml_decision(gr.basic_block):
 
 	def coord_loop(self, thread_name, sleep_time):
 		f = open(self._filename, 'a', 0);
-		oct_path = self._oct_path;
-
-		print self._oct_path;
 		oc.addpath(self._oct_path);
 
 		while True:
