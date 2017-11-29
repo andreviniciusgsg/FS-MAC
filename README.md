@@ -3,7 +3,7 @@
 Be carefull! It's still a work in progress. You may find it difficult to use right now and probably several problems. It will get better as soon as the project ends or reach a senior stage.
 
 # Introduction
-This project is an extension of FS-MAC. You can find more information [here](https://github.com/jeffRayneres/FS-MAC). FS-MAC+ provides a flexible and smart MAC sublayer. It implements machine learning techniques in order to select the best MAC protocol over time.
+This project is an extension of FS-MAC. You can find more information [here](https://github.com/jeffRayneres/FS-MAC). FS-MAC+ provides a flexible and smart MAC sublayer. It implements machine learning techniques in order to select the best MAC protocol over time. All the implementation is done in Gnu Radio ([see more details](http://gnuradio.org/)) and using USRP Software Defined Radios ([see more details](https://www.ettus.com/)).
 
 # MAC protocols
 FS-MAC+ currently has 2 MAC protocols available, CSMA/CA and TDMA.
