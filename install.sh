@@ -1,4 +1,6 @@
 #!/bin/bash
+sudo apt update
+
 echo
 echo "====== INSTALLING swig ======"
 sudo apt-get install swig
@@ -86,8 +88,9 @@ echo
 echo "====== Oct2Py ======"
 echo
 sudo apt install python-pip
-sudo pip install oct2py
 sudo pip install --upgrade pip
+sudo pip install oct2py
+sudo pip install scipy
 
 echo
 echo "====== INSTALLING FS-MAC ======"
