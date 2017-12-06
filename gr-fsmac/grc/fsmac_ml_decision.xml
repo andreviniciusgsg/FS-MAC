@@ -4,12 +4,34 @@
   <key>fsmac_ml_decision</key>
   <category>[FS-MAC 2.0]</category>
   <import>import fsmac</import>
-  <make>fsmac.ml_decision($is_coord, $alpha, $filename, $oct_path)</make>
+  <make>fsmac.ml_decision($ml_model, $is_coord, $alpha, $filename, $oct_path)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
+
+  <param>
+    <name>Mach. Learning model</name>
+    <key>ml_model</key>
+    <type>int</type>
+
+    <option>
+      <name>Linear SVM</name>
+      <key>0</key>
+    </option>
+
+    <option>
+      <name>SVM</name>
+      <key>1</key>
+    </option>
+
+    <option>
+      <name>NuSVM</name>
+      <key>2</key>
+    </option>
+  </param>
+
   <param>
     <name>Type</name>
     <key>is_coord</key>
@@ -33,7 +55,7 @@
   </param>
 
   <param>
-    <name>File</name>
+    <name>Training file</name>
     <key>filename</key>
     <type>file_save</type>
   </param>
@@ -106,6 +128,6 @@
   <doc>
     Alpha is a parameter for the moving average of inputs. This aims a smooth pick up of best MAC protocol.
 
-    Octave path: It should be ~/FS-MACplus/gr-fsmac/octave. If you installed FS-MACplus in a different directory, make sure to point it out to the right one.
+    In respect to the Machine Learning models, visit www.scikit-learn.org for more details. There you can find more information about subtleties of each model.
   </doc>
 </block>
