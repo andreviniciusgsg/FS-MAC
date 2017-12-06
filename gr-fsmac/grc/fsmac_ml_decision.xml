@@ -41,6 +41,26 @@
       <name>NuSVM</name>
       <key>4</key>
     </option>
+
+    <option>
+      <name>KNeighbors Reg.</name>
+      <key>5</key>
+    </option>
+
+    <option>
+      <name>Decision Tree</name>
+      <key>6</key>
+    </option>
+
+    <option>
+      <name>Neural Net. Reg.</name>
+      <key>7</key>
+    </option>
+
+    <option>
+      <name>Gradient Boosting Reg.</name>
+      <key>8</key>
+    </option>
   </param>
 
   <param>

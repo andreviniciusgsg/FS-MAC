@@ -25,7 +25,11 @@ import pmt
 import numpy as np 
 import time
 import thread
-import sklearn
+from sklearn import svm
+from sklearn.neighbors import KNeighborsRegressor as knn
+from sklearn import tree as dt
+from sklearn.neural_network import MLPRegressor as nnet
+from sklearn.ensemble import GradientBoostingRegressor as gbe
 
 class ml_decision(gr.basic_block):
 	"""
@@ -245,6 +249,18 @@ class ml_decision(gr.basic_block):
 			elif self._ml_model == 4:
 				prot1 = svm.NuSVR(C=1.0, nu=0.1);
 				prot2 = svm.NuSVR(C=1.0, nu=0.1);
+			elif self._ml_model == 5:
+				prot1 = knn(n_neighbors=2);
+				prot2 = knn(n_neighbors=2);
+			elif self._ml_model == 6:
+				prot1 = dt.DecisionTreeRegressor();
+				prot2 = dt.DecisionTreeRegressor();
+			elif self._ml_model == 7:
+				prot1 = nnet(max_iter=1000);
+				prot2 = nnet(max_iter=1000);
+			elif self._ml_model == 8:
+				prot1 = gbe();
+				prot2 = gbe();
 
 			prot1.fit(x1, y1);
 			prot2.fit(x2, y2);
