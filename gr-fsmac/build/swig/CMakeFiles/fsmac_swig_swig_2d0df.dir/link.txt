@@ -1,1 +1,0 @@
-/usr/bin/c++   -O3 -DNDEBUG   CMakeFiles/fsmac_swig_swig_2d0df.dir/fsmac_swig_swig_2d0df.cpp.o  -o fsmac_swig_swig_2d0df -rdynamic 
