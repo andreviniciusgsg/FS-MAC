@@ -93,6 +93,11 @@ sudo pip install oct2py
 sudo pip install scipy
 
 echo
+echo "====== Scikit-Learn ======"
+echo
+sudo pip install -U scikit-learn 
+
+echo
 echo "====== INSTALLING FS-MAC ======"
 echo
 
