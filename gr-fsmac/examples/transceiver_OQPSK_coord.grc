@@ -805,8 +805,28 @@
   <block>
     <key>fsmac_ml_decision</key>
     <param>
+      <key>aggr1</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>aggr2</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>aggr3</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>aggr4</key>
+      <value>4</value>
+    </param>
+    <param>
+      <key>aggr5</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>alpha</key>
-      <value>0.01</value>
+      <value>0.1</value>
     </param>
     <param>
       <key>alias</key>
@@ -825,12 +845,8 @@
       <value>True</value>
     </param>
     <param>
-      <key>filename</key>
-      <value>/home/gnuradio/out_file.txt</value>
-    </param>
-    <param>
       <key>_coordinate</key>
-      <value>(288, 345)</value>
+      <value>(272, 361)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -841,6 +857,14 @@
       <value>fsmac_ml_decision_0</value>
     </param>
     <param>
+      <key>filename</key>
+      <value>/home/gnuradio/out_file.txt</value>
+    </param>
+    <param>
+      <key>ml_model</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
@@ -849,12 +873,99 @@
       <value>0</value>
     </param>
     <param>
-      <key>oct_path</key>
-      <value>/home/gnuradio/FS-MACplus/gr-fsmac/octave</value>
+      <key>periodicity</key>
+      <value>20</value>
+    </param>
+    <param>
+      <key>training_file</key>
+      <value>/home/gnuradio/temp/training_file.txt</value>
     </param>
     <param>
       <key>is_coord</key>
       <value>True</value>
+    </param>
+  </block>
+  <block>
+    <key>fsmac_ml_decision</key>
+    <param>
+      <key>aggr1</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>aggr2</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>aggr3</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>aggr4</key>
+      <value>4</value>
+    </param>
+    <param>
+      <key>aggr5</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>alpha</key>
+      <value>0.1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1128, 49)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>fsmac_ml_decision_1</value>
+    </param>
+    <param>
+      <key>filename</key>
+      <value></value>
+    </param>
+    <param>
+      <key>ml_model</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>periodicity</key>
+      <value>20</value>
+    </param>
+    <param>
+      <key>training_file</key>
+      <value></value>
+    </param>
+    <param>
+      <key>is_coord</key>
+      <value>False</value>
     </param>
   </block>
   <block>

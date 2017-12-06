@@ -31,8 +31,23 @@ class ml_decision(gr.basic_block):
 	"""
 	docstring for block ml_decision
 	"""
+	# Machine Learning model:
+	# 0: none, use CSMA
+	# 1: none, use TDMA
+	# 2: linear svm
+	# 3: svm
+	# 4: nusvm
 
-	def __init__(self, ml_model, is_coord, alpha, filename, oct_path):
+
+	# Aggregation list:
+	# 0: none
+	# 1: moving average (alpha)
+	# 2: summation
+	# 3: max
+	# 4: min
+
+	def __init__(self, ml_model, is_coord, alpha, filename, training_file,
+			aggr1, aggr2, aggr3, aggr4, aggr5, aggr_max, periodicity):
 		gr.basic_block.__init__(self, name="ml_decision", in_sig=None, out_sig=None)
 
 		# Variables
@@ -40,9 +55,16 @@ class ml_decision(gr.basic_block):
 		self.is_coord = is_coord;
 		self.alpha = alpha;
 		self._filename = filename;
-		self._oct_path = oct_path;
+		self._training_file = training_file;
 		self.max = self.act_protocol = self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
-
+		self._aggr1 = aggr1;
+		self._aggr2 = aggr2;
+		self._aggr3 = aggr3;
+		self._aggr4 = aggr4;
+		self._aggr5 = aggr5;
+		self._aggr_max = aggr_max;
+		self._period = periodicity;
+		
 		# Input ports
 		self.message_port_register_in(pmt.intern("max in"));
 		self.set_msg_handler(pmt.intern("max in"), self.handle_max);
@@ -74,7 +96,7 @@ class ml_decision(gr.basic_block):
 		if self.is_coord:
 			try:
 				print "Coordinator mode."
-				thread.start_new_thread(self.coord_loop, ("thread 1", 10));
+				thread.start_new_thread(self.coord_loop, ("thread 1", self._period));
 			except:
 				print "Error while initializing thread on coordinator.";
 		else:
@@ -87,8 +109,18 @@ class ml_decision(gr.basic_block):
 			if not np.isnan(thr):
 				if self.max == None:
 					self.max = thr;
-				else:
+				elif self._aggr_max == 0: # none
+					self.max = thr;
+				elif self._aggr_max == 1: # moving avg
 					self.max = thr*self.alpha + (1 - self.alpha)*self.max;
+				elif self._aggr_max == 2: # summation
+					self.max = thr + self.max;
+				elif self._aggr_max == 3: # max
+					if thr > self.max:
+						self.max = thr;
+				elif self._aggr_max == 4: # min
+					if thr < self.max:
+						self.max = thr;
 				
 	def handle_act_protocol(self, msg):
 		self.act_protocol = pmt.to_uint64(msg);
@@ -103,8 +135,18 @@ class ml_decision(gr.basic_block):
 		if not np.isnan(non):
 			if self.sensor_1 == None:
 				self.sensor_1 = non;
-			else:
+			elif self._aggr1 == 0: # none
+				self.sensor_1 = 0;
+			elif self._aggr1 == 1: # moving avg
 				self.sensor_1 = non*self.alpha + (1 - self.alpha)*self.sensor_1;
+			elif self._aggr1 == 2: # summation
+				self.sensor_1 = self.sensor_1 + non;
+			elif self._aggr1 == 3: # max
+				if non > self.sensor_1:
+					self.sensor_1 = non;
+			elif self._aggr1 == 4: # min
+				if non < self.sensor_1:
+					self.sensor_1 = non;
 
 	# This sensor is responsible for latency.
 	def handle_sensor_2(self, msg):
@@ -113,8 +155,18 @@ class ml_decision(gr.basic_block):
 			if not np.isnan(latency):
 				if self.sensor_2 == None:
 					self.sensor_2 = latency;
-				else:
+				elif self._aggr2 == 0: # none
+					self.sensor_2 = latency;
+				elif self._aggr2 == 1: # moving avg
 					self.sensor_2 = latency*self.alpha + (1 - self.alpha)*self.sensor_2;
+				elif self._aggr2 == 2: # summation
+					self.sensor_2 = latency + self.sensor_2;
+				elif self._aggr2 == 3: # max
+					if latency > self.sensor_2:
+						self.sensor_2 = latency;
+				elif self._aggr2 == 4: # min
+					if latency < self.sensor_2:
+						self.sensor_2 = latency;
 		else:
 			self.message_port_pub(pmt.intern("out"), msg);
 
@@ -125,8 +177,18 @@ class ml_decision(gr.basic_block):
 			if not np.isnan(rnp):
 				if self.sensor_3 == None:
 					self.sensor_3 = rnp;
-				else:
+				elif self._aggr3 == 0: # none
+					self.sensor_3 = rnp;
+				elif self._aggr3 == 1: # moving avg
 					self.sensor_3 = rnp*self.alpha + (1 - self.alpha)*self.sensor_3;
+				elif self._aggr3 == 2: # summation
+					self.sensor_3 = rnp + self.sensor_3;
+				elif self._aggr3 == 3: # max
+					if rnp > self.sensor_3:
+						self.sensor_3 = rnp;
+				elif self._aggr3 == 4: # min
+					if rnp < self.sensor_3:
+						self.sensor_3 = rnp;
 
 	# This sensor is responsible for SNR.
 	def handle_sensor_4(self, msg):
@@ -135,14 +197,25 @@ class ml_decision(gr.basic_block):
 			if not np.isnan(snr):
 				if self.sensor_4 == None:
 					self.sensor_4 = snr;
-				else:
+				elif self._aggr4 == 0: # none
+					self.sensor_4 = snr;
+				elif self._aggr4 == 1: # moving avg
 					self.sensor_4 = snr*self.alpha + (1 - self.alpha)*self.sensor_4;
+				elif self._aggr4 == 2: # summation
+					self.sensor_4 = snr + self.sensor_4;
+				elif self._aggr4 == 3: # max
+					if snr > self.sensor_4:
+						self.sensor_4 = snr;
+				elif self._aggr4 == 4: # min
+					if snr < self.sensor_4:
+						self.sensor_4 = snr;
 
 	def handle_sensor_5(self, msg):
 		print "Nothing on this sensor";
 
 	def coord_loop(self, thread_name, sleep_time):
-		d = np.loadtxt(self._filename, delimiter="\t");
+		d = np.loadtxt(self._training_file, delimiter="\t");
+		f = open(self._filename, 'a', 0);
 
 		x1 = [];
 		x2 = [];
@@ -158,18 +231,30 @@ class ml_decision(gr.basic_block):
 				y2.append(aux[1]);
 				x2.append(list(aux[2:len(aux)]));
 
-		if self._ml_model == 0:
-			prot1 = svm.LinearSVR(random_state=0);
-			prot2 = svm.LinearSVR(random_state=0);
-		elif self._ml_model == 1:
-			prot1 = svm.SVR();
-			prot2 = svm.SVR();
-		elif self._ml_model == 2:
-			prot1 = svm.NuSVR(C=1.0, nu=0.1);
-			prot2 = svm.NuSVR(C=1.0, nu=0.1);
+		csma = 0.0;
+		tdma = 0.0;
 
-		prot1.fit(x1, y1);
-		prot2.fit(x2, y2);
+		# Machine Learning models if not none (0 or 1)
+		if self._ml_model != 0 and self._ml_model != 1:
+			if self._ml_model == 2:
+				prot1 = svm.LinearSVR(random_state=0);
+				prot2 = svm.LinearSVR(random_state=0);
+			elif self._ml_model == 3:
+				prot1 = svm.SVR();
+				prot2 = svm.SVR();
+			elif self._ml_model == 4:
+				prot1 = svm.NuSVR(C=1.0, nu=0.1);
+				prot2 = svm.NuSVR(C=1.0, nu=0.1);
+
+			prot1.fit(x1, y1);
+			prot2.fit(x2, y2);
+		# No Machine Learning model, either pure CSMA or pure TDMA.
+		elif self._ml_model == 0:
+			csma = 100.0;
+			tdma = 0.0;
+		elif self._ml_model == 1:
+			csma = 0.0;
+			tdma = 100.0;
 
 		tolerance = 1.1; # 10% tolerance.
 
@@ -178,35 +263,43 @@ class ml_decision(gr.basic_block):
 
 			if self.act_protocol != None and self.max != None and self.sensor_1 != None and self.sensor_2 != None and self.sensor_3 != None and self.sensor_4 != None:
 				s = str(self.act_protocol) + "\t" + str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n";
+				f.write(s);
 
-				pred1 = float(prot1.predict([[self.sensor_1, self.sensor_2, self.sensor_3, self.sensor_4]]));
-				pred2 = float(prot2.predict([[self.sensor_1, self.sensor_2, self.sensor_3, self.sensor_4]]));
-				
-				# A change only occurs when a prediction is 10% higher than current protocol
-				if self.act_protocol == 1:
-					if pred2 >= tolerance*pred1:
-						csma = 0.0;
-						tdma = 100.0;
-					else
-						csma = 100.0;
-						tdma = 0.0;
-				elif self.act_protocol == 2:
-					if pred1 >= tolerance*pred2:
-						csma = 100.0;
-						tdma = 0.0;
-					else
-						csma = 0.0;
-						tdma = 100.0;
+				if self._ml_model != 0 and self._ml_model != 1:
+					pred1 = float(prot1.predict([[self.sensor_1, self.sensor_2, self.sensor_3, self.sensor_4]]));
+					pred2 = float(prot2.predict([[self.sensor_1, self.sensor_2, self.sensor_3, self.sensor_4]]));
 
-				pmt_dict = pmt.make_dict();
+					# A change only occurs when a prediction is 10% higher than current protocol prediction
+					if self.act_protocol == 1:
+						if pred2 >= tolerance*pred1:
+							csma = 0.0;
+							tdma = 100.0;
+						else:
+							csma = 100.0;
+							tdma = 0.0;
+					elif self.act_protocol == 2:
+						if pred1 >= tolerance*pred2:
+							csma = 100.0;
+							tdma = 0.0;
+						else:
+							csma = 0.0;
+							tdma = 100.0;
 
-				if csma > tdma:
-					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
-					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
-				else:
-					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
-					pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
+				# Resetting counters	
+				self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
 
-				self.message_port_pub(pmt.intern('out'), pmt_dict);
+			else:
+				print "Some counters are incomplete!";
+
+			pmt_dict = pmt.make_dict();
+
+			if csma > tdma:
+				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
+				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
+			else:
+				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(1), pmt.cons(pmt.from_uint64(2), pmt.from_double(tdma)));
+				pmt_dict = pmt.dict_add(pmt_dict, pmt.from_uint64(2), pmt.cons(pmt.from_uint64(1), pmt.from_double(csma)));
+
+			self.message_port_pub(pmt.intern('out'), pmt_dict);
 
 		f.close();
