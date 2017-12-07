@@ -80,19 +80,6 @@ cd ../examples
 grcc ieee802_15_4_OQPSK_PHY.grc
 
 echo
-echo "====== Octave ======"
-echo
-sudo apt install octave
-
-echo
-echo "====== Oct2Py ======"
-echo
-sudo apt install python-pip
-sudo pip install --upgrade pip
-sudo pip install oct2py
-sudo pip install scipy
-
-echo
 echo "====== Scikit-Learn ======"
 echo
 sudo pip install -U scikit-learn 
