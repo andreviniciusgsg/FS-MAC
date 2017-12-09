@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>transceiver_coord</value>
+      <value>transceiver_s6</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -120,7 +120,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>2480000000</value>
+      <value>2520000000</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -202,7 +202,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>600e-3</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -293,7 +293,7 @@
     </param>
     <param>
       <key>period</key>
-      <value>5e3</value>
+      <value>20</value>
     </param>
   </block>
   <block>
@@ -805,6 +805,30 @@
   <block>
     <key>fsmac_ml_decision</key>
     <param>
+      <key>aggr_max</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>aggr1</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>aggr2</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>aggr3</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>aggr4</key>
+      <value>4</value>
+    </param>
+    <param>
+      <key>aggr5</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>alpha</key>
       <value>0.01</value>
     </param>
@@ -825,10 +849,6 @@
       <value>True</value>
     </param>
     <param>
-      <key>filename</key>
-      <value></value>
-    </param>
-    <param>
       <key>_coordinate</key>
       <value>(288, 345)</value>
     </param>
@@ -841,12 +861,28 @@
       <value>fsmac_ml_decision_0</value>
     </param>
     <param>
+      <key>filename</key>
+      <value></value>
+    </param>
+    <param>
+      <key>ml_model</key>
+      <value>2</value>
+    </param>
+    <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>periodicity</key>
+      <value>20</value>
+    </param>
+    <param>
+      <key>training_file</key>
+      <value></value>
     </param>
     <param>
       <key>is_coord</key>

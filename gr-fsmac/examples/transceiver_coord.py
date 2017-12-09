@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Wed Dec  6 13:14:14 2017
+# Generated: Sat Dec  9 16:51:29 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -50,8 +50,8 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         ##################################################
         # Variables
         ##################################################
-        self.gain = gain = 600e-3
-        self.freq = freq = 2480000000
+        self.gain = gain = 1
+        self.freq = freq = 2520000000
 
         ##################################################
         # Blocks
@@ -120,21 +120,22 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         )
         self.ieee802_15_4_rime_stack_0 = ieee802_15_4.rime_stack(([129]), ([131]), ([132]), ([23,42]))
         self.ieee802_15_4_oqpsk_phy_0 = ieee802_15_4_oqpsk_phy()
-        self.fsmac_tdma_0 = fsmac.tdma(6, 0, True, False)
+        self.fsmac_tdma_0 = fsmac.tdma(0, 1, True, True)
         self.fsmac_snr_0 = fsmac.snr(1024, -70, 2)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
-        self.fsmac_ml_decision_0 = fsmac.ml_decision(2, False, 0.01, "", "", 3, 1, 3, 4, 0, 1, 20)
-        self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, False)
-        self.fsmac_latency_sensor_0 = fsmac.latency_sensor(False)
-        self.fsmac_exchanger_0 = fsmac.exchanger(False)
-        self.fsmac_csma_0 = fsmac.csma(6, 0, True)
+        self.fsmac_ml_decision_1 = fsmac.ml_decision(2, False, 0.1, "", "", 3, 1, 3, 4, 0, 1, 20)
+        self.fsmac_ml_decision_0 = fsmac.ml_decision(1, True, 0.1, "/home/gnuradio/out_file.txt", "/home/gnuradio/temp/training_file.txt", 3, 1, 3, 4, 0, 1, 30)
+        self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, True)
+        self.fsmac_latency_sensor_0 = fsmac.latency_sensor(True)
+        self.fsmac_exchanger_0 = fsmac.exchanger(True)
+        self.fsmac_csma_0 = fsmac.csma(0, 1, True)
         self.es_trigger_sample_timer_0 = es.trigger_sample_timer(gr.sizeof_gr_complex, int(1000), 2, int(4000000), 512 )
         self.es_sink_0 = es.sink(1*[gr.sizeof_gr_complex],8,64,0,2,0)
         self.es_handler_pdu_0 = es.es_make_handler_pdu(es.es_handler_print.TYPE_C32)
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_float*1, 1024)
         self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_SERVER", "", "52001", 10000, False)
         self.blocks_pdu_remove_0 = blocks.pdu_remove(pmt.intern("es::event_buffer"))
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 5e3)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 1e3)
 
         ##################################################
         # Connections

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Wed Dec  6 13:13:50 2017
+# Generated: Sat Dec  9 16:51:38 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -50,8 +50,8 @@ class transceiver_s1(grc_wxgui.top_block_gui):
         ##################################################
         # Variables
         ##################################################
-        self.gain = gain = 600e-3
-        self.freq = freq = 2480000000
+        self.gain = gain = 1
+        self.freq = freq = 2520000000
 
         ##################################################
         # Blocks
@@ -134,7 +134,7 @@ class transceiver_s1(grc_wxgui.top_block_gui):
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_float*1, 1024)
         self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_SERVER", "", "52001", 10000, False)
         self.blocks_pdu_remove_0 = blocks.pdu_remove(pmt.intern("es::event_buffer"))
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 200)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 20)
 
         ##################################################
         # Connections

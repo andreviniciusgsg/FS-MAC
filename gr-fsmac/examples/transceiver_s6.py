@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Sat Dec  9 16:53:24 2017
+# Generated: Sat Dec  9 16:53:13 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -40,7 +40,7 @@ import uhdgps
 import wx
 
 
-class transceiver_s5(grc_wxgui.top_block_gui):
+class transceiver_s6(grc_wxgui.top_block_gui):
 
     def __init__(self):
         grc_wxgui.top_block_gui.__init__(self, title="IEEE 802.15.4 Transceiver using OQPSK PHY")
@@ -120,14 +120,14 @@ class transceiver_s5(grc_wxgui.top_block_gui):
         )
         self.ieee802_15_4_rime_stack_0 = ieee802_15_4.rime_stack(([129]), ([131]), ([132]), ([23,42]))
         self.ieee802_15_4_oqpsk_phy_0 = ieee802_15_4_oqpsk_phy()
-        self.fsmac_tdma_0 = fsmac.tdma(5, 0, True, False)
+        self.fsmac_tdma_0 = fsmac.tdma(6, 0, True, False)
         self.fsmac_snr_0 = fsmac.snr(1024, -70, 2)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
         self.fsmac_ml_decision_0 = fsmac.ml_decision(2, False, 0.01, "", "", 3, 1, 3, 4, 0, 1, 20)
         self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, False)
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(False)
         self.fsmac_exchanger_0 = fsmac.exchanger(False)
-        self.fsmac_csma_0 = fsmac.csma(5, 0, True)
+        self.fsmac_csma_0 = fsmac.csma(6, 0, True)
         self.es_trigger_sample_timer_0 = es.trigger_sample_timer(gr.sizeof_gr_complex, int(1000), 2, int(4000000), 512 )
         self.es_sink_0 = es.sink(1*[gr.sizeof_gr_complex],8,64,0,2,0)
         self.es_handler_pdu_0 = es.es_make_handler_pdu(es.es_handler_print.TYPE_C32)
@@ -207,7 +207,7 @@ class transceiver_s5(grc_wxgui.top_block_gui):
         self.uhd_usrp_source_0.set_center_freq(self.freq, 0)
 
 
-def main(top_block_cls=transceiver_s5, options=None):
+def main(top_block_cls=transceiver_s6, options=None):
     if gr.enable_realtime_scheduling() != gr.RT_OK:
         print "Error: failed to enable real-time scheduling."
 

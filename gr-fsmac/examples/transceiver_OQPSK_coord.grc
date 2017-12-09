@@ -120,7 +120,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>2480000000</value>
+      <value>2520000000</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -202,7 +202,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>600e-3</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -293,7 +293,7 @@
     </param>
     <param>
       <key>period</key>
-      <value>5e3</value>
+      <value>1e3</value>
     </param>
   </block>
   <block>
@@ -805,6 +805,10 @@
   <block>
     <key>fsmac_ml_decision</key>
     <param>
+      <key>aggr_max</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>aggr1</key>
       <value>3</value>
     </param>
@@ -874,7 +878,7 @@
     </param>
     <param>
       <key>periodicity</key>
-      <value>20</value>
+      <value>30</value>
     </param>
     <param>
       <key>training_file</key>
@@ -887,6 +891,10 @@
   </block>
   <block>
     <key>fsmac_ml_decision</key>
+    <param>
+      <key>aggr_max</key>
+      <value>1</value>
+    </param>
     <param>
       <key>aggr1</key>
       <value>3</value>
