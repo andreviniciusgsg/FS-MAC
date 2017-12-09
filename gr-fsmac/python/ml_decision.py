@@ -301,11 +301,11 @@ class ml_decision(gr.basic_block):
 							csma = 0.0;
 							tdma = 100.0;
 
-				# Resetting counters	
-				self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
-
 			else:
 				print "Some counters are incomplete!";
+
+			# Resetting counters	
+			self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
 
 			pmt_dict = pmt.make_dict();
 
