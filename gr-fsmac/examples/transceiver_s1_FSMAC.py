@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Mon Dec 11 13:03:22 2017
+# Generated: Mon Dec 11 13:02:46 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -40,7 +40,7 @@ import uhdgps
 import wx
 
 
-class transceiver_s1(grc_wxgui.top_block_gui):
+class transceiver_s1_FSMAC(grc_wxgui.top_block_gui):
 
     def __init__(self):
         grc_wxgui.top_block_gui.__init__(self, title="IEEE 802.15.4 Transceiver using OQPSK PHY")
@@ -123,10 +123,10 @@ class transceiver_s1(grc_wxgui.top_block_gui):
         self.fsmac_tdma_0 = fsmac.tdma(1, 0, True, False)
         self.fsmac_snr_0 = fsmac.snr(1024, -70, 2)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
-        self.fsmac_ml_decision_0 = fsmac.ml_decision(2, False, 0.01, "", "", 3, 1, 3, 4, 0, 1, 20)
         self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, False)
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(False)
         self.fsmac_exchanger_0 = fsmac.exchanger(False)
+        self.fsmac_decision_0 = fsmac.decision(False)
         self.fsmac_csma_0 = fsmac.csma(1, 0, True)
         self.es_trigger_sample_timer_0 = es.trigger_sample_timer(gr.sizeof_gr_complex, int(1000), 2, int(4000000), 512 )
         self.es_sink_0 = es.sink(1*[gr.sizeof_gr_complex],8,64,0,2,0)
@@ -148,24 +148,22 @@ class transceiver_s1(grc_wxgui.top_block_gui):
         self.msg_connect((self.fsmac_csma_0, 'app out'), (self.fsmac_exchanger_0, 'p1_app in'))    
         self.msg_connect((self.fsmac_csma_0, 'ctrl out'), (self.fsmac_exchanger_0, 'p1_ctrl in'))    
         self.msg_connect((self.fsmac_csma_0, 'pdu out'), (self.fsmac_exchanger_0, 'p1_mac in'))    
+        self.msg_connect((self.fsmac_decision_0, 'troca out'), (self.fsmac_exchanger_0, 'dec in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_app out'), (self.fsmac_csma_0, 'app in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_ctrl out'), (self.fsmac_csma_0, 'ctrl in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_mac out'), (self.fsmac_csma_0, 'pdu in'))    
-        self.msg_connect((self.fsmac_exchanger_0, 'dec out'), (self.fsmac_ml_decision_0, 'act protocol in'))    
+        self.msg_connect((self.fsmac_exchanger_0, 'dec out'), (self.fsmac_decision_0, 'troca in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p2_app out'), (self.fsmac_tdma_0, 'app in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p2_ctrl out'), (self.fsmac_tdma_0, 'ctrl in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p2_mac out'), (self.fsmac_tdma_0, 'pdu in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'mac out'), (self.ieee802_15_4_oqpsk_phy_0, 'txin'))    
         self.msg_connect((self.fsmac_exchanger_0, 'app out'), (self.ieee802_15_4_rime_stack_0, 'fromMAC'))    
-        self.msg_connect((self.fsmac_latency_sensor_0, 'dec out'), (self.fsmac_ml_decision_0, 'sensor 2 in'))    
+        self.msg_connect((self.fsmac_latency_sensor_0, 'dec out'), (self.fsmac_decision_0, 'sens2 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'send request'), (self.fsmac_csma_0, 'ctrl in'))    
+        self.msg_connect((self.fsmac_metrics_sensor_0, 'thr out'), (self.fsmac_decision_0, 'thr in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'data frame out'), (self.fsmac_exchanger_0, 'mac in'))    
-        self.msg_connect((self.fsmac_metrics_sensor_0, 'rnp out'), (self.fsmac_ml_decision_0, 'sensor 3 in'))    
-        self.msg_connect((self.fsmac_metrics_sensor_0, 'snr out'), (self.fsmac_ml_decision_0, 'sensor 4 in'))    
-        self.msg_connect((self.fsmac_metrics_sensor_0, 'thr out'), (self.fsmac_ml_decision_0, 'max in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'send request'), (self.fsmac_tdma_0, 'ctrl in'))    
-        self.msg_connect((self.fsmac_ml_decision_0, 'out'), (self.fsmac_exchanger_0, 'dec in'))    
-        self.msg_connect((self.fsmac_sens_num_senders_0, 'dec out'), (self.fsmac_ml_decision_0, 'sensor 1 in'))    
+        self.msg_connect((self.fsmac_sens_num_senders_0, 'dec out'), (self.fsmac_decision_0, 'sens1 in'))    
         self.msg_connect((self.fsmac_snr_0, 'snr out'), (self.fsmac_csma_0, 'snr in'))    
         self.msg_connect((self.fsmac_snr_0, 'snr out'), (self.fsmac_tdma_0, 'snr in'))    
         self.msg_connect((self.fsmac_tdma_0, 'app out'), (self.fsmac_exchanger_0, 'p2_app in'))    
@@ -207,7 +205,7 @@ class transceiver_s1(grc_wxgui.top_block_gui):
         self.uhd_usrp_source_0.set_center_freq(self.freq, 0)
 
 
-def main(top_block_cls=transceiver_s1, options=None):
+def main(top_block_cls=transceiver_s1_FSMAC, options=None):
     if gr.enable_realtime_scheduling() != gr.RT_OK:
         print "Error: failed to enable real-time scheduling."
 
