@@ -28,38 +28,48 @@
     </option>
 
     <option>
-      <name>Linear SVM</name>
+      <name>FS-MAC</name>
       <key>2</key>
     </option>
 
     <option>
-      <name>SVM</name>
+      <name>Linear</name>
       <key>3</key>
     </option>
 
     <option>
-      <name>NuSVM</name>
+      <name>Linear SVM</name>
       <key>4</key>
     </option>
 
     <option>
-      <name>KNeighbors Reg.</name>
+      <name>SVM</name>
       <key>5</key>
     </option>
 
     <option>
-      <name>Decision Tree</name>
+      <name>NuSVM</name>
       <key>6</key>
     </option>
 
     <option>
-      <name>Neural Net. Reg.</name>
+      <name>KNeighbors Reg.</name>
       <key>7</key>
     </option>
 
     <option>
-      <name>Gradient Boosting Reg.</name>
+      <name>Decision Tree</name>
       <key>8</key>
+    </option>
+
+    <option>
+      <name>Neural Net. Reg.</name>
+      <key>9</key>
+    </option>
+
+    <option>
+      <name>Gradient Boosting Reg.</name>
+      <key>10</key>
     </option>
   </param>
 

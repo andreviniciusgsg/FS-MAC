@@ -239,26 +239,28 @@ class ml_decision(gr.basic_block):
 		tdma = 0.0;
 
 		# Machine Learning models if not none (0 or 1)
-		if self._ml_model != 0 and self._ml_model != 1:
-			if self._ml_model == 2:
+		if self._ml_model != 0 and self._ml_model != 1 and self._ml_model != 2:
+			if self._ml_model == 3:
+				print "ADD LINEAR MODEL\n";
+			elif self._ml_model == 4:
 				prot1 = svm.LinearSVR(random_state=0);
 				prot2 = svm.LinearSVR(random_state=0);
-			elif self._ml_model == 3:
+			elif self._ml_model == 5:
 				prot1 = svm.SVR();
 				prot2 = svm.SVR();
-			elif self._ml_model == 4:
+			elif self._ml_model == 6:
 				prot1 = svm.NuSVR(C=1.0, nu=0.1);
 				prot2 = svm.NuSVR(C=1.0, nu=0.1);
-			elif self._ml_model == 5:
+			elif self._ml_model == 7:
 				prot1 = knn(n_neighbors=2);
 				prot2 = knn(n_neighbors=2);
-			elif self._ml_model == 6:
+			elif self._ml_model == 8:
 				prot1 = dt.DecisionTreeRegressor();
 				prot2 = dt.DecisionTreeRegressor();
-			elif self._ml_model == 7:
-				prot1 = nnet(max_iter=1000);
-				prot2 = nnet(max_iter=1000);
-			elif self._ml_model == 8:
+			elif self._ml_model == 9:
+				prot1 = nnet(max_iter=10000);
+				prot2 = nnet(max_iter=10000);
+			elif self._ml_model == 10:
 				prot1 = gbe();
 				prot2 = gbe();
 
@@ -281,7 +283,7 @@ class ml_decision(gr.basic_block):
 				s = str(self.act_protocol) + "\t" + str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n";
 				f.write(s);
 
-				if self._ml_model != 0 and self._ml_model != 1:
+				if self._ml_model != 0 and self._ml_model != 1 and self._ml_model != 2:
 					pred1 = float(prot1.predict([[self.sensor_1, self.sensor_2, self.sensor_3, self.sensor_4]]));
 					pred2 = float(prot2.predict([[self.sensor_1, self.sensor_2, self.sensor_3, self.sensor_4]]));
 
@@ -300,6 +302,10 @@ class ml_decision(gr.basic_block):
 						else:
 							csma = 0.0;
 							tdma = 100.0;
+				# FS-MAC fuzzy logic
+				elif self._ml_model == 2:
+					csma = float(self.calculate_csma_adaptability());
+					tdma = float(self.calculate_tdma_adaptability());
 
 			else:
 				print "Some counters are incomplete!";
@@ -319,3 +325,276 @@ class ml_decision(gr.basic_block):
 			self.message_port_pub(pmt.intern('out'), pmt_dict);
 
 		f.close();
+
+
+
+
+#############################################
+#############################################
+## GOD HELPS US! This is for FS-MAC legacy ##
+#############################################
+#############################################
+
+	def calculate_tdma_adaptability(self, sens1_value, sens2_value):
+		#if senders is higth AND data is higth then TDMA adaptability is hight
+		#if senders is low AND data is higth then TDMA adaptability is low
+		tdma_low_pert_decimals = [0,10,20,30,40,50,60]
+		tdma_hight_pert_decimals = [40,50,60,70,80,90,100]
+
+		csma_low_pert_decimals = [0,10,20,30,40,50,60]
+		csma_hight_pert_decimals = [40,50,60,70,80,90,100]
+
+		#======= FUZZYFICATION PHASE =======#
+		senders_fuzy_pert = self.senders_function(sens1_value);
+		data_fuzzy_pert = self.data_function(sens2_value);
+		#===================================#
+
+		numerator = 0
+		denominator = 0
+
+		value_hight_adapt = 0
+		value_low_adapt = 0
+
+		list_low_adapts = []
+		list_hight_adapts = []
+
+		#======= EVALUATION OF RULES =======#
+		#if senders is higth AND data is higth then TDMA adaptability is hight
+		#Intersection gets minimum between two values
+		if senders_fuzy_pert[1] < data_fuzzy_pert[1]:
+			list_hight_adapts.append(senders_fuzy_pert[1])
+		else:
+			list_hight_adapts.append(data_fuzzy_pert[1])
+
+		#if senders is low AND data is higth then TDMA adaptability is low
+		#Intersection gets minimum between two values
+		if senders_fuzy_pert[0] < data_fuzzy_pert[1]:
+			list_low_adapts.append(senders_fuzy_pert[0])
+		else:
+			list_low_adapts.append(data_fuzzy_pert[1])
+
+		#if senders is higth AND data is low then TDMA adaptability is low
+		#Intersection gets minimum between two values
+		if senders_fuzy_pert[1] < data_fuzzy_pert[0]:
+			list_low_adapts.append(senders_fuzy_pert[1])
+		else:
+			list_low_adapts.append(data_fuzzy_pert[0])
+
+		#if senders is low AND data is low then TDMA adaptability is low
+		#Intersection gets minimum between two values
+		if senders_fuzy_pert[0] < data_fuzzy_pert[0]:
+			list_low_adapts.append(senders_fuzy_pert[0])
+		else:
+			list_low_adapts.append(data_fuzzy_pert[0])
+
+		list_low_adapts.sort(reverse=True)
+		list_hight_adapts.sort(reverse=True)
+
+		value_low_adapt = list_low_adapts[0]
+		value_hight_adapt = list_hight_adapts[0]
+		#===================================#
+
+		#====== DEFUZZYFICATION PHASE ======#
+		for i in tdma_hight_pert_decimals:
+			numerator = numerator + i*value_hight_adapt
+
+		for j in tdma_low_pert_decimals:
+			numerator = numerator + j*value_low_adapt
+
+		denominator = denominator + len(tdma_hight_pert_decimals)*value_hight_adapt
+		denominator = denominator + len(tdma_low_pert_decimals)*value_low_adapt
+
+		if denominator == 0:
+			denominator = 1
+
+		adaptability_degree = numerator/denominator
+		#===================================#
+
+		return adaptability_degree
+
+
+	def calculate_csma_adaptability(self, sens1_value, sens2_value):
+		#if senders is higth AND data is higth then CSMA adaptability is low
+		#if senders is low AND data is higth then CSMA adaptability is higth
+		tdma_low_pert_decimals = [0,10,20,30,40,50,60]
+		tdma_hight_pert_decimals = [40,50,60,70,80,90,100]
+
+		csma_low_pert_decimals = [0,10,20,30,40,50,60]
+		csma_hight_pert_decimals = [40,50,60,70,80,90,100]
+
+		#======= FUZZYFICATION PHASE =======#
+		senders_fuzy_pert = self.senders_function(sens1_value)
+		data_fuzzy_pert = self.data_function(sens2_value)
+		#===================================#
+
+		numerator = 0
+		denominator = 0
+
+		value_hight_adapt = 0
+		value_low_adapt = 0
+
+		list_low_adapts = []
+		list_hight_adapts = []
+
+		#======= EVALUATION OF RULES =======#
+		#if senders is higth AND data is higth then CSMA adaptability is low
+		#Intersection gets minimum between two values
+		if senders_fuzy_pert[1] < data_fuzzy_pert[1]:
+			list_low_adapts.append(senders_fuzy_pert[1])
+		else:
+			list_low_adapts.append(data_fuzzy_pert[1])
+
+		#if senders is low AND data is higth then CSMA adaptability is higth
+		#Intersection gets minimum between two values
+		if senders_fuzy_pert[0] < data_fuzzy_pert[1]:
+			list_hight_adapts.append(senders_fuzy_pert[0])
+		else:
+			list_hight_adapts.append(data_fuzzy_pert[1])
+		#===================================#
+
+		#if senders is hight AND data is low then CSMA adaptability is higth
+		if senders_fuzy_pert[1] < data_fuzzy_pert[0]:
+			list_hight_adapts.append(senders_fuzy_pert[1])
+		else:
+			list_hight_adapts.append(data_fuzzy_pert[0])
+
+		#if senders is low AND data is low then CSMA adaptability is hight
+		if senders_fuzy_pert[0] < data_fuzzy_pert[0]:
+			list_hight_adapts.append(senders_fuzy_pert[0])
+		else:
+			list_hight_adapts.append(data_fuzzy_pert[0])
+
+
+		list_hight_adapts.sort(reverse=True)
+		list_low_adapts.sort(reverse=True)
+
+		value_hight_adapt = list_hight_adapts[0]
+		value_low_adapt = list_low_adapts[0]
+
+
+		#====== DEFUZZYFICATION PHASE ======#
+		for i in csma_hight_pert_decimals:
+			numerator = numerator + i*value_hight_adapt
+
+		for j in csma_low_pert_decimals:
+			numerator = numerator + j*value_low_adapt
+
+		denominator = denominator + len(csma_hight_pert_decimals)*value_hight_adapt
+		denominator = denominator + len(csma_low_pert_decimals)*value_low_adapt
+
+		if denominator == 0:
+			denominator = 1
+
+		adaptability_degree = numerator/denominator
+		#===================================#
+
+		return adaptability_degree
+
+	
+	def senders_function(self, x):
+		low_pert = 0;
+		hight_pert = 0;
+
+	#---- BEGIN COMMENT HERE FOR EXPERIMENT 2 ---
+		if x >= 0 and x <= 1:
+			low_pert = 100
+		elif x > 1 and x < 2:
+			low_pert = -100*x  + 200
+		else:
+			low_pert = 0
+		
+		if x >= 0 and x <= 1:
+			hight_pert = 0
+		elif x > 1 and x < 2:
+			hight_pert = 100*x - 100
+		else:
+			hight_pert = 100
+	#---- END COMMENT HERE FOR EXPERIMENT 2 ---
+
+	#---- BEGIN UNCOMMENT HERE FOR EXPERIMENT 2 ---
+		#if x >= 0 and x <= 2:
+		#	low_pert = 100
+		#elif x > 2 and x < 3:
+		#	low_pert = -100*x + 300
+		#else:
+		#	low_pert = 0
+		#
+		#if x >= 0 and x <= 2:
+		#	hight_pert = 0
+		#elif x > 2 and x < 3:
+		#	hight_pert = 100*x - 200
+		#else:
+		#	hight_pert = 100
+	#---- END UNCOMMENT HERE FOR EXPERIMENT 2 ---
+
+		return [low_pert, hight_pert]
+
+	def data_function(self, x):
+		low_pert = 0;
+		hight_pert = 0;
+	
+	#---- BEGIN COMMENT HERE FOR EXPERIMENT 2 ---
+		if self.act_protocol == 1:
+			if x >= 0 and x <= 20:
+				low_pert = 100
+			elif x > 20 and x < 40:
+				low_pert = -5*x  + 200
+			else:
+				low_pert = 0
+		
+			if x >= 0 and x <= 20:
+				hight_pert = 0
+			elif x > 20 and x < 40:
+				hight_pert = 5*x - 100
+			else:
+				hight_pert = 100
+		
+		elif self.act_protocol == 2:
+			if x >= 0 and x <= 20:
+				low_pert = 100
+			elif x > 20 and x < 25:
+				low_pert = -20*x  + 500
+			else:
+				low_pert = 0
+		
+			if x >= 0 and x <= 20:
+				hight_pert = 0
+			elif x > 20 and x < 25:
+				hight_pert = 20*x - 400
+			else:
+				hight_pert = 100
+	#---- END COMMENT HERE FOR EXPERIMENT 2 ---
+
+	#---- BEGIN UNCOMMENT HERE FOR EXPERIMENT 2 ---
+		#if self.act_protocol == 1:
+		#	if x >= 0 and x <= 35:
+		#		low_pert = 100
+		#	elif x > 35 and x < 55:
+		#		low_pert = -5*x  + 275
+		#	else:
+		#		low_pert = 0
+		#
+		#	if x >= 0 and x <= 35:
+		#		hight_pert = 0
+		#	elif x > 35 and x < 55:
+		#		hight_pert = 5*x - 175
+		#	else:
+		#		hight_pert = 100
+		#
+		#elif self.act_protocol == 2:
+		#	if x >= 0 and x <= 23:
+		#		low_pert = 100
+		#	elif x > 23 and x < 26:
+		#		low_pert = -33.33334*x  + 866.6667
+		#	else:
+		#		low_pert = 0
+		#
+		#	if x >= 0 and x <= 23:
+		#		hight_pert = 0
+		#	elif x > 23 and x < 26:
+		#		hight_pert = 33.33334*x - 766.6667
+		#	else:
+		#		hight_pert = 100
+	#---- END UNCOMMENT HERE FOR EXPERIMENT 2 ---
+
+		return [low_pert, hight_pert]

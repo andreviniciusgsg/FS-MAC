@@ -82,11 +82,12 @@ class decision(gr.sync_block):
 	def handle_thrin (self, msg):
 		if self.is_coordinator:
 			thr = pmt.to_float(msg);
+			print "thr = " + str(thr) + "\n";
 			if not np.isnan(thr):
 				if self.thr == None:
 					self.thr = thr;
 				else:
-					self.thr = thr*ALPHA + (1 - self.alpha)*self.max;
+					self.thr = thr*ALPHA + (1 - ALPHA)*self.thr;
 
 	def print_time (self, nomedothread, delay):
 		while not self.terminate:
@@ -120,7 +121,7 @@ class decision(gr.sync_block):
 
 			self.message_port_pub(pmt.intern('troca out'), pmt_dict_prot_adapt)
 
-			self.thr = self.sens1_value = None;
+			self.thr = None;
 
 	def main_loop(self):
 		if self.is_coordinator:
@@ -130,13 +131,7 @@ class decision(gr.sync_block):
 				print "Erro: nao foi possivel iniciar o thread."
 
 	def handle_sens1(self,msg):
-		if self.sens1_value == None:
-			self.sens1_value = pmt.to_uint64(msg);
-		else:
-			v = pmt.to_uint64(msg);
-			if v > self.sens1_value:
-				self.sens1_value = v;
-
+		self.sens1_value = pmt.to_uint64(msg);
 
 	def handle_sens2(self,msg):
 		if self.is_coordinator:
