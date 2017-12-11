@@ -58,7 +58,7 @@ class decision(gr.sync_block):
 		self.sens1_value = 1;
 		self.sens2_value = 100;
 		self.active_protocol = 1;
-        self.thr = None;
+        	self.thr = None;
 
 		self.message_port_register_out(pmt.intern('troca out'))
 		self.message_port_register_in(pmt.intern('sens1 in'))
@@ -69,7 +69,7 @@ class decision(gr.sync_block):
 		self.set_msg_handler(pmt.intern("sens1 in"), self.handle_sens1)
 		self.set_msg_handler(pmt.intern("sens2 in"), self.handle_sens2)
 		self.set_msg_handler(pmt.intern("troca in"), self.handle_troca)
-        self.set_msg_handler(pmt.intern("thr in"), self.handle_thrin)
+		self.set_msg_handler(pmt.intern("thr in"), self.handle_thrin)
 		self.main_loop()
 
 	#	def work(self, input_items, output_items):
@@ -79,14 +79,14 @@ class decision(gr.sync_block):
 	#		out[:] = in0
 	#		return len(output_items[0])
 
-    def handle_thrin (self, msg):
-        if self.is_coordinator:
-            thr = pmt.to_float(msg);
-            if not np.isnan(thr):
-                if self.thr == None:
-                    self.thr = thr;
-                else:
-                    self.thr = thr*ALPHA + (1 - self.alpha)*self.max;
+	def handle_thrin (self, msg):
+		if self.is_coordinator:
+			thr = pmt.to_float(msg);
+			if not np.isnan(thr):
+				if self.thr == None:
+					self.thr = thr;
+				else:
+					self.thr = thr*ALPHA + (1 - self.alpha)*self.max;
 
 	def print_time (self, nomedothread, delay):
 		while not self.terminate:
@@ -96,14 +96,14 @@ class decision(gr.sync_block):
 			# csma_adapt = 10.0;
 			# tdma_adapt = 90.0;
 
-        print str(self.active_protocol) + "\t" + str(self.thr) + "\t" + str(self.sens1_value) + "\t" + str(self.sens1_value); 
-		print ""
+			print str(self.active_protocol) + "\t" + str(self.thr) + "\t" + str(self.sens1_value) + "\t" + str(self.sens1_value); 
+			print ""
 			print "NS: "+str(self.sens1_value)
 
-		if self.active_protocol == 1:
-		print "ACTIVE PROTOCOL: CSMA"
-    	elif self.active_protocol == 2:
-		print "ACTIVE PROTOCOL: TDMA"
+			if self.active_protocol == 1:
+				print "ACTIVE PROTOCOL: CSMA"
+			elif self.active_protocol == 2:
+				print "ACTIVE PROTOCOL: TDMA"
 					
 			# print "CSMA adaptability " + str(csma_adapt) + "%"
 			# print "TDMA adaptability " + str(tdma_adapt) + "%"		  
@@ -120,7 +120,7 @@ class decision(gr.sync_block):
 
 			self.message_port_pub(pmt.intern('troca out'), pmt_dict_prot_adapt)
 
-            self.thr = self.sens1_value = None;
+			self.thr = self.sens1_value = None;
 
 	def main_loop(self):
 		if self.is_coordinator:
@@ -129,13 +129,13 @@ class decision(gr.sync_block):
 			except:
 				print "Erro: nao foi possivel iniciar o thread."
 
-	def handle_sens1(self,msg):   
-        if self.sens1_value == None:
-            self.sens1_value = pmt.to_uint64(msg);
-        else:
-            v = pmt.to_uint64(msg);
-            if v > self.sens1_value:
-                self.sens1_value = v;
+	def handle_sens1(self,msg):
+		if self.sens1_value == None:
+			self.sens1_value = pmt.to_uint64(msg);
+		else:
+			v = pmt.to_uint64(msg);
+			if v > self.sens1_value:
+				self.sens1_value = v;
 
 
 	def handle_sens2(self,msg):
@@ -145,12 +145,12 @@ class decision(gr.sync_block):
 		else:
 			# print "Envindo latencia para exchanger"
 			self.message_port_pub(pmt.intern('troca out'), msg)
-			if self.active_protocol == 1:
-		print ""
-		print "ACTIVE PROTOCOL: CSMA"
+		if self.active_protocol == 1:
+			print ""
+			print "ACTIVE PROTOCOL: CSMA"
 		elif self.active_protocol == 2:
-		print ""
-		print "ACTIVE PROTOCOL: TDMA"
+			print ""
+			print "ACTIVE PROTOCOL: TDMA"
 
 	def handle_troca(self,msg):
 		# print "DEC: Recebeu comunicado"
@@ -315,19 +315,19 @@ class decision(gr.sync_block):
 		hight_pert = 0;
 
 	#---- BEGIN COMMENT HERE FOR EXPERIMENT 2 ---
-	if x >= 0 and x <= 1:
-	  low_pert = 100
-	elif x > 1 and x < 2:
-	  low_pert = -100*x  + 200
-	else:
-	  low_pert = 0
+		if x >= 0 and x <= 1:
+			low_pert = 100
+		elif x > 1 and x < 2:
+			low_pert = -100*x  + 200
+		else:
+			low_pert = 0
 		
-	if x >= 0 and x <= 1:
-	  hight_pert = 0
-	elif x > 1 and x < 2:
-	  hight_pert = 100*x - 100
-	else:
-	  hight_pert = 100
+		if x >= 0 and x <= 1:
+			hight_pert = 0
+		elif x > 1 and x < 2:
+			hight_pert = 100*x - 100
+		else:
+			hight_pert = 100
 	#---- END COMMENT HERE FOR EXPERIMENT 2 ---
 
 	#---- BEGIN UNCOMMENT HERE FOR EXPERIMENT 2 ---
