@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Mon Dec 11 14:37:49 2017
+# Generated: Mon Dec 11 15:09:56 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -124,7 +124,7 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.fsmac_snr_0 = fsmac.snr(1024, -70, 2)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
         self.fsmac_ml_decision_1 = fsmac.ml_decision(2, False, 0.1, "", "", 3, 1, 3, 4, 0, 1, 20)
-        self.fsmac_ml_decision_0 = fsmac.ml_decision(2, True, 0.1, "/home/gnuradio/out_file.txt", "/home/gnuradio/temp/training_file.txt", 3, 1, 3, 4, 0, 1, 30)
+        self.fsmac_ml_decision_0 = fsmac.ml_decision(0, True, 0.1, "/home/gnuradio/out_file.txt", "/home/gnuradio/training_file.txt", 3, 1, 3, 4, 0, 1, 30)
         self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, True)
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(True)
         self.fsmac_exchanger_0 = fsmac.exchanger(True)

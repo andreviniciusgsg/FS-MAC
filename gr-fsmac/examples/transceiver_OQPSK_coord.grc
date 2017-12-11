@@ -866,7 +866,7 @@
     </param>
     <param>
       <key>ml_model</key>
-      <value>2</value>
+      <value>0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -882,7 +882,7 @@
     </param>
     <param>
       <key>training_file</key>
-      <value>/home/gnuradio/temp/training_file.txt</value>
+      <value>/home/gnuradio/training_file.txt</value>
     </param>
     <param>
       <key>is_coord</key>
