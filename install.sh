@@ -1,7 +1,4 @@
 #!/bin/bash
-sudo apt update
-sudo apt install python-pip
-
 echo
 echo "====== INSTALLING swig ======"
 sudo apt-get install swig
@@ -80,7 +77,12 @@ sudo ldconfig
 cd ../examples
 grcc ieee802_15_4_OQPSK_PHY.grc
 
+echo "====== Pip ======"
+cd ~/
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python get-pip.py
 echo
+
 echo "====== Scikit-Learn ======"
 echo
 sudo pip install -U scikit-learn 
