@@ -306,13 +306,13 @@ class ml_decision(gr.basic_block):
 				elif self._ml_model == 2:
 					csma = float(self.calculate_csma_adaptability(self.sensor_1, self.sensor_2));
 					tdma = float(self.calculate_tdma_adaptability(self.sensor_1, self.sensor_2));
-					print "CSMA = " + str(csma) + ", TDMA = " + std(tdma);
+					print "CSMA = " + str(csma) + ", TDMA = " + str(tdma);
 
 			else:
 				print "Some counters are incomplete!";
 
 			# Resetting counters	
-			self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = None;
+			self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = self.max = None;
 
 			pmt_dict = pmt.make_dict();
 
