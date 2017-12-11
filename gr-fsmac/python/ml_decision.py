@@ -304,8 +304,9 @@ class ml_decision(gr.basic_block):
 							tdma = 100.0;
 				# FS-MAC fuzzy logic
 				elif self._ml_model == 2:
-					csma = float(self.calculate_csma_adaptability());
-					tdma = float(self.calculate_tdma_adaptability());
+					csma = float(self.calculate_csma_adaptability(self.sensor_1, self.sensor_2));
+					tdma = float(self.calculate_tdma_adaptability(self.sensor_1, self.sensor_2));
+					print "CSMA = " + str(csma) + ", TDMA = " + std(tdma);
 
 			else:
 				print "Some counters are incomplete!";
