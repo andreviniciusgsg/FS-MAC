@@ -3,18 +3,8 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Tue Dec 12 14:23:50 2017
+# Generated: Tue Dec 12 17:22:52 2017
 ##################################################
-
-if __name__ == '__main__':
-    import ctypes
-    import sys
-    if sys.platform.startswith('linux'):
-        try:
-            x11 = ctypes.cdll.LoadLibrary('libX11.so')
-            x11.XInitThreads()
-        except:
-            print "Warning: failed to XInitThreads()"
 
 import os
 import sys
@@ -27,7 +17,6 @@ from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.fft import logpwrfft
 from gnuradio.filter import firdes
-from grc_gnuradio import wxgui as grc_wxgui
 from ieee802_15_4_oqpsk_phy import ieee802_15_4_oqpsk_phy  # grc-generated hier_block
 from optparse import OptionParser
 import es
@@ -36,15 +25,12 @@ import ieee802_15_4
 import pmt
 import time
 import uhdgps
-import wx
 
 
-class transceiver_s2(grc_wxgui.top_block_gui):
+class transceiver_s2(gr.top_block):
 
     def __init__(self):
-        grc_wxgui.top_block_gui.__init__(self, title="IEEE 802.15.4 Transceiver using OQPSK PHY")
-        _icon_path = "/usr/share/icons/hicolor/32x32/apps/gnuradio-grc.png"
-        self.SetIcon(wx.Icon(_icon_path, wx.BITMAP_TYPE_ANY))
+        gr.top_block.__init__(self, "IEEE 802.15.4 Transceiver using OQPSK PHY")
 
         ##################################################
         # Variables
@@ -175,8 +161,13 @@ def main(top_block_cls=transceiver_s2, options=None):
         print "Error: failed to enable real-time scheduling."
 
     tb = top_block_cls()
-    tb.Start(True)
-    tb.Wait()
+    tb.start()
+    try:
+        raw_input('Press Enter to quit: ')
+    except EOFError:
+        pass
+    tb.stop()
+    tb.wait()
 
 
 if __name__ == '__main__':
