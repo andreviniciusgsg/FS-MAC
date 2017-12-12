@@ -52,9 +52,6 @@ class metrics_sensor_impl : public metrics_sensor {
 		// Threads
 		boost::shared_ptr<gr::thread::thread> thread;
 
-		// Variables
-		float pr_rnp_sum, pr_thr_sum, pr_snr_sum;
-
 	public:
 
 		metrics_sensor_impl(uint8_t periodicity, bool is_coord)
@@ -79,10 +76,6 @@ class metrics_sensor_impl : public metrics_sensor {
 			message_port_register_out(msg_port_throughput_out);
 			message_port_register_out(msg_port_data_frame_out);
 			message_port_register_out(msg_port_request_metrics);
-
-			pr_rnp_sum = 0;
-			pr_snr_sum = 0;
-			pr_thr_sum = 0;
 		}
 
 		~metrics_sensor_impl(void) {}
@@ -129,7 +122,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> rnp;
 
-				pr_rnp_sum += rnp;
+				message_port_pub(msg_port_rnp_out, pmt::from_float(rnp));
 			}
 
 			else if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'I') {
@@ -147,7 +140,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> snr;
 
-				pr_snr_sum += snr;
+				message_port_pub(msg_port_snr_out, pmt::from_float(snr));
 			}
 
 			/* Throughput */
@@ -166,7 +159,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> thr;
 
-				pr_thr_sum += thr;
+				message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
 			}
 
 			/* Data frame */
@@ -195,17 +188,6 @@ class metrics_sensor_impl : public metrics_sensor {
 				usleep(pr_periodicity); // Short interval between requests.
 
 				// Other metric
-
-				// Send result to Decision block
-				usleep(pr_periodicity*1000000*.2); // To make sure data arrives before sending to Decision block.
-				message_port_pub(msg_port_rnp_out, pmt::from_float(pr_rnp_sum));
-				message_port_pub(msg_port_snr_out, pmt::from_float(pr_snr_sum));
-				message_port_pub(msg_port_throughput_out, pmt::from_float(pr_thr_sum)); // Fps (Frames per second)
-
-				// Reset counters.
-				pr_rnp_sum = 0;
-				pr_snr_sum = 0;
-				pr_thr_sum = 0;
 			}
 		}
 
