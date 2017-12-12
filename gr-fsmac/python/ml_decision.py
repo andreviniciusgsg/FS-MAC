@@ -312,8 +312,8 @@ class ml_decision(gr.basic_block):
 						_x1[i] = (u1[i] - _x1[i])/s1[i];
 						_x2[i] = (u2[i] - _x2[i])/s2[i];
 
-					pred1 = float(prot1.predict(_x1));
-					pred2 = float(prot2.predict(_x2));
+					pred1 = float(prot1.predict([_x1]));
+					pred2 = float(prot2.predict([_x2]));
 
 					# A change only occurs when a prediction is 10% higher than current protocol prediction
 					if self.act_protocol == 1:
