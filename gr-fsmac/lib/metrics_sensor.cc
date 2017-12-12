@@ -27,6 +27,7 @@
 #include <pmt/pmt.h>
 #include <boost/thread.hpp>
 #include <time.h>
+#include <chrono>
 
 #define RNP_REQUEST 5
 #define THROUGHPUT_REQUEST 6
@@ -52,6 +53,10 @@ class metrics_sensor_impl : public metrics_sensor {
 		// Threads
 		boost::shared_ptr<gr::thread::thread> thread;
 
+		uint16_t d_rcv_frames;
+		decltype(std::chrono::high_resolution_clock::now()) d_start_time;
+    	decltype(std::chrono::high_resolution_clock::now()) d_end_time;
+
 	public:
 
 		metrics_sensor_impl(uint8_t periodicity, bool is_coord)
@@ -76,6 +81,8 @@ class metrics_sensor_impl : public metrics_sensor {
 			message_port_register_out(msg_port_throughput_out);
 			message_port_register_out(msg_port_data_frame_out);
 			message_port_register_out(msg_port_request_metrics);
+
+			d_rcv_frames = 0;
 		}
 
 		~metrics_sensor_impl(void) {}
@@ -159,11 +166,12 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> thr;
 
-				message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
+				//message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
 			}
 
 			/* Data frame */
 			else {
+				d_rcv_frames++;
 				message_port_pub(msg_port_data_frame_out, frame);
 			}
 		}
@@ -171,6 +179,8 @@ class metrics_sensor_impl : public metrics_sensor {
 		void request_metrics() {
 			pmt::pmt_t command;
 			while(true) {
+				d_start_time = std::chrono::high_resolution_clock::now();
+
 				usleep(pr_periodicity*1000000); // Sleep for x seconds.
 				// RNP
 				command = pmt::from_uint64(RNP_REQUEST);
@@ -187,6 +197,12 @@ class metrics_sensor_impl : public metrics_sensor {
 				message_port_pub(msg_port_request_metrics, command);
 				usleep(pr_periodicity); // Short interval between requests.
 
+				d_end_time = std::chrono::high_resolution_clock::now();
+				float duration = (float) std::chrono::duration_cast<std::chrono::seconds>(d_end_time - d_start_time).count();
+				float thr = d_rcv_frames/duration; // Frames per second
+				d_rcv_frames = 0;
+
+				message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
 				// Other metric
 			}
 		}
