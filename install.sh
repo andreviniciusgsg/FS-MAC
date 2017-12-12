@@ -78,10 +78,7 @@ cd ../examples
 grcc ieee802_15_4_OQPSK_PHY.grc
 
 echo "====== Pip ======"
-cd ~/
-wget https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
-echo
+sudo apt install python-pip
 
 echo "====== Scikit-Learn ======"
 echo
