@@ -235,6 +235,26 @@ class ml_decision(gr.basic_block):
 				y2.append(aux[1]);
 				x2.append(list(aux[2:len(aux)]));
 
+		# Normalization
+		x1 = np.array(x1);
+		x2 = np.array(x2);
+		y1 = np.array(y1);
+		y2 = np.array(y2);
+
+		u1 = np.arange(len(x1[0,:]))*0;
+		s1 = np.arange(len(x1[0,:]))*0;
+		u2 = np.arange(len(x2[0,:]))*0;
+		s2 = np.arange(len(x2[0,:]))*0;
+
+		for i in range(0, len(u1)):
+			u1[i] = np.mean(x1[:,i]);
+			s1[i] = np.max(x1[:,i]);
+			u2[i] = np.mean(x2[:,i]);
+			s2[i] = np.mean(x2[:,i]);
+
+			x1[:,i] = (u1[i] - x1[:,i])/s1[i];
+			x2[:,i] = (u2[i] - x2[:,i])/s2[i];
+
 		csma = 0.0;
 		tdma = 0.0;
 
@@ -284,8 +304,14 @@ class ml_decision(gr.basic_block):
 				f.write(s);
 
 				if self._ml_model != 0 and self._ml_model != 1 and self._ml_model != 2:
-					pred1 = float(prot1.predict([[self.sensor_1, self.sensor_2, self.sensor_3, self.sensor_4]]));
-					pred2 = float(prot2.predict([[self.sensor_1, self.sensor_2, self.sensor_3, self.sensor_4]]));
+					_x1 = np.array([self.sensor_1, self.sensor_2, self.sensor_3, self.sensor_4]);
+					_x2 = np.array([self.sensor_1, self.sensor_2, self.sensor_3, self.sensor_4]);
+					for i in range(0, len(u1)):
+						_x1[i] = (u1[i] - _x1[i])/s1[i];
+						_x2[i] = (u2[i] - _x2[i])/s2[i];
+
+					pred1 = float(prot1.predict(_x1));
+					pred2 = float(prot2.predict(_x2));
 
 					# A change only occurs when a prediction is 10% higher than current protocol prediction
 					if self.act_protocol == 1:
