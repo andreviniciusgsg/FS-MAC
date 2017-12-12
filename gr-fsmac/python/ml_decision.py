@@ -26,6 +26,7 @@ import numpy as np
 import time
 import thread
 from sklearn import svm
+from sklearn import linear_model as lin
 from sklearn.neighbors import KNeighborsRegressor as knn
 from sklearn import tree as dt
 from sklearn.neural_network import MLPRegressor as nnet
@@ -261,7 +262,8 @@ class ml_decision(gr.basic_block):
 		# Machine Learning models if not none (0 or 1)
 		if self._ml_model != 0 and self._ml_model != 1 and self._ml_model != 2:
 			if self._ml_model == 3:
-				print "ADD LINEAR MODEL\n";
+				prot1 = lin.LinearRegression();
+				prot2 = lin.LinearRegression();
 			elif self._ml_model == 4:
 				prot1 = svm.LinearSVR(random_state=0);
 				prot2 = svm.LinearSVR(random_state=0);
