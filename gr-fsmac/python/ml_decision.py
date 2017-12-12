@@ -69,6 +69,8 @@ class ml_decision(gr.basic_block):
 		self._aggr5 = aggr5;
 		self._aggr_max = aggr_max;
 		self._period = periodicity;
+
+		self._count_max = 0;
 		
 		# Input ports
 		self.message_port_register_in(pmt.intern("max in"));
@@ -126,6 +128,9 @@ class ml_decision(gr.basic_block):
 				elif self._aggr_max == 4: # min
 					if thr < self.max:
 						self.max = thr;
+				elif self._aggr_max == 5: # simple avg
+					self.max = self.max + thr;
+					self._count_max = self._count_max + 1;
 				
 	def handle_act_protocol(self, msg):
 		self.act_protocol = pmt.to_uint64(msg);
@@ -302,6 +307,10 @@ class ml_decision(gr.basic_block):
 			time.sleep(sleep_time); # In seconds.
 
 			if self.act_protocol != None and self.max != None and self.sensor_1 != None and self.sensor_2 != None and self.sensor_3 != None and self.sensor_4 != None:
+				
+				if self._aggr_max == 5:
+					self.max = self.max/self._count_max;
+
 				s = str(self.act_protocol) + "\t" + str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n";
 				f.write(s);
 
@@ -341,6 +350,7 @@ class ml_decision(gr.basic_block):
 
 			# Resetting counters	
 			self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = self.max = None;
+			self._count_max = 0;
 
 			pmt_dict = pmt.make_dict();
 

@@ -268,6 +268,10 @@
       <name>Min</name>
       <key>4</key>
     </option>
+    <option>
+      <name>Simple avg</name>
+      <key>5</key>
+    </option>
   </param>
 
   <param>

@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Tue Dec 12 14:23:10 2017
+# Generated: Tue Dec 12 16:08:16 2017
 ##################################################
 
 import os
@@ -143,9 +143,9 @@ class transceiver_coord(gr.top_block):
 
     def set_gain(self, gain):
         self.gain = gain
-        self.uhd_usrp_source_0.set_normalized_gain(self.gain, 0)
-        	
         self.uhd_usrp_sink_0.set_normalized_gain(self.gain, 0)
+        	
+        self.uhd_usrp_source_0.set_normalized_gain(self.gain, 0)
         	
 
     def get_freq(self):
@@ -153,8 +153,8 @@ class transceiver_coord(gr.top_block):
 
     def set_freq(self, freq):
         self.freq = freq
-        self.uhd_usrp_source_0.set_center_freq(self.freq, 0)
         self.uhd_usrp_sink_0.set_center_freq(self.freq, 0)
+        self.uhd_usrp_source_0.set_center_freq(self.freq, 0)
 
 
 def main(top_block_cls=transceiver_coord, options=None):
