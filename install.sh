@@ -78,11 +78,13 @@ cd ../examples
 grcc ieee802_15_4_OQPSK_PHY.grc
 
 echo "====== Pip ======"
+export LC_ALL=C
 sudo apt install python-pip
 
 echo "====== Scikit-Learn ======"
 echo
-sudo pip install -U scikit-learn 
+sudo pip install scikit-learn 
+sudo pip install scipy
 
 echo
 echo "====== INSTALLING FS-MAC ======"
