@@ -3,18 +3,8 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Tue Dec 12 13:10:26 2017
+# Generated: Tue Dec 12 14:23:10 2017
 ##################################################
-
-if __name__ == '__main__':
-    import ctypes
-    import sys
-    if sys.platform.startswith('linux'):
-        try:
-            x11 = ctypes.cdll.LoadLibrary('libX11.so')
-            x11.XInitThreads()
-        except:
-            print "Warning: failed to XInitThreads()"
 
 import os
 import sys
@@ -27,8 +17,6 @@ from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.fft import logpwrfft
 from gnuradio.filter import firdes
-from gnuradio.wxgui import forms
-from grc_gnuradio import wxgui as grc_wxgui
 from ieee802_15_4_oqpsk_phy import ieee802_15_4_oqpsk_phy  # grc-generated hier_block
 from optparse import OptionParser
 import es
@@ -37,58 +25,22 @@ import ieee802_15_4
 import pmt
 import time
 import uhdgps
-import wx
 
 
-class transceiver_coord(grc_wxgui.top_block_gui):
+class transceiver_coord(gr.top_block):
 
     def __init__(self):
-        grc_wxgui.top_block_gui.__init__(self, title="IEEE 802.15.4 Transceiver using OQPSK PHY")
-        _icon_path = "/usr/share/icons/hicolor/32x32/apps/gnuradio-grc.png"
-        self.SetIcon(wx.Icon(_icon_path, wx.BITMAP_TYPE_ANY))
+        gr.top_block.__init__(self, "IEEE 802.15.4 Transceiver using OQPSK PHY")
 
         ##################################################
         # Variables
         ##################################################
         self.gain = gain = 1
-        self.freq = freq = 2520000000
+        self.freq = freq = 2.52e9
 
         ##################################################
         # Blocks
         ##################################################
-        _gain_sizer = wx.BoxSizer(wx.VERTICAL)
-        self._gain_text_box = forms.text_box(
-        	parent=self.GetWin(),
-        	sizer=_gain_sizer,
-        	value=self.gain,
-        	callback=self.set_gain,
-        	label='gain',
-        	converter=forms.float_converter(),
-        	proportion=0,
-        )
-        self._gain_slider = forms.slider(
-        	parent=self.GetWin(),
-        	sizer=_gain_sizer,
-        	value=self.gain,
-        	callback=self.set_gain,
-        	minimum=0,
-        	maximum=1,
-        	num_steps=20,
-        	style=wx.SL_HORIZONTAL,
-        	cast=float,
-        	proportion=1,
-        )
-        self.Add(_gain_sizer)
-        self._freq_chooser = forms.radio_buttons(
-        	parent=self.GetWin(),
-        	value=self.freq,
-        	callback=self.set_freq,
-        	label="Channel",
-        	choices=[1000000 * (2400 + 5 * (i - 10)) for i in range(11, 37)],
-        	labels=[i for i in range(11, 37)],
-        	style=wx.RA_HORIZONTAL,
-        )
-        self.Add(self._freq_chooser)
         self.uhdgps_cpdu_average_power_0 = uhdgps.cpdu_average_power(-60)
         self.uhd_usrp_source_0 = uhd.usrp_source(
         	",".join(("", "")),
@@ -124,7 +76,7 @@ class transceiver_coord(grc_wxgui.top_block_gui):
         self.fsmac_snr_0 = fsmac.snr(1024, -70, 2)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
         self.fsmac_ml_decision_1 = fsmac.ml_decision(2, False, 0.1, "", "", 3, 1, 3, 4, 0, 1, 20)
-        self.fsmac_ml_decision_0 = fsmac.ml_decision(0, True, 0.1, "/home/gnuradio/out_file.txt", "/home/gnuradio/training_file.txt", 3, 1, 3, 4, 0, 1, 30)
+        self.fsmac_ml_decision_0 = fsmac.ml_decision(0, True, 0.1, "/home/gnuradio/out_file.txt", "/home/gnuradio/training_file.txt", 3, 1, 1, 1, 0, 1, 30)
         self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, True)
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(True)
         self.fsmac_exchanger_0 = fsmac.exchanger(True)
@@ -191,11 +143,9 @@ class transceiver_coord(grc_wxgui.top_block_gui):
 
     def set_gain(self, gain):
         self.gain = gain
-        self._gain_slider.set_value(self.gain)
-        self._gain_text_box.set_value(self.gain)
-        self.uhd_usrp_sink_0.set_normalized_gain(self.gain, 0)
-        	
         self.uhd_usrp_source_0.set_normalized_gain(self.gain, 0)
+        	
+        self.uhd_usrp_sink_0.set_normalized_gain(self.gain, 0)
         	
 
     def get_freq(self):
@@ -203,9 +153,8 @@ class transceiver_coord(grc_wxgui.top_block_gui):
 
     def set_freq(self, freq):
         self.freq = freq
-        self._freq_chooser.set_value(self.freq)
-        self.uhd_usrp_sink_0.set_center_freq(self.freq, 0)
         self.uhd_usrp_source_0.set_center_freq(self.freq, 0)
+        self.uhd_usrp_sink_0.set_center_freq(self.freq, 0)
 
 
 def main(top_block_cls=transceiver_coord, options=None):
@@ -213,8 +162,13 @@ def main(top_block_cls=transceiver_coord, options=None):
         print "Error: failed to enable real-time scheduling."
 
     tb = top_block_cls()
-    tb.Start(True)
-    tb.Wait()
+    tb.start()
+    try:
+        raw_input('Press Enter to quit: ')
+    except EOFError:
+        pass
+    tb.stop()
+    tb.wait()
 
 
 if __name__ == '__main__':

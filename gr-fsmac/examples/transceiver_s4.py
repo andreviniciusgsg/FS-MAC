@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Sat Dec  9 16:52:28 2017
+# Generated: Tue Dec 12 14:25:08 2017
 ##################################################
 
 if __name__ == '__main__':
@@ -27,7 +27,6 @@ from gnuradio import uhd
 from gnuradio.eng_option import eng_option
 from gnuradio.fft import logpwrfft
 from gnuradio.filter import firdes
-from gnuradio.wxgui import forms
 from grc_gnuradio import wxgui as grc_wxgui
 from ieee802_15_4_oqpsk_phy import ieee802_15_4_oqpsk_phy  # grc-generated hier_block
 from optparse import OptionParser
@@ -51,44 +50,11 @@ class transceiver_s4(grc_wxgui.top_block_gui):
         # Variables
         ##################################################
         self.gain = gain = 1
-        self.freq = freq = 2520000000
+        self.freq = freq = 2.52e9
 
         ##################################################
         # Blocks
         ##################################################
-        _gain_sizer = wx.BoxSizer(wx.VERTICAL)
-        self._gain_text_box = forms.text_box(
-        	parent=self.GetWin(),
-        	sizer=_gain_sizer,
-        	value=self.gain,
-        	callback=self.set_gain,
-        	label='gain',
-        	converter=forms.float_converter(),
-        	proportion=0,
-        )
-        self._gain_slider = forms.slider(
-        	parent=self.GetWin(),
-        	sizer=_gain_sizer,
-        	value=self.gain,
-        	callback=self.set_gain,
-        	minimum=0,
-        	maximum=1,
-        	num_steps=20,
-        	style=wx.SL_HORIZONTAL,
-        	cast=float,
-        	proportion=1,
-        )
-        self.Add(_gain_sizer)
-        self._freq_chooser = forms.radio_buttons(
-        	parent=self.GetWin(),
-        	value=self.freq,
-        	callback=self.set_freq,
-        	label="Channel",
-        	choices=[1000000 * (2400 + 5 * (i - 10)) for i in range(11, 37)],
-        	labels=[i for i in range(11, 37)],
-        	style=wx.RA_HORIZONTAL,
-        )
-        self.Add(self._freq_chooser)
         self.uhdgps_cpdu_average_power_0 = uhdgps.cpdu_average_power(-60)
         self.uhd_usrp_source_0 = uhd.usrp_source(
         	",".join(("", "")),
@@ -190,8 +156,6 @@ class transceiver_s4(grc_wxgui.top_block_gui):
 
     def set_gain(self, gain):
         self.gain = gain
-        self._gain_slider.set_value(self.gain)
-        self._gain_text_box.set_value(self.gain)
         self.uhd_usrp_sink_0.set_normalized_gain(self.gain, 0)
         	
         self.uhd_usrp_source_0.set_normalized_gain(self.gain, 0)
@@ -202,7 +166,6 @@ class transceiver_s4(grc_wxgui.top_block_gui):
 
     def set_freq(self, freq):
         self.freq = freq
-        self._freq_chooser.set_value(self.freq)
         self.uhd_usrp_sink_0.set_center_freq(self.freq, 0)
         self.uhd_usrp_source_0.set_center_freq(self.freq, 0)
 
