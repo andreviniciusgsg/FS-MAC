@@ -70,6 +70,7 @@ class ml_decision(gr.basic_block):
 		self._aggr_max = aggr_max;
 		self._period = periodicity;
 
+		self._count_1 = self._count_2 = self._count_3 = self._count_4 = self._count_5 = 0;
 		self._count_max = 0;
 		
 		# Input ports
@@ -157,6 +158,9 @@ class ml_decision(gr.basic_block):
 			elif self._aggr1 == 4: # min
 				if non < self.sensor_1:
 					self.sensor_1 = non;
+			elif self._aggr1 == 5: # simple avg
+				self.sensor_1 = self.sensor_1 + non;
+				self._count_1 = self._count_1 + 1;
 
 	# This sensor is responsible for latency.
 	def handle_sensor_2(self, msg):
@@ -177,6 +181,9 @@ class ml_decision(gr.basic_block):
 				elif self._aggr2 == 4: # min
 					if latency < self.sensor_2:
 						self.sensor_2 = latency;
+				elif self._aggr2 == 5: # simple avg
+					self.sensor_2 = self.sensor_2 + latency;
+					self._count_2 = self._count_2 + 1;
 		else:
 			self.message_port_pub(pmt.intern("out"), msg);
 
@@ -199,6 +206,9 @@ class ml_decision(gr.basic_block):
 				elif self._aggr3 == 4: # min
 					if rnp < self.sensor_3:
 						self.sensor_3 = rnp;
+				elif self._aggr3 == 5: # simple avg
+					self.sensor_3 = self.sensor_3 + rnp;
+					self._count_3 = self._count_3 + 1;
 
 	# This sensor is responsible for SNR.
 	def handle_sensor_4(self, msg):
@@ -219,6 +229,9 @@ class ml_decision(gr.basic_block):
 				elif self._aggr4 == 4: # min
 					if snr < self.sensor_4:
 						self.sensor_4 = snr;
+				elif self._aggr4 == 5: # simple avg
+					self.sensor_4 = self.sensor_4 + snr;
+					self._count_4 = self._count_4 + 1;
 
 	def handle_sensor_5(self, msg):
 		print "Nothing on this sensor";
@@ -308,8 +321,19 @@ class ml_decision(gr.basic_block):
 
 			if self.act_protocol != None and self.max != None and self.sensor_1 != None and self.sensor_2 != None and self.sensor_3 != None and self.sensor_4 != None:
 				
+				# if aggr is simple avg
 				if self._aggr_max == 5:
 					self.max = self.max/self._count_max;
+				if self._aggr1 == 5:
+					self.sensor_1 = self.sensor_1/self._count_1;
+				if self._aggr2 == 5:
+					self.sensor_2 = self.sensor_2/self._count_2;
+				if self._aggr3 == 5:
+					self.sensor_3 = self.sensor_3/self._count_3;
+				if self._aggr4 == 5:
+					self.sensor_4 = self.sensor_4/self._count_4;
+				if self._aggr5 == 5:
+					self.sensor_5 = self.sensor_5/self._count_5;
 
 				s = str(self.act_protocol) + "\t" + str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n";
 				f.write(s);
@@ -350,6 +374,7 @@ class ml_decision(gr.basic_block):
 
 			# Resetting counters	
 			self.sensor_1 = self.sensor_2 = self.sensor_3 = self.sensor_4 = self.sensor_5 = self.max = None;
+			self._count_1 = self._count_2 = self._count_3 = self._count_4 = self._count_5 = 0;
 			self._count_max = 0;
 
 			pmt_dict = pmt.make_dict();

@@ -133,6 +133,10 @@
       <name>Min</name>
       <key>4</key>
     </option>
+    <option>
+      <name>Simple avg</name>
+      <key>5</key>
+    </option>
   </param>
 
   <param>
@@ -159,6 +163,10 @@
     <option>
       <name>Min</name>
       <key>4</key>
+    </option>
+    <option>
+      <name>Simple avg</name>
+      <key>5</key>
     </option>
   </param>
 
@@ -187,6 +195,10 @@
       <name>Min</name>
       <key>4</key>
     </option>
+    <option>
+      <name>Simple avg</name>
+      <key>5</key>
+    </option>
   </param>
 
   <param>
@@ -214,6 +226,10 @@
       <name>Min</name>
       <key>4</key>
     </option>
+    <option>
+      <name>Simple avg</name>
+      <key>5</key>
+    </option>
   </param>
 
   <param>
@@ -240,6 +256,10 @@
     <option>
       <name>Min</name>
       <key>4</key>
+    </option>
+    <option>
+      <name>Simple avg</name>
+      <key>5</key>
     </option>
   </param>
 
