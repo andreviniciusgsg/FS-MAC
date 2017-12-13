@@ -77,6 +77,16 @@ sudo ldconfig
 cd ../examples
 grcc ieee802_15_4_OQPSK_PHY.grc
 
+echo
+echo "===== Installing gr-toolkit ====="
+cd ~/
+git clone https://github.com/andreviniciusgsg/gr-toolkit.git
+cd gr-toolkit
+mkdir build
+cd build
+cmake ..
+sudo make install; sudo ldconfig;
+
 echo "====== Pip ======"
 export LC_ALL=C
 sudo apt install python-pip
