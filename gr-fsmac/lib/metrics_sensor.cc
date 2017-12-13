@@ -171,7 +171,31 @@ class metrics_sensor_impl : public metrics_sensor {
 
 			/* Data frame */
 			else {
-				d_rcv_frames++;
+				// This checks CRC to make sure frame is not corrupted while counting d_rcv_frames
+				pmt::pmt_t blob;
+
+				if(pmt::is_pair(frame)) {
+					blob = pmt::cdr(frame);
+
+					size_t data_len = pmt::blob_length(blob);
+					if (data_len < 11 && data_len != 6) {
+						return;
+					}
+
+					char* pkg = (char*) pmt::blob_data(blob);
+					pkg[data_len - 1] = '\0';
+					data_len = data_len - 1;
+
+					pkg = (char*) pmt::blob_data(blob);
+					uint16_t crc = crc16(pkg, data_len);
+
+					if(crc) {
+						std::cout << "Frame is corrupted!" << std::endl;
+					} else {
+						d_rcv_frames++;
+					}
+				}
+
 				message_port_pub(msg_port_data_frame_out, frame);
 			}
 		}
