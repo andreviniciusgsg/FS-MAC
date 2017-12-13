@@ -77,6 +77,11 @@
 		<type>message</type>
 		<optional>1</optional>
 	</source>
+	<source>
+		<name>request cs</name>
+		<type>message</type>
+		<optional>1</optional>
+	</source>
 	<doc>
 			Internal addresses and indexes for tests
 						
@@ -88,3 +93,4 @@
 			
 	</doc>
 </block>
+

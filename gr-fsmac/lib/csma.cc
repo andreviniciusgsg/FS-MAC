@@ -100,9 +100,11 @@ class csma_impl : public csma {
     boost::condition_variable cond;
     boost::condition_variable cond2;
     boost::condition_variable cond3;
+    boost::condition_variable cond4;
     boost::mutex mut;
     boost::mutex mut2;
     boost::mutex mut3;
+    boost::mutex mut4;
     bool data_ready = false;
     bool comm_ready = false;
     bool answer_sending = false;
@@ -167,6 +169,7 @@ public:
         message_port_register_out(pmt::mp("app out"));
         message_port_register_out(pmt::mp("pdu out"));
         message_port_register_out(pmt::mp("ctrl out"));
+        message_port_register_out(pmt::mp("request cs"));
 
         d_rnp_rtx = 0;
         d_rnp_nr_pkts = 0;
@@ -730,6 +733,7 @@ public:
         //execução ela precisa ser pausada e retomada várias vezes, quando 
         //fazemos isso com a thread do bloco, ela interrompe outras operações 
         //como o carrier sense que é feito na função cs_in().
+        pr_sensing = false;
         exec = boost::shared_ptr<gr::thread::thread>
                 (new gr::thread::thread(boost::bind(&csma_impl::executeM, this)));
 
@@ -937,17 +941,15 @@ public:
 //                    printf("FIM da verificacao de backoff\n");
 
                     real_backoff = (std::rand() % cw_current_backoff) + 1;
-                    boost::posix_time::millisec workTime(slotSize);
 
 //                    printf("INICIO da espera de backoff\n");
                     //tratamento do backoff
 //                    std::cout << "Real backoff inicial: " << real_backoff << std::endl;
                     while (real_backoff >= 0) {
 //                        printf("INICIO SLEEP\n");
-                        boost::this_thread::sleep(workTime);
 //                        printf("FIM SLEEP\n");
 //                        std::cout << "POTENCIA DO MEIO: " <<lastAvPower << std::endl;
-                        if (!isChannelBusy(referenceValueChannelBusy)) {
+                        if(!is_channel_busy(referenceValueChannelBusy, slotSize)){
                             real_backoff = real_backoff - slotSize;
 //                            std::cout << "Real backoff: " << real_backoff << std::endl;
                         }
@@ -1033,37 +1035,29 @@ public:
      * interromper a execução dessa função.
      */
     void cs_in(pmt::pmt_t msg) {
-        pmt::pmt_t blob;
 
-        if (pmt::is_blob(msg)) {
-            blob = msg;
-            std::cout << "Is blob" << std::endl;
-        } else if (pmt::is_pair(msg)) {
-            blob = pmt::car(msg);
-            //LOG std::cout << "Is pair" << std::endl;
-        }
-
-        float avPowerChannel = 0;
-        float power = 0;
-
-        //In this case, the blob is a dictionary, we are getting the value of power using the key "power"
-        pmt::pmt_t pmtPower = pmt::dict_ref(blob, pmt::string_to_symbol("power"), pmt::get_PMT_NIL());
-        power = pmt::to_float(pmtPower);
-
-        //LOG std::cout << "Power: ";
-
-        //LOG std::cout << power << std::endl;
-
-        avPowerChannel = power;
-
-        lastAvPower = avPowerChannel;
+        lastAvPower = pmt::to_float(msg);
+        pr_sensing = false;
+        cond4.notify_all();
     }
 
     /**
      * Usa o valor de referência para determinar se o canal está livre.
      */
-    bool isChannelBusy(float refValue) {
-        return (lastAvPower > refValue);
+
+    bool is_channel_busy(int threshold, int time) {
+        time = time * 1000; // This must be in ms but cs sense accepts only us
+        message_port_pub(pmt::mp("request cs"), pmt::string_to_symbol(std::to_string((float)time)));
+
+        pr_sensing = true;
+        boost::unique_lock<boost::mutex> lock(mut4);
+        while(pr_sensing) cond4.wait(lock);
+
+        if(lastAvPower < threshold) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -1279,9 +1273,14 @@ private:
     float d_snr; 
     decltype(std::chrono::high_resolution_clock::now()) d_start_time;
     decltype(std::chrono::high_resolution_clock::now()) d_end_time;
+
+    bool pr_sensing;
+    float pr_avg_power;
+
 };
 
 csma::sptr
 csma::make(int mac_addr, int dest_node, bool debug) {
     return gnuradio::get_initial_sptr(new csma_impl(mac_addr, dest_node, debug));
 }
+

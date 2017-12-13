@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Tue Dec 12 16:08:16 2017
+# Generated: Wed Dec 13 01:45:08 2017
 ##################################################
 
 import os
@@ -19,12 +19,11 @@ from gnuradio.fft import logpwrfft
 from gnuradio.filter import firdes
 from ieee802_15_4_oqpsk_phy import ieee802_15_4_oqpsk_phy  # grc-generated hier_block
 from optparse import OptionParser
-import es
 import fsmac
 import ieee802_15_4
 import pmt
 import time
-import uhdgps
+import toolkit
 
 
 class transceiver_coord(gr.top_block):
@@ -41,7 +40,6 @@ class transceiver_coord(gr.top_block):
         ##################################################
         # Blocks
         ##################################################
-        self.uhdgps_cpdu_average_power_0 = uhdgps.cpdu_average_power(-60)
         self.uhd_usrp_source_0 = uhd.usrp_source(
         	",".join(("", "")),
         	uhd.stream_args(
@@ -62,6 +60,7 @@ class transceiver_coord(gr.top_block):
         self.uhd_usrp_sink_0.set_samp_rate(4000000)
         self.uhd_usrp_sink_0.set_center_freq(freq, 0)
         self.uhd_usrp_sink_0.set_normalized_gain(gain, 0)
+        self.toolkit_cs_0 = toolkit.cs()
         self.logpwrfft_x_0 = logpwrfft.logpwrfft_c(
         	sample_rate=4e6,
         	fft_size=1024,
@@ -76,31 +75,24 @@ class transceiver_coord(gr.top_block):
         self.fsmac_snr_0 = fsmac.snr(1024, -70, 2)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
         self.fsmac_ml_decision_1 = fsmac.ml_decision(2, False, 0.1, "", "", 3, 1, 3, 4, 0, 1, 20)
-        self.fsmac_ml_decision_0 = fsmac.ml_decision(0, True, 0.1, "/home/gnuradio/out_file.txt", "/home/gnuradio/training_file.txt", 3, 1, 1, 1, 0, 1, 30)
+        self.fsmac_ml_decision_0 = fsmac.ml_decision(0, True, 0.1, "/home/avgsg/log_file.txt", "/home/avgsg/training_file.txt", 3, 5, 5, 5, 0, 5, 30)
         self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, True)
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(True)
         self.fsmac_exchanger_0 = fsmac.exchanger(True)
         self.fsmac_csma_0 = fsmac.csma(0, 1, True)
-        self.es_trigger_sample_timer_0 = es.trigger_sample_timer(gr.sizeof_gr_complex, int(1000), 2, int(4000000), 512 )
-        self.es_sink_0 = es.sink(1*[gr.sizeof_gr_complex],8,64,0,2,0)
-        self.es_handler_pdu_0 = es.es_make_handler_pdu(es.es_handler_print.TYPE_C32)
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_float*1, 1024)
         self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_SERVER", "", "52001", 10000, False)
-        self.blocks_pdu_remove_0 = blocks.pdu_remove(pmt.intern("es::event_buffer"))
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 5e3)
 
         ##################################################
         # Connections
         ##################################################
         self.msg_connect((self.blocks_message_strobe_0, 'strobe'), (self.ieee802_15_4_rime_stack_0, 'bcin'))    
-        self.msg_connect((self.blocks_pdu_remove_0, 'pdus'), (self.fsmac_csma_0, 'cs in'))    
         self.msg_connect((self.blocks_socket_pdu_0_0, 'pdus'), (self.ieee802_15_4_rime_stack_0, 'bcin'))    
-        self.msg_connect((self.es_handler_pdu_0, 'pdus_out'), (self.uhdgps_cpdu_average_power_0, 'cpdus'))    
-        self.msg_connect((self.es_trigger_sample_timer_0, 'sample_timer_event'), (self.es_handler_pdu_0, 'handle_event'))    
-        self.msg_connect((self.es_trigger_sample_timer_0, 'which_stream'), (self.es_sink_0, 'schedule_event'))    
         self.msg_connect((self.fsmac_csma_0, 'app out'), (self.fsmac_exchanger_0, 'p1_app in'))    
         self.msg_connect((self.fsmac_csma_0, 'ctrl out'), (self.fsmac_exchanger_0, 'p1_ctrl in'))    
         self.msg_connect((self.fsmac_csma_0, 'pdu out'), (self.fsmac_exchanger_0, 'p1_mac in'))    
+        self.msg_connect((self.fsmac_csma_0, 'request cs'), (self.toolkit_cs_0, 'in_msg'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_app out'), (self.fsmac_csma_0, 'app in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_ctrl out'), (self.fsmac_csma_0, 'ctrl in'))    
         self.msg_connect((self.fsmac_exchanger_0, 'p1_mac out'), (self.fsmac_csma_0, 'pdu in'))    
@@ -129,12 +121,11 @@ class transceiver_coord(gr.top_block):
         self.msg_connect((self.ieee802_15_4_oqpsk_phy_0, 'rxout'), (self.fsmac_sens_num_senders_0, 'pdu in'))    
         self.msg_connect((self.ieee802_15_4_rime_stack_0, 'bcout'), (self.blocks_socket_pdu_0_0, 'pdus'))    
         self.msg_connect((self.ieee802_15_4_rime_stack_0, 'toMAC'), (self.fsmac_exchanger_0, 'app in'))    
-        self.msg_connect((self.uhdgps_cpdu_average_power_0, 'cpdus'), (self.blocks_pdu_remove_0, 'pdus'))    
+        self.msg_connect((self.toolkit_cs_0, 'out_msg'), (self.fsmac_csma_0, 'cs in'))    
         self.connect((self.blocks_vector_to_stream_0, 0), (self.fsmac_snr_0, 0))    
-        self.connect((self.es_trigger_sample_timer_0, 0), (self.es_sink_0, 0))    
+        self.connect((self.blocks_vector_to_stream_0, 0), (self.toolkit_cs_0, 0))    
         self.connect((self.ieee802_15_4_oqpsk_phy_0, 0), (self.uhd_usrp_sink_0, 0))    
         self.connect((self.logpwrfft_x_0, 0), (self.blocks_vector_to_stream_0, 0))    
-        self.connect((self.uhd_usrp_source_0, 0), (self.es_trigger_sample_timer_0, 0))    
         self.connect((self.uhd_usrp_source_0, 0), (self.ieee802_15_4_oqpsk_phy_0, 0))    
         self.connect((self.uhd_usrp_source_0, 0), (self.logpwrfft_x_0, 0))    
 
