@@ -116,6 +116,7 @@ class ml_decision(gr.basic_block):
 			thr = pmt.to_float(msg);
 			if not np.isnan(thr):
 				if self.max == None:
+					self._count_max = self._count_max + 1;
 					self.max = thr;
 				elif self._aggr_max == 0: # none
 					self.max = thr;
@@ -145,6 +146,7 @@ class ml_decision(gr.basic_block):
 		non = pmt.to_uint64(msg);
 		if not np.isnan(non):
 			if self.sensor_1 == None:
+				self._count_1 = self._count_1 + 1;
 				self.sensor_1 = non;
 			elif self._aggr1 == 0: # none
 				self.sensor_1 = 0;
@@ -168,6 +170,7 @@ class ml_decision(gr.basic_block):
 			latency = pmt.to_float(msg);
 			if not np.isnan(latency):
 				if self.sensor_2 == None:
+					self._count_2 = self._count_2 + 1;
 					self.sensor_2 = latency;
 				elif self._aggr2 == 0: # none
 					self.sensor_2 = latency;
@@ -193,6 +196,7 @@ class ml_decision(gr.basic_block):
 			rnp = pmt.to_float(msg);
 			if not np.isnan(rnp):
 				if self.sensor_3 == None:
+					self._count_3 = self._count_3 + 1;
 					self.sensor_3 = rnp;
 				elif self._aggr3 == 0: # none
 					self.sensor_3 = rnp;
@@ -216,6 +220,7 @@ class ml_decision(gr.basic_block):
 			snr = pmt.to_float(msg);
 			if not np.isnan(snr):
 				if self.sensor_4 == None:
+					self._count_4 = self._count_4 + 1;
 					self.sensor_4 = snr;
 				elif self._aggr4 == 0: # none
 					self.sensor_4 = snr;
