@@ -276,6 +276,11 @@ class ml_decision(gr.basic_block):
 			u2[i] = np.mean(x2[:,i]);
 			s2[i] = np.mean(x2[:,i]);
 
+			if s1[i] == 0:
+				s1[i] = 1;
+			if s2[i] == 0:
+				s2[i] = 1;
+
 			x1[:,i] = (u1[i] - x1[:,i])/s1[i];
 			x2[:,i] = (u2[i] - x2[:,i])/s2[i];
 
