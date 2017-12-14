@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Thu Dec 14 14:46:39 2017
+# Generated: Thu Dec 14 14:45:35 2017
 ##################################################
 
 import os
@@ -26,7 +26,7 @@ import time
 import toolkit
 
 
-class transceiver_s6(gr.top_block):
+class transceiver_s7(gr.top_block):
 
     def __init__(self):
         gr.top_block.__init__(self, "IEEE 802.15.4 Transceiver using OQPSK PHY")
@@ -71,14 +71,14 @@ class transceiver_s6(gr.top_block):
         )
         self.ieee802_15_4_rime_stack_0 = ieee802_15_4.rime_stack(([129]), ([131]), ([132]), ([23,42]))
         self.ieee802_15_4_oqpsk_phy_0 = ieee802_15_4_oqpsk_phy()
-        self.fsmac_tdma_0 = fsmac.tdma(6, 0, True, False)
+        self.fsmac_tdma_0 = fsmac.tdma(7, 0, True, False)
         self.fsmac_snr_0 = fsmac.snr(1024, -70, 2)
         self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
         self.fsmac_ml_decision_0 = fsmac.ml_decision(2, False, 0.01, "", "", 3, 1, 3, 4, 0, 1, 20)
         self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, False)
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(False)
         self.fsmac_exchanger_0 = fsmac.exchanger(False)
-        self.fsmac_csma_0 = fsmac.csma(6, 0, True)
+        self.fsmac_csma_0 = fsmac.csma(7, 0, True)
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_float*1, 1024)
         self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_SERVER", "", "52001", 10000, False)
         self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 20)
@@ -147,7 +147,7 @@ class transceiver_s6(gr.top_block):
         self.uhd_usrp_source_0.set_center_freq(self.freq, 0)
 
 
-def main(top_block_cls=transceiver_s6, options=None):
+def main(top_block_cls=transceiver_s7, options=None):
     if gr.enable_realtime_scheduling() != gr.RT_OK:
         print "Error: failed to enable real-time scheduling."
 

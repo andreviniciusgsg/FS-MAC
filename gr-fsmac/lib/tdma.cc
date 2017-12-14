@@ -102,11 +102,14 @@ class tdma_impl : public tdma {
     char addr4[2];
     char addr5[2];
     char addr6[2];
+    char addr7[2]; 
+    char addr8[2];
+    char addr9[2];
 
-    int addrs_len = 7;
+    int addrs_len = 10;
 
     //array que vai conter os endereços das outras máquinas
-    char* addrs[7];
+    char* addrs[10];
 
     boost::shared_ptr<gr::thread::thread> waitAloc;
     boost::condition_variable condAloc;
@@ -905,6 +908,15 @@ public:
         addr6[0] = 0x46;
         addr6[1] = 0xe8;
 
+        addr7[0] = 0x47;
+        addr7[1] = 0xe8;
+
+        addr8[0] = 0x48;
+        addr8[1] = 0xe8;
+
+        addr9[0] = 0x49;
+        addr9[1] = 0xe8;
+
         addrs[0] = addr0;
         addrs[1] = addr1;
         addrs[2] = addr2;
@@ -912,6 +924,9 @@ public:
         addrs[4] = addr4;
         addrs[5] = addr5;
         addrs[6] = addr6;
+        addrs[7] = addr7;
+        addrs[8] = addr8;
+        addrs[9] = addr9;
 
         mac_addr_1 = addrs[indexLocalMac][0]; //mac_addr[0];
         mac_addr_2 = addrs[indexLocalMac][1]; //mac_addr[1];
