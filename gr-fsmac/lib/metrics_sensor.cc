@@ -166,7 +166,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> thr;
 
-				//message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
+				message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
 			}
 
 			/* Data frame */
@@ -226,7 +226,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				float thr = d_rcv_frames/duration; // Frames per second
 				d_rcv_frames = 0;
 
-				message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
+				//message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
 				// Other metric
 			}
 		}

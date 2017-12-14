@@ -1,0 +1,1 @@
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  -O3 -DNDEBUG -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/_fsmac_swig_doc_tag.dir/_fsmac_swig_doc_tag.cpp.o  -o _fsmac_swig_doc_tag  -L/opt/local/lib -Wl,-rpath,/usr/local/lib 
