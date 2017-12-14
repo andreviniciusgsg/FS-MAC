@@ -308,8 +308,8 @@ class ml_decision(gr.basic_block):
 				prot1 = dt.DecisionTreeRegressor();
 				prot2 = dt.DecisionTreeRegressor();
 			elif self._ml_model == 9:
-				prot1 = nnet(max_iter=10000);
-				prot2 = nnet(max_iter=10000);
+				prot1 = nnet(max_iter=100000);
+				prot2 = nnet(max_iter=100000);
 			elif self._ml_model == 10:
 				prot1 = gbe();
 				prot2 = gbe();
