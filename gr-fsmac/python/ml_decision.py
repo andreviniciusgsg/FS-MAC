@@ -331,19 +331,23 @@ class ml_decision(gr.basic_block):
 
 			if self.act_protocol != None and self.max != None and self.sensor_1 != None and self.sensor_2 != None and self.sensor_3 != None and self.sensor_4 != None:
 				
+				if self.sensor_1 > 0:
+					non = self.sensor_1;
+				else:
+					non = 1;
 				# if aggr is simple avg
 				if self._aggr_max == 5:
-					self.max = self.max/self._count_max;
+					self.max = self.max/non;
 				if self._aggr1 == 5:
-					self.sensor_1 = self.sensor_1/self._count_1;
+					self.sensor_1 = self.sensor_1/non;
 				if self._aggr2 == 5:
-					self.sensor_2 = self.sensor_2/self._count_2;
+					self.sensor_2 = self.sensor_2/non;
 				if self._aggr3 == 5:
-					self.sensor_3 = self.sensor_3/self._count_3;
+					self.sensor_3 = self.sensor_3/non;
 				if self._aggr4 == 5:
-					self.sensor_4 = self.sensor_4/self._count_4;
+					self.sensor_4 = self.sensor_4/non;
 				if self._aggr5 == 5:
-					self.sensor_5 = self.sensor_5/self._count_5;
+					self.sensor_5 = self.sensor_5/non;
 
 				s = str(self.act_protocol) + "\t" + str(self.max) + "\t" + str(self.sensor_1) + "\t" + str(self.sensor_2) + "\t" + str(self.sensor_3) + "\t" + str(self.sensor_4) + "\n";
 				f.write(s);
