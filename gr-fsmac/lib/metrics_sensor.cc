@@ -32,8 +32,15 @@
 #define RNP_REQUEST 5
 #define THROUGHPUT_REQUEST 6
 #define SNR_REQUEST 7
+#define NUM_USERS 10
+#define null -1000000
 
 using namespace gr::fsmac;
+
+struct metric {
+	char addr[2];
+	float value;
+};
 
 class metrics_sensor_impl : public metrics_sensor {
 	private:
@@ -53,7 +60,9 @@ class metrics_sensor_impl : public metrics_sensor {
 		// Threads
 		boost::shared_ptr<gr::thread::thread> thread;
 
-		uint16_t d_rcv_frames;
+		metric a_rnp[NUM_USERS];
+		metric a_snr[NUM_USERS];
+		metric a_thr[NUM_USERS];
 		decltype(std::chrono::high_resolution_clock::now()) d_start_time;
     	decltype(std::chrono::high_resolution_clock::now()) d_end_time;
 
@@ -82,7 +91,23 @@ class metrics_sensor_impl : public metrics_sensor {
 			message_port_register_out(msg_port_data_frame_out);
 			message_port_register_out(msg_port_request_metrics);
 
-			d_rcv_frames = 0;
+			char addr0 = 0x40;
+			char addr_net = 0xe8;
+
+			for(uint8_t i = 0; i < NUM_USERS; i++) {
+				a_rnp[i].value = null;
+				a_snr[i].value = null;
+				a_thr[i].value = null;
+
+				a_rnp[i].addr[0] = addr0 + i;
+				a_rnp[i].addr[1] = addr_net;
+				
+				a_snr[i].addr[0] = addr0 + i;
+				a_snr[i].addr[1] = addr_net;
+
+				a_thr[i].addr[0] = addr0 + i;
+				a_thr[i].addr[1] = addr_net;
+			}
 		}
 
 		~metrics_sensor_impl(void) {}
@@ -117,6 +142,7 @@ class metrics_sensor_impl : public metrics_sensor {
 			if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'G') {
 				int payload_len = len - 10;
 				char payload[payload_len + 1];
+				char src_mac = pkg[7];
 
 				for(int i = 0; i < payload_len; i++) {
 					payload[i] = pkg[10 + i];
@@ -129,12 +155,17 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> rnp;
 
-				message_port_pub(msg_port_rnp_out, pmt::from_float(rnp));
+				for(int i = 0; i < NUM_USERS; i++) {
+					if(a_rnp[i].addr[0] == src_mac) {
+						a_rnp[i].value = rnp;
+					}
+				}
 			}
-
+			/* SNR */
 			else if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'I') {
 				int payload_len = len - 10;
 				char payload[payload_len + 1];
+				char src_mac = pkg[7];
 
 				for(int i = 0; i < payload_len; i++) {
 					payload[i] = pkg[10 + i];
@@ -147,13 +178,18 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> snr;
 
-				message_port_pub(msg_port_snr_out, pmt::from_float(snr));
+				for(int i = 0; i < NUM_USERS; i++) {
+					if(a_snr[i].addr[0] == src_mac) {
+						a_snr[i].value = snr;
+					}
+				}
 			}
 
 			/* Throughput */
 			else if(crc == 0 and pkg[0] == 0x41 and pkg[9] == 'H') {
 				int payload_len = len - 10;
 				char payload[payload_len + 1];
+				char src_mac = pkg[7];
 
 				for(int i = 0; i < payload_len; i++) {
 					payload[i] = pkg[10 + i];
@@ -166,11 +202,18 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> thr;
 
-				message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
+				for(int i = 0; i < NUM_USERS; i++) {
+					if(a_thr[i].addr[0] == src_mac) {
+						a_thr[i].value = thr;
+					}
+				}
 			}
 
 			/* Data frame */
 			else {
+				/*TODO: Is this CRC relevant? Perhaps, it should only send the msg. 
+				I do not remember by now and I should check this in future.*/
+
 				// This checks CRC to make sure frame is not corrupted while counting d_rcv_frames
 				pmt::pmt_t blob;
 
@@ -188,12 +231,6 @@ class metrics_sensor_impl : public metrics_sensor {
 
 					pkg = (char*) pmt::blob_data(blob);
 					uint16_t crc = crc16(pkg, data_len);
-
-					if(crc) {
-						std::cout << "Frame is corrupted!" << std::endl;
-					} else {
-						d_rcv_frames++;
-					}
 				}
 
 				message_port_pub(msg_port_data_frame_out, frame);
@@ -203,8 +240,7 @@ class metrics_sensor_impl : public metrics_sensor {
 		void request_metrics() {
 			pmt::pmt_t command;
 			while(true) {
-				d_start_time = std::chrono::high_resolution_clock::now();
-
+				// Request metrics
 				usleep(pr_periodicity*1000000); // Sleep for x seconds.
 				// RNP
 				command = pmt::from_uint64(RNP_REQUEST);
@@ -221,13 +257,25 @@ class metrics_sensor_impl : public metrics_sensor {
 				message_port_pub(msg_port_request_metrics, command);
 				usleep(pr_periodicity); // Short interval between requests.
 
-				d_end_time = std::chrono::high_resolution_clock::now();
-				float duration = (float) std::chrono::duration_cast<std::chrono::seconds>(d_end_time - d_start_time).count();
-				float thr = d_rcv_frames/duration; // Frames per second
-				d_rcv_frames = 0;
-
-				//message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
 				// Other metric
+
+				// Send metrics
+				for(int i = 0; i < NUM_USERS; i++) {
+					if(a_rnp[i].value != null) {
+						message_port_pub(msg_port_rnp_out, pmt::from_float(a_rnp[i].value));
+					}
+					if(a_snr[i].value != null) {
+						message_port_pub(msg_port_snr_out, pmt::from_float(a_snr[i].value));
+					}
+					if(a_thr[i].value != null) {
+						message_port_pub(msg_port_throughput_out, pmt::from_float(a_thr[i].value));
+					}
+
+					// Reset counters
+					a_rnp[i].value = null;
+					a_snr[i].value = null;
+					a_thr[i].value = null;
+				}
 			}
 		}
 
