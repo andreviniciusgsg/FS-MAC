@@ -324,7 +324,7 @@ class ml_decision(gr.basic_block):
 			csma = 0.0;
 			tdma = 100.0;
 
-		tolerance = 1.1; # 10% tolerance.
+		tolerance = 1.2; # 20% tolerance.
 
 		while True:
 			time.sleep(sleep_time); # In seconds.
