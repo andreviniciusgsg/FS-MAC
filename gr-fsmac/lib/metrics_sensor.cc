@@ -243,8 +243,6 @@ class metrics_sensor_impl : public metrics_sensor {
 		void request_metrics() {
 			pmt::pmt_t command;
 			while(true) {
-				// Request metrics
-				usleep(pr_periodicity*1000000); // Sleep for x seconds.
 				// RNP
 				command = pmt::from_uint64(RNP_REQUEST);
 				message_port_pub(msg_port_request_metrics, command);
@@ -262,6 +260,7 @@ class metrics_sensor_impl : public metrics_sensor {
 
 				// Other metric
 
+				usleep(pr_periodicity*1000000); // Sleep for x seconds.
 				// Send metrics
 				if(pr_is_coord) {
 					int non = 0;
