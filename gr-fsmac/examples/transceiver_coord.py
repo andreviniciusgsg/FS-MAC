@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Fri Dec 15 09:53:09 2017
+# Generated: Sat Dec 16 11:45:49 2017
 ##################################################
 
 import os
@@ -73,7 +73,6 @@ class transceiver_coord(gr.top_block):
         self.ieee802_15_4_oqpsk_phy_0 = ieee802_15_4_oqpsk_phy()
         self.fsmac_tdma_0 = fsmac.tdma(0, 1, True, True)
         self.fsmac_snr_0 = fsmac.snr(1024, -70, 2)
-        self.fsmac_sens_num_senders_0 = fsmac.sens_num_senders()
         self.fsmac_ml_decision_0 = fsmac.ml_decision(0, True, 0.1, "/home/avgsg/log_file.txt", "/home/avgsg/training_file.txt", 3, 5, 5, 5, 0, 5, 30)
         self.fsmac_metrics_sensor_0 = fsmac.metrics_sensor(5, True)
         self.fsmac_latency_sensor_0 = fsmac.latency_sensor(True)
@@ -107,9 +106,9 @@ class transceiver_coord(gr.top_block):
         self.msg_connect((self.fsmac_metrics_sensor_0, 'rnp out'), (self.fsmac_ml_decision_0, 'sensor 3 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'snr out'), (self.fsmac_ml_decision_0, 'sensor 4 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'thr out'), (self.fsmac_ml_decision_0, 'max in'))    
+        self.msg_connect((self.fsmac_metrics_sensor_0, 'non out'), (self.fsmac_ml_decision_0, 'sensor 1 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'send request'), (self.fsmac_tdma_0, 'ctrl in'))    
         self.msg_connect((self.fsmac_ml_decision_0, 'out'), (self.fsmac_exchanger_0, 'dec in'))    
-        self.msg_connect((self.fsmac_sens_num_senders_0, 'dec out'), (self.fsmac_ml_decision_0, 'sensor 1 in'))    
         self.msg_connect((self.fsmac_snr_0, 'snr out'), (self.fsmac_csma_0, 'snr in'))    
         self.msg_connect((self.fsmac_snr_0, 'snr out'), (self.fsmac_tdma_0, 'snr in'))    
         self.msg_connect((self.fsmac_tdma_0, 'app out'), (self.fsmac_exchanger_0, 'p2_app in'))    
@@ -117,7 +116,6 @@ class transceiver_coord(gr.top_block):
         self.msg_connect((self.fsmac_tdma_0, 'pdu out'), (self.fsmac_exchanger_0, 'p2_mac in'))    
         self.msg_connect((self.ieee802_15_4_oqpsk_phy_0, 'rxout'), (self.fsmac_latency_sensor_0, 'pdu in'))    
         self.msg_connect((self.ieee802_15_4_oqpsk_phy_0, 'rxout'), (self.fsmac_metrics_sensor_0, 'frame in'))    
-        self.msg_connect((self.ieee802_15_4_oqpsk_phy_0, 'rxout'), (self.fsmac_sens_num_senders_0, 'pdu in'))    
         self.msg_connect((self.ieee802_15_4_rime_stack_0, 'bcout'), (self.blocks_socket_pdu_0_0, 'pdus'))    
         self.msg_connect((self.ieee802_15_4_rime_stack_0, 'toMAC'), (self.fsmac_exchanger_0, 'app in'))    
         self.msg_connect((self.toolkit_cs_0, 'out_msg'), (self.fsmac_csma_0, 'cs in'))    

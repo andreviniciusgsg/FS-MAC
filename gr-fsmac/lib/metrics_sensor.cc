@@ -50,6 +50,7 @@ class metrics_sensor_impl : public metrics_sensor {
 		pmt::pmt_t msg_port_rnp_out;
 		pmt::pmt_t msg_port_snr_out;
 		pmt::pmt_t msg_port_throughput_out;
+		pmt::pmt_t msg_port_non_out;
 		pmt::pmt_t msg_port_request_metrics;
 		pmt::pmt_t msg_port_data_frame_out;
 
@@ -78,6 +79,7 @@ class metrics_sensor_impl : public metrics_sensor {
 			msg_port_rnp_out = pmt::mp("rnp out");
 			msg_port_snr_out = pmt::mp("snr out");
 			msg_port_throughput_out = pmt::mp("thr out");
+			msg_port_non_out = pmt::mp("non out");
 			msg_port_data_frame_out = pmt::mp("data frame out");
 			msg_port_request_metrics = pmt::mp("send request");
 			msg_port_rx_in = pmt::mp("frame in");
@@ -88,6 +90,7 @@ class metrics_sensor_impl : public metrics_sensor {
 			message_port_register_out(msg_port_rnp_out);
 			message_port_register_out(msg_port_snr_out);
 			message_port_register_out(msg_port_throughput_out);
+			message_port_register_out(msg_port_non_out);
 			message_port_register_out(msg_port_data_frame_out);
 			message_port_register_out(msg_port_request_metrics);
 
@@ -260,21 +263,27 @@ class metrics_sensor_impl : public metrics_sensor {
 				// Other metric
 
 				// Send metrics
-				for(int i = 0; i < NUM_USERS; i++) {
-					if(a_rnp[i].value != null) {
-						message_port_pub(msg_port_rnp_out, pmt::from_float(a_rnp[i].value));
-					}
-					if(a_snr[i].value != null) {
-						message_port_pub(msg_port_snr_out, pmt::from_float(a_snr[i].value));
-					}
-					if(a_thr[i].value != null) {
-						message_port_pub(msg_port_throughput_out, pmt::from_float(a_thr[i].value));
-					}
+				if(pr_is_coord) {
+					int non = 0;
+					for(int i = 0; i < NUM_USERS; i++) {
+						if(a_rnp[i].value != null) {
+							message_port_pub(msg_port_rnp_out, pmt::from_float(a_rnp[i].value));
+						}
+						if(a_snr[i].value != null) {
+							message_port_pub(msg_port_snr_out, pmt::from_float(a_snr[i].value));
+						}
+						if(a_thr[i].value != null) {
+							non++;
+							message_port_pub(msg_port_throughput_out, pmt::from_float(a_thr[i].value));
+						}
 
-					// Reset counters
-					a_rnp[i].value = null;
-					a_snr[i].value = null;
-					a_thr[i].value = null;
+						// Reset counters
+						a_rnp[i].value = null;
+						a_snr[i].value = null;
+						a_thr[i].value = null;
+					}
+					message_port_pub(msg_port_non_out, pmt::from_uint64(non));
+					non = 0;
 				}
 			}
 		}

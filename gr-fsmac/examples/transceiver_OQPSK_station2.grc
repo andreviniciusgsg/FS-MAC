@@ -564,45 +564,6 @@
     </param>
   </block>
   <block>
-    <key>fsmac_sens_num_senders</key>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(48, 313)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>fsmac_sens_num_senders_0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>fsmac_snr</key>
     <param>
       <key>alias</key>
@@ -2954,6 +2915,12 @@
   <connection>
     <source_block_id>fsmac_metrics_sensor_0</source_block_id>
     <sink_block_id>fsmac_ml_decision_0</sink_block_id>
+    <source_key>non out</source_key>
+    <sink_key>sensor 1 in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fsmac_metrics_sensor_0</source_block_id>
+    <sink_block_id>fsmac_ml_decision_0</sink_block_id>
     <source_key>rnp out</source_key>
     <sink_key>sensor 3 in</sink_key>
   </connection>
@@ -2986,12 +2953,6 @@
     <sink_block_id>fsmac_exchanger_0</sink_block_id>
     <source_key>out</source_key>
     <sink_key>dec in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>fsmac_sens_num_senders_0</source_block_id>
-    <sink_block_id>fsmac_ml_decision_0</sink_block_id>
-    <source_key>dec out</source_key>
-    <sink_key>sensor 1 in</sink_key>
   </connection>
   <connection>
     <source_block_id>fsmac_snr_0</source_block_id>
@@ -3034,12 +2995,6 @@
     <sink_block_id>fsmac_metrics_sensor_0</sink_block_id>
     <source_key>rxout</source_key>
     <sink_key>frame in</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>ieee802_15_4_oqpsk_phy_0</source_block_id>
-    <sink_block_id>fsmac_sens_num_senders_0</sink_block_id>
-    <source_key>rxout</source_key>
-    <sink_key>pdu in</sink_key>
   </connection>
   <connection>
     <source_block_id>ieee802_15_4_oqpsk_phy_0</source_block_id>
