@@ -42,6 +42,11 @@ struct metric {
 	float value;
 };
 
+struct report_data {
+	char addr[2];
+	uint16_t count;
+};
+
 class metrics_sensor_impl : public metrics_sensor {
 	private:
 		// Message ports
@@ -64,6 +69,7 @@ class metrics_sensor_impl : public metrics_sensor {
 		metric a_rnp[NUM_USERS];
 		metric a_snr[NUM_USERS];
 		metric a_thr[NUM_USERS];
+		report_data a_non[NUM_USERS];
 		decltype(std::chrono::high_resolution_clock::now()) d_start_time;
     	decltype(std::chrono::high_resolution_clock::now()) d_end_time;
 
@@ -101,6 +107,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				a_rnp[i].value = null;
 				a_snr[i].value = null;
 				a_thr[i].value = null;
+				a_non[i].count = 0;
 
 				a_rnp[i].addr[0] = addr0 + i;
 				a_rnp[i].addr[1] = addr_net;
@@ -110,6 +117,9 @@ class metrics_sensor_impl : public metrics_sensor {
 
 				a_thr[i].addr[0] = addr0 + i;
 				a_thr[i].addr[1] = addr_net;
+
+				a_non[i].addr[0] = addr0 + i;
+				a_non[i].addr[1] = addr_net;
 			}
 		}
 
@@ -212,38 +222,26 @@ class metrics_sensor_impl : public metrics_sensor {
 				}
 			}
 
-			/* Data frame */
-			else {
-				/*TODO: Is this CRC relevant? Perhaps, it should only send the msg. 
-				I do not remember by now and I should check this in future.*/
-
-				// This checks CRC to make sure frame is not corrupted while counting d_rcv_frames
-				pmt::pmt_t blob;
-
-				if(pmt::is_pair(frame)) {
-					blob = pmt::cdr(frame);
-
-					size_t data_len = pmt::blob_length(blob);
-					if (data_len < 11 && data_len != 6) {
-						return;
-					}
-
-					char* pkg = (char*) pmt::blob_data(blob);
-					pkg[data_len - 1] = '\0';
-					data_len = data_len - 1;
-
-					pkg = (char*) pmt::blob_data(blob);
-					uint16_t crc = crc16(pkg, data_len);
-				}
-
+			/* Data frame not corrupted*/
+			else if (crc == 0) {
 				message_port_pub(msg_port_data_frame_out, frame);
+			}
+
+			/*Number of nodes (non)*/
+			for(int i = 0; i < NUM_USERS; i++) {
+				if(a_non[i].addr[0] == pkg[7]) {
+					a_non[i].count++;
+				}
 			}
 		}
 
 		void request_metrics() {
 			pmt::pmt_t command;
 			usleep(pr_periodicity*1000000);
+			int count = 0;
+			int non = 0;
 			while(true) {
+				count++;
 				// RNP
 				command = pmt::from_uint64(RNP_REQUEST);
 				message_port_pub(msg_port_request_metrics, command);
@@ -264,7 +262,6 @@ class metrics_sensor_impl : public metrics_sensor {
 				usleep(pr_periodicity*1000000); // Sleep for x seconds.
 				// Send metrics
 				if(pr_is_coord) {
-					int non = 0;
 					for(int i = 0; i < NUM_USERS; i++) {
 						if(a_rnp[i].value != null) {
 							message_port_pub(msg_port_rnp_out, pmt::from_float(a_rnp[i].value));
@@ -273,7 +270,6 @@ class metrics_sensor_impl : public metrics_sensor {
 							message_port_pub(msg_port_snr_out, pmt::from_float(a_snr[i].value));
 						}
 						if(a_thr[i].value != null) {
-							non++;
 							message_port_pub(msg_port_throughput_out, pmt::from_float(a_thr[i].value));
 						}
 
@@ -282,8 +278,18 @@ class metrics_sensor_impl : public metrics_sensor {
 						a_snr[i].value = null;
 						a_thr[i].value = null;
 					}
+
+					if(count > 5) {
+						non = 0;
+						count = 0;
+						for(int i = 0; i < NUM_USERS; i++) {
+							if(a_non[i].count > 0) {
+								non++;
+							}
+							a_non[i].count = 0;
+						}
+					}
 					message_port_pub(msg_port_non_out, pmt::from_uint64(non));
-					non = 0;
 				}
 			}
 		}
