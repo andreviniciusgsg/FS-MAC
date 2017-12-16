@@ -341,7 +341,7 @@ class ml_decision(gr.basic_block):
 				if self._aggr1 == 5:
 					self.sensor_1 = self.sensor_1/non;
 				if self._aggr2 == 5:
-					self.sensor_2 = self.sensor_2/non;
+					self.sensor_2 = self.sensor_2/self._count_2;
 				if self._aggr3 == 5:
 					self.sensor_3 = self.sensor_3/non;
 				if self._aggr4 == 5:

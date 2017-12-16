@@ -242,6 +242,7 @@ class metrics_sensor_impl : public metrics_sensor {
 
 		void request_metrics() {
 			pmt::pmt_t command;
+			usleep(pr_periodicity*1000000);
 			while(true) {
 				// RNP
 				command = pmt::from_uint64(RNP_REQUEST);
