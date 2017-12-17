@@ -239,7 +239,6 @@ class metrics_sensor_impl : public metrics_sensor {
 			pmt::pmt_t command;
 			usleep(pr_periodicity*1000000);
 			int count = 0;
-			int non = 0;
 			while(true) {
 				count++;
 				// RNP
@@ -262,6 +261,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				usleep(pr_periodicity*1000000); // Sleep for x seconds.
 				// Send metrics
 				if(pr_is_coord) {
+					int non = 0;
 					for(int i = 0; i < NUM_USERS; i++) {
 						if(a_rnp[i].value != null) {
 							message_port_pub(msg_port_rnp_out, pmt::from_float(a_rnp[i].value));
@@ -272,6 +272,9 @@ class metrics_sensor_impl : public metrics_sensor {
 						if(a_thr[i].value != null) {
 							message_port_pub(msg_port_throughput_out, pmt::from_float(a_thr[i].value));
 						}
+						if(a_non[i].count > 0) { // Check for all nodes that have sent data
+							non++;
+						}
 
 						// Reset counters
 						a_rnp[i].value = null;
@@ -279,18 +282,15 @@ class metrics_sensor_impl : public metrics_sensor {
 						a_thr[i].value = null;
 					}
 
-					// Checks for all nodes that have sent data since 5*pr_periodicity seconds ago.
+					message_port_pub(msg_port_non_out, pmt::from_uint64(non));
+
+					/*non counter is reset smoothly. This avoids problems of ignoring nodes that could not transmit at that time in CSMA.*/
 					if(count > 5) {
-						non = 0;
 						count = 0;
 						for(int i = 0; i < NUM_USERS; i++) {
-							if(a_non[i].count > 0) {
-								non++;
-							}
 							a_non[i].count = 0;
 						}
-					}
-					message_port_pub(msg_port_non_out, pmt::from_uint64(non));
+					}					
 				}
 			}
 		}

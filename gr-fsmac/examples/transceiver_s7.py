@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Sat Dec 16 11:46:37 2017
+# Generated: Sun Dec 17 12:51:25 2017
 ##################################################
 
 import os
@@ -80,7 +80,7 @@ class transceiver_s7(gr.top_block):
         self.fsmac_csma_0 = fsmac.csma(7, 0, True)
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_float*1, 1024)
         self.blocks_socket_pdu_0_0 = blocks.socket_pdu("UDP_SERVER", "", "52001", 10000, False)
-        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 5)
+        self.blocks_message_strobe_0 = blocks.message_strobe(pmt.intern("12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"), 1)
 
         ##################################################
         # Connections
@@ -103,10 +103,10 @@ class transceiver_s7(gr.top_block):
         self.msg_connect((self.fsmac_latency_sensor_0, 'dec out'), (self.fsmac_ml_decision_0, 'sensor 2 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'send request'), (self.fsmac_csma_0, 'ctrl in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'data frame out'), (self.fsmac_exchanger_0, 'mac in'))    
+        self.msg_connect((self.fsmac_metrics_sensor_0, 'non out'), (self.fsmac_ml_decision_0, 'sensor 1 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'rnp out'), (self.fsmac_ml_decision_0, 'sensor 3 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'snr out'), (self.fsmac_ml_decision_0, 'sensor 4 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'thr out'), (self.fsmac_ml_decision_0, 'max in'))    
-        self.msg_connect((self.fsmac_metrics_sensor_0, 'non out'), (self.fsmac_ml_decision_0, 'sensor 1 in'))    
         self.msg_connect((self.fsmac_metrics_sensor_0, 'send request'), (self.fsmac_tdma_0, 'ctrl in'))    
         self.msg_connect((self.fsmac_ml_decision_0, 'out'), (self.fsmac_exchanger_0, 'dec in'))    
         self.msg_connect((self.fsmac_snr_0, 'snr out'), (self.fsmac_csma_0, 'snr in'))    
