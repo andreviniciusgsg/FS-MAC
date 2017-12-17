@@ -40,6 +40,7 @@ using namespace gr::fsmac;
 struct metric {
 	char addr[2];
 	float value;
+	uint16_t count;
 };
 
 struct report_data {
@@ -105,8 +106,11 @@ class metrics_sensor_impl : public metrics_sensor {
 
 			for(uint8_t i = 0; i < NUM_USERS; i++) {
 				a_rnp[i].value = null;
+				a_rnp[i].count = 0;
 				a_snr[i].value = null;
+				a_snr[i].count = 0;
 				a_thr[i].value = null;
+				a_thr[i].count = 0;
 				a_non[i].count = 0;
 
 				a_rnp[i].addr[0] = addr0 + i;
@@ -168,9 +172,14 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> rnp;
 
-				for(int i = 0; i < NUM_USERS; i++) {
+				for(int i = 1; i < NUM_USERS; i++) {
 					if(a_rnp[i].addr[0] == src_mac) {
-						a_rnp[i].value = rnp;
+						if(a_rnp[i].value == null) {
+							a_rnp[i].value = rnp;
+						} else {
+							a_rnp[i].value += rnp;
+						}
+						a_rnp[i].count++;
 					}
 				}
 			}
@@ -191,9 +200,14 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> snr;
 
-				for(int i = 0; i < NUM_USERS; i++) {
+				for(int i = 1; i < NUM_USERS; i++) {
 					if(a_snr[i].addr[0] == src_mac) {
-						a_snr[i].value = snr;
+						if(a_snr[i].value == null) {
+							a_snr[i].value = snr;
+						} else {
+							a_snr[i].value += snr;
+						}
+						a_snr[i].count++;
 					}
 				}
 			}
@@ -215,9 +229,14 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> thr;
 
-				for(int i = 0; i < NUM_USERS; i++) {
+				for(int i = 1; i < NUM_USERS; i++) {
 					if(a_thr[i].addr[0] == src_mac) {
-						a_thr[i].value = thr;
+						if(a_thr[i].value == null) {
+							a_thr[i].value = thr;
+						} else {
+							a_thr[i].value += thr;
+						}
+						a_thr[i].count++;
 					}
 				}
 			}
@@ -260,17 +279,21 @@ class metrics_sensor_impl : public metrics_sensor {
 
 				usleep(pr_periodicity*1000000); // Sleep for x seconds.
 				// Send metrics
-				if(pr_is_coord) {
+				if(pr_is_coord and count > 5) {
+					count = 0;
 					int non = 0;
-					for(int i = 0; i < NUM_USERS; i++) {
+					for(int i = 1; i < NUM_USERS; i++) {
 						if(a_rnp[i].value != null) {
-							message_port_pub(msg_port_rnp_out, pmt::from_float(a_rnp[i].value));
+							float rnp = a_rnp[i].value/a_rnp[i].count;
+							message_port_pub(msg_port_rnp_out, pmt::from_float(rnp));
 						}
 						if(a_snr[i].value != null) {
-							message_port_pub(msg_port_snr_out, pmt::from_float(a_snr[i].value));
+							float snr = a_snr[i].value/a_snr[i].count;
+							message_port_pub(msg_port_snr_out, pmt::from_float(snr));
 						}
 						if(a_thr[i].value != null) {
-							message_port_pub(msg_port_throughput_out, pmt::from_float(a_thr[i].value));
+							float thr = a_thr[i].value/a_thr[i].count;
+							message_port_pub(msg_port_throughput_out, pmt::from_float(thr));
 						}
 						if(a_non[i].count > 0) { // Check for all nodes that have sent data
 							non++;
@@ -278,19 +301,15 @@ class metrics_sensor_impl : public metrics_sensor {
 
 						// Reset counters
 						a_rnp[i].value = null;
+						a_rnp[i].count = 0;
 						a_snr[i].value = null;
+						a_snr[i].count = 0;
 						a_thr[i].value = null;
+						a_thr[i].count = 0;
+
+						a_non[i].count = 0;
 					}
-
-					message_port_pub(msg_port_non_out, pmt::from_uint64(non));
-
-					/*non counter is reset smoothly. This avoids problems of ignoring nodes that could not transmit at that time in CSMA.*/
-					if(count > 5) {
-						count = 0;
-						for(int i = 0; i < NUM_USERS; i++) {
-							a_non[i].count = 0;
-						}
-					}					
+					message_port_pub(msg_port_non_out, pmt::from_uint64(non+1));					
 				}
 			}
 		}
