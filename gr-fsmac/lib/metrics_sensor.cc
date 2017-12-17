@@ -279,6 +279,7 @@ class metrics_sensor_impl : public metrics_sensor {
 						a_thr[i].value = null;
 					}
 
+					// Checks for all nodes that have sent data since 5*pr_periodicity seconds ago.
 					if(count > 5) {
 						non = 0;
 						count = 0;
