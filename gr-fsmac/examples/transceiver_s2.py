@@ -3,7 +3,7 @@
 ##################################################
 # GNU Radio Python Flow Graph
 # Title: IEEE 802.15.4 Transceiver using OQPSK PHY
-# Generated: Mon Dec 18 15:47:13 2017
+# Generated: Mon Dec 18 17:13:30 2017
 ##################################################
 
 import os
@@ -34,7 +34,7 @@ class transceiver_s2(gr.top_block):
         ##################################################
         # Variables
         ##################################################
-        self.gain = gain = .8
+        self.gain = gain = .75
         self.freq = freq = 2.52e9
 
         ##################################################
