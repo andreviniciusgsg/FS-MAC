@@ -46,7 +46,7 @@ using namespace gr::fsmac;
 
 class csma_impl : public csma {
     float lastAvPower = -1000.0;
-    float referenceValueChannelBusy = -65;
+    float referenceValueChannelBusy = -70;
     MyList& sendList = MyList::Instance();
     //    std::list<SendPackage*> sendList;
     //    MyList& mylist = MyList::Instance();
@@ -964,9 +964,11 @@ public:
 //                        printf("INICIO SLEEP\n");
 //                        printf("FIM SLEEP\n");
 //                        std::cout << "POTENCIA DO MEIO: " <<lastAvPower << std::endl;
-                        if(!is_channel_busy(referenceValueChannelBusy, slotSize)){
-                            real_backoff = real_backoff - slotSize;
+                        if(!is_channel_busy(referenceValueChannelBusy, real_backoff)){
+                            real_backoff = 0;
 //                            std::cout << "Real backoff: " << real_backoff << std::endl;
+                        }else {
+                            real_backoff = (std::rand() % cw_current_backoff) + 1;
                         }
                     }
 //                    printf("FIM da espera de backoff\n");
