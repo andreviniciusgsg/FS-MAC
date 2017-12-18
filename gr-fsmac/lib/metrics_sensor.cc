@@ -172,7 +172,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> rnp;
 
-				for(int i = 1; i < NUM_USERS; i++) {
+				for(int i = 0; i < NUM_USERS; i++) {
 					if(a_rnp[i].addr[0] == src_mac) {
 						if(a_rnp[i].value == null) {
 							a_rnp[i].value = rnp;
@@ -200,7 +200,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> snr;
 
-				for(int i = 1; i < NUM_USERS; i++) {
+				for(int i = 0; i < NUM_USERS; i++) {
 					if(a_snr[i].addr[0] == src_mac) {
 						if(a_snr[i].value == null) {
 							a_snr[i].value = snr;
@@ -229,7 +229,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				std::istringstream s(str);
 				s >> thr;
 
-				for(int i = 1; i < NUM_USERS; i++) {
+				for(int i = 0; i < NUM_USERS; i++) {
 					if(a_thr[i].addr[0] == src_mac) {
 						if(a_thr[i].value == null) {
 							a_thr[i].value = thr;
@@ -282,7 +282,7 @@ class metrics_sensor_impl : public metrics_sensor {
 				if(pr_is_coord and count > 5) {
 					count = 0;
 					int non = 0;
-					for(int i = 1; i < NUM_USERS; i++) {
+					for(int i = 0; i < NUM_USERS; i++) {
 						if(a_rnp[i].value != null) {
 							float rnp = a_rnp[i].value/a_rnp[i].count;
 							message_port_pub(msg_port_rnp_out, pmt::from_float(rnp));
