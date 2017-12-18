@@ -46,7 +46,7 @@ using namespace gr::fsmac;
 
 class csma_impl : public csma {
     float lastAvPower = -1000.0;
-    float referenceValueChannelBusy = -60;
+    float referenceValueChannelBusy = -70;
     MyList& sendList = MyList::Instance();
     //    std::list<SendPackage*> sendList;
     //    MyList& mylist = MyList::Instance();
@@ -971,6 +971,10 @@ public:
                             real_backoff = 0;
 //                            std::cout << "Real backoff: " << real_backoff << std::endl;
                         } else {
+                        	cw_current_backoff = cw_current_backoff * 2;
+                        	if(cw_current_backoff > cw_backoff_max) {
+                        		cw_current_backoff = cw_backoff_max;
+                       		}
                         	real_backoff = (std::rand() % cw_current_backoff) + 1;
                         }
                     }
