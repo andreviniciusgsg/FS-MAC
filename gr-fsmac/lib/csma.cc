@@ -960,7 +960,7 @@ public:
 //                    printf("INICIO da espera de backoff\n");
                     //tratamento do backoff
 //                    std::cout << "Real backoff inicial: " << real_backoff << std::endl;
-                    while (real_backoff >= 0) {
+                    while (real_backoff > 0) {
 //                        printf("INICIO SLEEP\n");
 //                        printf("FIM SLEEP\n");
 //                        std::cout << "POTENCIA DO MEIO: " <<lastAvPower << std::endl;
