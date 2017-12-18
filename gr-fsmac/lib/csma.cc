@@ -46,7 +46,7 @@ using namespace gr::fsmac;
 
 class csma_impl : public csma {
     float lastAvPower = -1000.0;
-    float referenceValueChannelBusy = -70;
+    float referenceValueChannelBusy = -60;
     MyList& sendList = MyList::Instance();
     //    std::list<SendPackage*> sendList;
     //    MyList& mylist = MyList::Instance();

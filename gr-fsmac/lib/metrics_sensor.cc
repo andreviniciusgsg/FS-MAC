@@ -309,7 +309,7 @@ class metrics_sensor_impl : public metrics_sensor {
 
 						a_non[i].count = 0;
 					}
-					message_port_pub(msg_port_non_out, pmt::from_uint64(non+1));					
+					message_port_pub(msg_port_non_out, pmt::from_uint64(non));					
 				}
 			}
 		}
