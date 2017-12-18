@@ -952,6 +952,9 @@ public:
 //                    printf("INICIO da verificacao de backoff\n");
                     if (!sendList.empty() && (*it)->getResends() > 0) {
                         cw_current_backoff = cw_current_backoff * 2;
+                        if(cw_current_backoff > cw_backoff_max) {
+                        	cw_current_backoff = cw_backoff_max;
+                        }
                     }
 //                    printf("FIM da verificacao de backoff\n");
 
@@ -964,9 +967,11 @@ public:
 //                        printf("INICIO SLEEP\n");
 //                        printf("FIM SLEEP\n");
 //                        std::cout << "POTENCIA DO MEIO: " <<lastAvPower << std::endl;
-                        if(!is_channel_busy(referenceValueChannelBusy, 4*slotSize)){
-                            real_backoff -= 4*slotSize;
+                        if(!is_channel_busy(referenceValueChannelBusy, real_backoff)){
+                            real_backoff = 0;
 //                            std::cout << "Real backoff: " << real_backoff << std::endl;
+                        } else {
+                        	real_backoff = (std::rand() % cw_current_backoff) + 1;
                         }
                     }
 //                    printf("FIM da espera de backoff\n");
