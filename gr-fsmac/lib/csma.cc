@@ -967,7 +967,7 @@ public:
 //                        printf("INICIO SLEEP\n");
 //                        printf("FIM SLEEP\n");
 //                        std::cout << "POTENCIA DO MEIO: " <<lastAvPower << std::endl;
-                        if(!is_channel_busy(referenceValueChannelBusy, real_backoff)){
+                        if(!is_channel_busy(referenceValueChannelBusy, real_backoff*slotSize)){
                             real_backoff = 0;
 //                            std::cout << "Real backoff: " << real_backoff << std::endl;
                         } else {
