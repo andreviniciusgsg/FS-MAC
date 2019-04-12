@@ -18,5 +18,9 @@ Attention! `install.sh`assumes you already have Gnu Radio installed on you compu
 # Examples
 You can find some examples on folder gr-fsmac/examples. There are ready-to-go transceivers available. So, feel free to run some examples before to explore the project.
 
+# Paper
+This work was published at the Brazilian Symposium on Computer Networks and Distributed Systems (SBRC), 2018.
+Link (language PT): [http://ojs.sbc.org.br/index.php/sbrc/article/view/2413](http://ojs.sbc.org.br/index.php/sbrc/article/view/2413)
+
 # Contact
 You are free to reach me if you wish to. My email is andre.gomes@dcc.ufmg.br. You can also find more information on [https://homepages.dcc.ufmg.br/~andre.gomes](https://homepages.dcc.ufmg.br/~andre.gomes).
